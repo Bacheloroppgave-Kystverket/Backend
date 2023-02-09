@@ -59,9 +59,9 @@ public class SessionService {
     }
 
     /**
-     *
-     * @param session
-     * @return
+     * Delete session
+     * @param session Session
+     * @return true if deleted, false if not
      */
     public boolean deleteSession(Session session) {
         boolean deleted = false;
