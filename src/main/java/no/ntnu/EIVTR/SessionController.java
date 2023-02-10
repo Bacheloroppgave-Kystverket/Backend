@@ -1,6 +1,5 @@
 package no.ntnu.EIVTR;
 
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/session")
 public class SessionController {
@@ -47,6 +47,12 @@ public class SessionController {
         return response;
     }
 
+
+    /**
+     * Add session
+     * @param session Session
+     * @return HTTP status ok, or bad request if not added
+     */
     public ResponseEntity<String> add(@RequestBody Session session) {
         ResponseEntity<String> response;
         if ( sessionService.addNewSession(session)) {
@@ -57,6 +63,12 @@ public class SessionController {
         return response;
     }
 
+
+    /**
+     * Delete session
+     * @param session Session
+     * @return HTTP status ok, or bad request if not added
+     */
     public ResponseEntity<String> delete(@PathVariable Session session) {
         ResponseEntity<String> response;
         if (sessionService.deleteSession(session)) {
