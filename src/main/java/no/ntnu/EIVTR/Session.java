@@ -1,12 +1,20 @@
 package no.ntnu.EIVTR;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Session {
     List<TrackableObjects> trackableObjects = new ArrayList<>();
-    float totalTime;
-    int userId;
+    private float totalTime;
+
+    @Id
+    @GeneratedValue
+    @Column(name = "userId", nullable = false)
+    private int userId;
 
     /**
      * Constructor with parameters
