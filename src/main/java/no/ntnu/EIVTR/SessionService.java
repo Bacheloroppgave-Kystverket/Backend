@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SessionService {
-    private SessionRegister sessionRegister;
+    private final SessionRegister sessionRegister;
 
     /**
      * Constructor with parameters
@@ -72,6 +72,22 @@ public class SessionService {
         return deleted;
     }
 
+    public String updateSession(int id, Session session) {
+        Session existingSession = findSessionById(id);
+        String errorMessage = null;
+        if (existingSession == null) {
+            errorMessage = "No session with " + id + "is found";
+        }
+        if (session == null) {
+            errorMessage = "Please check the data in the request body";
 
+        } else if (session.getUserId() != id) {
+            errorMessage = "Please check the id, it does not match";
+        }
+        if (errorMessage == null) {
+            sessionRegister.save(session);
+        }
+        return errorMessage;
+    }
 
 }
