@@ -7,14 +7,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST API Controller for trackable objects
+ */
 @RestController
 public class TrackableObjectsController {
     @Autowired
     TrackableObjectsService trackableObjectsService;
 
+    /**
+     * Get all available data
+     * @return list of trackable objects
+     */
     @GetMapping
     public List<TrackableObjects> getAll() {return trackableObjectsService.getAll();}
 
+    /**
+     * Get a specific trackable object by name
+     * @param name String
+     * @return Trackable object with the given name, or status 404
+     */
     @GetMapping("/id")
     public ResponseEntity<TrackableObjects> getOne(@PathVariable String name) {
         ResponseEntity<TrackableObjects> response;
@@ -27,6 +39,11 @@ public class TrackableObjectsController {
         return  response;
     }
 
+    /**
+     * Add a trackable object
+     * @param trackableObjects trackable object to be added
+     * @return HTTP response OK if added, HTTP response BAD REQUEST if not
+     */
     @PostMapping
     public ResponseEntity<String> add(@RequestBody TrackableObjects trackableObjects) {
         ResponseEntity<String> response;
@@ -37,6 +54,11 @@ public class TrackableObjectsController {
         } return response;
     }
 
+    /**
+     * Delete trackable object
+     * @param trackableObjects trackable object to be deleted
+     * @return HTTP response OK if deleted, HTTP response NOT FOUND if not found
+     */
     @DeleteMapping
     public ResponseEntity<String> delete(@PathVariable TrackableObjects trackableObjects) {
         ResponseEntity<String> response;
