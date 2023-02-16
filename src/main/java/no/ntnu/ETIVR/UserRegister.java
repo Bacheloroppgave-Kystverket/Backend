@@ -1,4 +1,4 @@
-package no.ntnu.EIVTR;
+package no.ntnu.ETIVR;
 
 public interface UserRegister {
 }

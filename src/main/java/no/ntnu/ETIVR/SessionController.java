@@ -1,4 +1,4 @@
-package no.ntnu.EIVTR;
+package no.ntnu.ETIVR;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

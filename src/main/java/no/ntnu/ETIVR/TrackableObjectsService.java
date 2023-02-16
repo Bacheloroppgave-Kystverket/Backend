@@ -1,4 +1,4 @@
-package no.ntnu.EIVTR;
+package no.ntnu.ETIVR;
 
 import java.util.LinkedList;
 import java.util.List;
