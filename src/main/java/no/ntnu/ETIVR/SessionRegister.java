@@ -1,8 +1,19 @@
 package no.ntnu.ETIVR;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import no.ntnu.ETIVR.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.exceptions.CouldNotGetSessionException;
+import no.ntnu.ETIVR.exceptions.CouldNotRemoveSessionException;
 
-@Repository
-public interface SessionRegister extends CrudRepository<Session, Integer> {
+import java.util.List;
+
+public interface SessionRegister {
+    void addSession(Session session) throws CouldNotAddSessionException;
+
+    void removeSession(Session session) throws CouldNotRemoveSessionException;
+
+    Session getSessionById(long sessionID) throws CouldNotGetSessionException;
+
+    boolean CheckIfRegisterHasSession();
+
+    List<Session> getAllSessions();
 }

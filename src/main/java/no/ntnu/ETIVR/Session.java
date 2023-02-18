@@ -13,19 +13,19 @@ public class Session {
 
     @Id
     @GeneratedValue
-    @Column(name = "userId", nullable = false)
-    private int userId;
+    @Column(name = "sessionId", nullable = false)
+    private long sessionId;
 
     /**
      * Constructor with parameters
      * @param trackableObjects list of objects to be tracked
      * @param totalTime float - time it takes to track objects
-     * @param userId unique id for user
+     * @param sessionId unique id for user
      */
-    public Session(List<TrackableObjects> trackableObjects, float totalTime, int userId) {
+    public Session(List<TrackableObjects> trackableObjects, float totalTime, long sessionId) {
         this.trackableObjects = trackableObjects;
         this.totalTime = totalTime;
-        this.userId = userId;
+        this.sessionId = sessionId;
     }
 
     /**
@@ -67,18 +67,18 @@ public class Session {
     }
 
     /**
-     * Get user id
-     * @return int user id
+     * Get session id
+     * @return int session id
      */
-    public int getUserId() {
-        return userId;
+    public long getSessionId() {
+        return sessionId;
     }
 
     /**
      * Set user id
-     * @param userId int
+     * @param sessionId int
      */
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setSessionId(long sessionId) {
+        this.sessionId = sessionId;
     }
 }
