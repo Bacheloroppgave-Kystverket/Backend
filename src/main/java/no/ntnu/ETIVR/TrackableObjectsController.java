@@ -13,7 +13,11 @@ import java.util.List;
 @RestController
 public class TrackableObjectsController {
     @Autowired
-    TrackableObjectsService trackableObjectsService;
+    private final TrackableObjectsService trackableObjectsService;
+
+    public TrackableObjectsController(TrackableObjectsService trackableObjectsService) {
+        this.trackableObjectsService = trackableObjectsService;
+    }
 
     /**
      * Get all available data

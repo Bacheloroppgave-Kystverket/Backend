@@ -1,19 +1,15 @@
 package no.ntnu.ETIVR;
 
-import java.util.Collection;
 
 public class TrackableObjects {
     private String nameOfObject;
-    private Collection<Integer> GazeData;
 
     /**
      * Constructor with parameters
      * @param nameOfObject String
-     * @param gazeData Collection of integers
      */
-    public TrackableObjects(String nameOfObject, Collection<Integer> gazeData) {
+    public TrackableObjects(String nameOfObject) {
         this.nameOfObject = nameOfObject;
-        GazeData = gazeData;
     }
 
     /**
@@ -30,21 +26,5 @@ public class TrackableObjects {
      */
     public void setNameOfObject(String nameOfObject) {
         this.nameOfObject = nameOfObject;
-    }
-
-    /**
-     * Get collection of integers
-     * @return gaze data
-     */
-    public Collection<Integer> getGazeData() {
-        return GazeData;
-    }
-
-    /**
-     * Set collection of gaze data
-     * @param gazeData Collection of integers
-     */
-    public void setGazeData(Collection<Integer> gazeData) {
-        GazeData = gazeData;
     }
 }

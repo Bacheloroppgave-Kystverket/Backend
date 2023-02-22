@@ -2,17 +2,18 @@ package no.ntnu.ETIVR;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class TrackableObjectsService {
-    private TrackableObjectsRegister trackableObjectsRegister;
+    private final TrackableObjectsRepository trackableObjectsRepository;
 
     /**
      * Constructor with parameters
-     * @param trackableObjectsRegister TrackableObjectRegister
+     * @param trackableObjectsRepository TrackableObjectRegister
      */
-    public TrackableObjectsService(TrackableObjectsRegister trackableObjectsRegister) {
-        this.trackableObjectsRegister = trackableObjectsRegister;
+    public TrackableObjectsService(TrackableObjectsRepository trackableObjectsRepository) {
+        this.trackableObjectsRepository = trackableObjectsRepository;
     }
 
     /**
@@ -32,7 +33,7 @@ public class TrackableObjectsService {
      * @return The trackable object or null if not found
      */
     public TrackableObjects findTrackableObjectByName(String name) {
-        Optional<TrackableObjects> trackableObjects = trackableObjectsRegister.findById(name);
+        Optional<TrackableObjects> trackableObjects = trackableObjectsRepository.findById(name);
         return trackableObjects.orElse(null);
     }
 
@@ -41,7 +42,7 @@ public class TrackableObjectsService {
      * @return list of trackable objects
      */
     public List<TrackableObjects> getAll() {
-        return iterableToList(trackableObjectsRegister.findAll());
+        return iterableToList(trackableObjectsRepository.findAll());
     }
 
     /**
@@ -52,7 +53,7 @@ public class TrackableObjectsService {
     public boolean addNewTrackableObject(TrackableObjects trackableObjects) {
         boolean added = false;
         if (trackableObjects != null) {
-            trackableObjectsRegister.save(trackableObjects);
+            trackableObjectsRepository.save(trackableObjects);
             added = true;
         }
         return added;
@@ -66,7 +67,7 @@ public class TrackableObjectsService {
     public boolean deleteTrackableObject(TrackableObjects trackableObjects) {
         boolean deleted = false;
         if (trackableObjects != null) {
-            trackableObjectsRegister.delete(trackableObjects);
+            trackableObjectsRepository.delete(trackableObjects);
             deleted = true;
         }
         return deleted;
@@ -88,11 +89,11 @@ public class TrackableObjectsService {
         if (trackableObjects == null) {
             errorMessage = "Please check if your data is correct";
         }
-        else if (trackableObjects.getNameOfObject() != name) {
+        else if (!Objects.equals(trackableObjects.getNameOfObject(), name)) {
             errorMessage = "Please check your name, it does not match";
         }
         if (errorMessage == null) {
-            trackableObjectsRegister.save(trackableObjects);
+            trackableObjectsRepository.save(trackableObjects);
         }
         return errorMessage;
     }
