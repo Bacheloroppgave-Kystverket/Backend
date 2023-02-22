@@ -28,11 +28,6 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    /**
-     * Empty constructor
-     */
-    public Session() {
-    }
 
     /**
      * Get list of trackable objects
@@ -43,8 +38,8 @@ public class Session {
     }
 
     /**
-     * set the trackable objects
-     * @param trackableObjects !TODO
+     * Set the trackable objects
+     * @param trackableObjects list of trackable objects
      */
     public void setTrackableObjects(List<TrackableObjects> trackableObjects) {
         this.trackableObjects = trackableObjects;

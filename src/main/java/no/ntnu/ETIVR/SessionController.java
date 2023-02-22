@@ -1,81 +1,87 @@
 package no.ntnu.ETIVR;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import no.ntnu.ETIVR.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.exceptions.CouldNotRemoveSessionException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/session")
 public class SessionController {
-   /* SessionService sessionService;
+    private final SessionRegister sessionRegister;
 
-    *//**
+    /**
      * Constructor with parameters
-     * @param sessionService session service
-     *//*
-    public SessionController(SessionService sessionService) {
-        this.sessionService = sessionService;
+     * @param sessionRepository session repository
+     */
+    public SessionController(SessionRepository sessionRepository) {
+        sessionRegister = new SessionJPA(sessionRepository);
     }
 
-    *//**
-     * Get all sessions in list
-     * @return all sessions in list
-     *//*
-    public List<Session> getAll() {
-        return sessionService.getAll();
+    /**
+     * Get all sessions
+     * @return list of all sessions
+     */
+    public List<Session> getAllSession() {
+        return sessionRegister.getAllSessions();
     }
 
-    *//**
-     * Get one session in a list by id
-     * @param id Integer
-     * @return Http
-     *//*
-    public ResponseEntity<Session> getOne(@PathVariable Integer id) {
-        ResponseEntity<Session> response;
-        Session session = sessionService.findSessionById(id);
-        if(session != null) {
-            response = new ResponseEntity<>(session, HttpStatus.OK);
-        }
-        else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return response;
-    }
-
-
-    *//**
+    /**
      * Add session
-     * @param session Session
-     * @return HTTP status ok, or bad request if not added
-     *//*
-    public ResponseEntity<String> add(@RequestBody Session session) {
-        ResponseEntity<String> response;
-        if ( sessionService.addNewSession(session)) {
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return response;
+     * @param body String
+     */
+    public void add(@RequestBody String body) throws CouldNotAddSessionException, JsonProcessingException {
+        sessionRegister.addSession(makeSessionFromJson(body));
     }
 
-
-    *//**
+    /**
      * Delete session
      * @param session Session
      * @return HTTP status ok, or bad request if not added
-     *//*
-    public ResponseEntity<String> delete(@PathVariable Session session) {
-        ResponseEntity<String> response;
-        if (sessionService.deleteSession(session)) {
-            response = new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+     */
+    public void delete(@RequestParam(value = "session") Session session) throws CouldNotRemoveSessionException  {
+        sessionRegister.removeSession(session);
+    }
+
+    private Session makeSessionFromJson(String body) throws  JsonProcessingException
+    {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(body, Session.class);
+    }
+
+    /**
+     * Checks if session is taken
+     * @param sessionToCheck session to check String
+     * @return whether the session is taken
+     */
+    public boolean getIfSessionIsTaken(@RequestParam(value= "sessionToCheck") String sessionToCheck) {
+        checkString(sessionToCheck);
+        return sessionRegister.CheckIfRegisterHasSession();
+    }
+
+    /**
+     * Checks if a string is of a valid format or not.
+     * @param stringToCheck the string you want to check.
+     *
+     */
+    private void checkString(String stringToCheck){
+        checkIfObjectIsNull(stringToCheck, "session");
+        if (stringToCheck.isEmpty()){
+            throw new IllegalArgumentException("The " + "session" + " cannot be empty.");
         }
-        return response;
-    }*/
+    }
+
+    /**
+     * Checks if an object is null.
+     * @param object the object you want to check.
+     * @param error the error message the exception should have.
+     */
+    private void checkIfObjectIsNull(Object object, String error){
+        if (object == null){
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
 }
