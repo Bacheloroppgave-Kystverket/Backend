@@ -10,9 +10,9 @@ import java.util.List;
 public interface TrackableObjectRegister {
     void addTrackableObjects(TrackableObject trackableObject) throws CouldNotAddTrackableObjectException;
 
-    void removeTrackableObjects(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException;
+    void removeTrackableObject(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException;
 
-    void getTrackableObjectById(long trackableObjectID) throws CouldNotGetTrackableObjectException;
+    TrackableObject getTrackableObjectById(long trackableObjectID) throws CouldNotGetTrackableObjectException;
 
     List<TrackableObject> getAllTrackableObjects();
 }
