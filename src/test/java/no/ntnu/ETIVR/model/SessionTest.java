@@ -2,7 +2,9 @@ package no.ntnu.ETIVR.model;
 
 import no.ntnu.ETIVR.model.Session;
 import no.ntnu.ETIVR.model.TrackableObjects;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;

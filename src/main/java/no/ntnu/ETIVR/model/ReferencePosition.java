@@ -31,6 +31,9 @@ public class ReferencePosition {
     checkString(locationId, "location ID");
     checkString(locationName, locationName);
     checkFloat(positionDuration, "position duration");
+    this.locationId = locationId;
+    this.locationName = locationName;
+    this.positionDuration = positionDuration;
   }
 
   /**
