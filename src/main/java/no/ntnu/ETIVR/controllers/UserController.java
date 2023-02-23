@@ -1,6 +1,7 @@
 package no.ntnu.ETIVR.controllers;
 
 import no.ntnu.ETIVR.model.User;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,10 +63,10 @@ UserController {
     @PostMapping(consumes  ="application/json")
     public ResponseEntity<String> registerNewUser(@RequestBody User user){
         ResponseEntity<String> response;
-        if(userService.addNewUser(user)){
+        try {
+            userService.addNewUser(user);
             response = new ResponseEntity<>(HttpStatus.OK);
-
-        } else{
+        }catch (CouldNotAddUserException exception){
             response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return response;
@@ -77,7 +78,7 @@ UserController {
      */
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int userId){
-        userService.deleteUser(userId);
+        userService.removeUserWithId(userId);
     }
 
 

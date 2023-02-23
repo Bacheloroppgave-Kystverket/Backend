@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.repository.UserRepository;
 
@@ -38,35 +39,26 @@ public class UserService implements UserRegister {
 
 
 
-    public boolean addNewUser(User user){
-        boolean added = false;
-        if(user != null && user.isValid()){
-            try{
-                findUserById(user.getUserId());
-            }catch (NoSuchElementException e){
-                user.setPassword();
-                userRepository.save(user);
-                added = true;
-            }
+    //Todo: Jeg gjorde denne metoden for å vise deg.
+    @Override
+    public void addNewUser(User user) throws CouldNotAddUserException {
+        checkIfObjectIsNull(user, "user");
+        if(userRepository.findById(user.getUserId()).isEmpty()){
+            userRepository.save(user);
+        }else{
+            throw new CouldNotAddUserException("There is a user with that id in the system");
         }
-        return added;
     }
 
 
-    public boolean deleteUser(int userId) {
+    public void removeUserWithId(int userId) {
         Optional<User> user = userRepository.findById(userId);
         user.ifPresent(value -> userRepository.delete(value));
-        return user.isPresent();
-    }
-
-
-    @Override
-    public void delete(User value) {
 
     }
 
     @Override
-    public Optional<User> findById(int userId) {
+    public Optional<User> findUserByID(int userId) {
         return Optional.empty();
     }
 
@@ -75,5 +67,17 @@ public class UserService implements UserRegister {
         return null;
     }
 
+    /**
+     * Checks if an object is null.
+     *
+     * @param object the object you want to check.
+     * @param error  the error message the exception should have.
+     * @throws IllegalArgumentException gets thrown if the object is null.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
 
 }

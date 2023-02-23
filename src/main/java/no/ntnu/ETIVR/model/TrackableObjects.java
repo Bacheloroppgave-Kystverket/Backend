@@ -9,6 +9,7 @@ public class TrackableObjects {
      * @param nameOfObject String
      */
     public TrackableObjects(String nameOfObject) {
+
         this.nameOfObject = nameOfObject;
     }
 

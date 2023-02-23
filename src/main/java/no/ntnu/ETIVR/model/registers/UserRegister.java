@@ -3,6 +3,9 @@ package no.ntnu.ETIVR.model.registers;
 import java.util.List;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveUserException;
 
 public interface UserRegister {
 
@@ -10,32 +13,26 @@ public interface UserRegister {
     /**
      * @return
      */
-    public List<User> getAllUsers();
+    List<User> getAllUsers();
 
     /**
-     * @param user
-     * @return
+     * Adds a new user to the register.
+     * @param user the new user.
+     * @throws CouldNotAddUserException gets thrown if the user could not be added.
      */
-    public boolean addNewUser(User user);
+    void addNewUser(User user) throws CouldNotAddUserException;
 
-    /**
-     * @param id
-     * @return
-     */
-    public User findUserById(int id);
+
+    Optional<User> findUserByID(int userId) throws CouldNotGetUserException;
 
     /**
      * @param userId
      * @return
      */
-    public boolean deleteUser(int userId);
+    void removeUserWithId(int userId) throws CouldNotRemoveUserException;
 
-
-    void delete(User value);
-
-    Optional<User> findById(int userId);
-
-    Object findAll();
+    /
+    User findAll();
 
 }
 
