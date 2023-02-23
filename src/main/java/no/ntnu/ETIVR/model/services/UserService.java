@@ -33,8 +33,9 @@ public class UserService implements UserRegister {
      * @return
      */
     public User findUserById(int id){
-        Optional<User> user = userRepository.findById(id);
-        return user.get();
+        //Optional<User> user = userRepository.findById(id);
+        //return user.get();
+        return null;
     }
 
 
@@ -52,8 +53,8 @@ public class UserService implements UserRegister {
 
 
     public void removeUserWithId(int userId) {
-        Optional<User> user = userRepository.findById(userId);
-        user.ifPresent(value -> userRepository.delete(value));
+        //Optional<User> user = userRepository.findById(userId);
+        //user.ifPresent(value -> userRepository.delete(value));
 
     }
 

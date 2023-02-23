@@ -25,13 +25,10 @@ public interface UserRegister {
 
     Optional<User> findUserByID(int userId) throws CouldNotGetUserException;
 
-    /**
-     * @param userId
-     * @return
-     */
+
     void removeUserWithId(int userId) throws CouldNotRemoveUserException;
 
-    /
+
     User findAll();
 
 }
