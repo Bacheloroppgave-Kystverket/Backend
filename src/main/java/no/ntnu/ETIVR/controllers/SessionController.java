@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import no.ntnu.ETIVR.model.Session;
-import no.ntnu.ETIVR.model.services.SessionJPA;
+import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class SessionController {
      * @param sessionRepository session repository
      */
     public SessionController(SessionRepository sessionRepository) {
-        sessionRegister = new SessionJPA(sessionRepository);
+        sessionRegister = new SessionService(sessionRepository);
     }
 
     /**
