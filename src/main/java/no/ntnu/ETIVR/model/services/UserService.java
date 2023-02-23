@@ -5,24 +5,25 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.registers.UserRegister;
+import no.ntnu.ETIVR.model.repository.UserRepository;
 
 public class UserService implements UserRegister {
 
-    private UserRegister userRegister;
-
+    private UserRepository userRepository;
 
     /**
      *
-     * @param userRegister
+     * @param userRepository
      */
-    public UserService(UserRegister userRegister){
-        this.userRegister = userRegister;
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
     }
 
     //Todo: Arver dokumentasjon fra interfacet.
     @Override
     public List<User> getAllUsers(){
-        return (List<User>) userRegister.findAll();
+        ///todo: Ikke cast om du ikke må. dette kan føre til mange nasty bugs. Dette er casting: (List<User>)
+        return (List<User>) userRepository.findAll();
     }
 
     /**
@@ -31,7 +32,7 @@ public class UserService implements UserRegister {
      * @return
      */
     public User findUserById(int id){
-        Optional<User> user = userRegister.findById(id);
+        Optional<User> user = userRepository.findById(id);
         return user.get();
     }
 
@@ -44,7 +45,7 @@ public class UserService implements UserRegister {
                 findUserById(user.getUserId());
             }catch (NoSuchElementException e){
                 user.setPassword();
-                userRegister.save(user);
+                userRepository.save(user);
                 added = true;
             }
         }
@@ -53,8 +54,8 @@ public class UserService implements UserRegister {
 
 
     public boolean deleteUser(int userId) {
-        Optional<User> user = userRegister.findById((int) userId);
-        user.ifPresent(value -> userRegister.delete(value));
+        Optional<User> user = userRepository.findById(userId);
+        user.ifPresent(value -> userRepository.delete(value));
         return user.isPresent();
     }
 
@@ -70,12 +71,7 @@ public class UserService implements UserRegister {
     }
 
     @Override
-    public void save(User user) {
-
-    }
-
-    @Override
-    public Object findAll() {
+    public User findAll() {
         return null;
     }
 

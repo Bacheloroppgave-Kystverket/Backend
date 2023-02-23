@@ -35,8 +35,6 @@ public interface UserRegister {
 
     Optional<User> findById(int userId);
 
-    void save(User user);
-
     Object findAll();
 
 }
