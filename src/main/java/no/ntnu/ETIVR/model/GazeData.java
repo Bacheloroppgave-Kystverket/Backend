@@ -1,6 +1,5 @@
 package no.ntnu.ETIVR.model;
 
-import java.sql.Time;
 
 public class GazeData {
     private String locationID;
