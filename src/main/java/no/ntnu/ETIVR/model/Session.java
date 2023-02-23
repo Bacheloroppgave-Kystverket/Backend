@@ -43,7 +43,6 @@ public class Session {
     /**
      * Constructor with parameters
      * @param trackableObjects list of objects to be tracked
-     * @param totalTime float - time it takes to track objects
      * @param sessionId unique id for user
      */
     public Session(@JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects, long sessionId) {
@@ -66,22 +65,6 @@ public class Session {
      */
     public void setTrackableObjects(List<TrackableObject> trackableObjects) {
         this.trackableObjects = trackableObjects;
-    }
-
-    /**
-     * Get the total time
-     * @return total time
-     */
-    public float getTotalTime() {
-        return totalTime;
-    }
-
-    /**
-     * set total time
-     * @param totalTime float total time
-     */
-    public void setTotalTime(float totalTime) {
-        this.totalTime = totalTime;
     }
 
     /**
