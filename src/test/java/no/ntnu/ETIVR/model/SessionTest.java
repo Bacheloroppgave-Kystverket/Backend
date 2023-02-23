@@ -20,6 +20,5 @@ class SessionTest extends DefaultTest{
         checkIfTestsFailedAndDisplayResult();
     }
 
-
-
+    
 }
