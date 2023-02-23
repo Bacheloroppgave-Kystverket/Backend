@@ -1,8 +1,10 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model.services;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import no.ntnu.ETIVR.model.User;
+import no.ntnu.ETIVR.model.registers.UserRegister;
 
 public class UserService implements UserRegister {
 
@@ -17,10 +19,8 @@ public class UserService implements UserRegister {
         this.userRegister = userRegister;
     }
 
-    /**
-     *
-     * @return
-     */
+    //Todo: Arver dokumentasjon fra interfacet.
+    @Override
     public List<User> getAllUsers(){
         return (List<User>) userRegister.findAll();
     }

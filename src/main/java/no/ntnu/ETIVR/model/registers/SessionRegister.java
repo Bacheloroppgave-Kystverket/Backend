@@ -1,8 +1,9 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model.registers;
 
-import no.ntnu.ETIVR.exceptions.CouldNotAddSessionException;
-import no.ntnu.ETIVR.exceptions.CouldNotGetSessionException;
-import no.ntnu.ETIVR.exceptions.CouldNotRemoveSessionException;
+import no.ntnu.ETIVR.model.Session;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 
 import java.util.List;
 

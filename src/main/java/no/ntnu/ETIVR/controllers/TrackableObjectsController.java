@@ -1,5 +1,7 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.controllers;
 
+import no.ntnu.ETIVR.model.TrackableObjects;
+import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

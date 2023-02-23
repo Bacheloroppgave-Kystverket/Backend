@@ -1,5 +1,7 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.controllers;
 
+import no.ntnu.ETIVR.model.User;
+import no.ntnu.ETIVR.model.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,11 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model.services;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import no.ntnu.ETIVR.model.TrackableObjects;
+import no.ntnu.ETIVR.model.repository.TrackableObjectsRepository;
 
 public class TrackableObjectsService {
     private final TrackableObjectsRepository trackableObjectsRepository;

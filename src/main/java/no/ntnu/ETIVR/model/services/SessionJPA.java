@@ -1,14 +1,17 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model.services;
 
-import no.ntnu.ETIVR.exceptions.CouldNotAddSessionException;
-import no.ntnu.ETIVR.exceptions.CouldNotGetSessionException;
-import no.ntnu.ETIVR.exceptions.CouldNotRemoveSessionException;
+import no.ntnu.ETIVR.model.Session;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import no.ntnu.ETIVR.model.registers.SessionRegister;
+import no.ntnu.ETIVR.model.repository.SessionRepository;
 
-public class SessionJPA implements SessionRegister{
+public class SessionJPA implements SessionRegister {
     private final SessionRepository sessionRepository;
 
     /**

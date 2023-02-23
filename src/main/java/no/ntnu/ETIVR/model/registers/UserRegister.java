@@ -1,7 +1,8 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model.registers;
 
 import java.util.List;
 import java.util.Optional;
+import no.ntnu.ETIVR.model.User;
 
 public interface UserRegister {
 

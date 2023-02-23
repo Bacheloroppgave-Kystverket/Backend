@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model;
 
 
 public class TrackableObjects {

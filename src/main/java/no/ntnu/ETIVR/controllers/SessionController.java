@@ -1,9 +1,13 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.ntnu.ETIVR.exceptions.CouldNotAddSessionException;
-import no.ntnu.ETIVR.exceptions.CouldNotRemoveSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
+import no.ntnu.ETIVR.model.Session;
+import no.ntnu.ETIVR.model.services.SessionJPA;
+import no.ntnu.ETIVR.model.registers.SessionRegister;
+import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

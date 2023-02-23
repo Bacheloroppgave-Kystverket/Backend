@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR;
+package no.ntnu.ETIVR.model;
 
 
 import com.fasterxml.jackson.annotation.JsonCreator;
