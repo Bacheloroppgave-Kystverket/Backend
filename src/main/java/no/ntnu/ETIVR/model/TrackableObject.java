@@ -12,6 +12,8 @@ public class TrackableObject {
     @Id
     private String nameOfObject;
 
+    private long trackableObjectID;
+
     private TrackableType trackableType;
 
     private ViewDistance viewDistance;
@@ -26,10 +28,11 @@ public class TrackableObject {
      * Constructor with parameters
      * @param nameOfObject String
      */
-    public TrackableObject(String nameOfObject, TrackableType trackableType, ViewDistance viewDistance) {
+    public TrackableObject(String nameOfObject, TrackableType trackableType, ViewDistance viewDistance, long trackableObjectID) {
         this.nameOfObject = nameOfObject;
         this.trackableType = TrackableType.UNDEFINED;
         this.viewDistance = viewDistance;
+        this.trackableObjectID = trackableObjectID;
     }
 
     /**
@@ -66,5 +69,9 @@ public class TrackableObject {
 
     public List<GazeData> getGazeList() {
         return gazeList;
+    }
+
+    public long getTrackableObjectID() {
+        return trackableObjectID;
     }
 }
