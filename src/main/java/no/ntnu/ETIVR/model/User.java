@@ -15,7 +15,7 @@ import javax.persistence.*;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(unique = true)
 
-        private int userId;
+        private long userId;
         private String userName;
         private String password;
         private boolean active = true;
@@ -54,7 +54,7 @@ import javax.persistence.*;
          *
          * @return
          */
-        public int getUserId(){
+        public long getUserId(){
             return userId;
         }
 
@@ -78,13 +78,6 @@ import javax.persistence.*;
          */
         public void setPassword(){
             this.password = password;
-        }
-
-        /**
-         *
-         */
-        public boolean isValid(){
-            return !"".equals(userName);
         }
     }
 
