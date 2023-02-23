@@ -42,7 +42,6 @@ public abstract class DefaultTest {
   protected void setUpStringBuilder(){
     this.stringBuilder = new StringBuilder();
     errors = 0;
-    System.out.println("Stringbuilder");
   }
 
   /**

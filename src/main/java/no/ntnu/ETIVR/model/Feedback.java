@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
 import javax.sound.midi.Track;
@@ -23,7 +24,7 @@ public class Feedback {
    * Makes an instance of the Feedback class.
    * @param hashMap the hashmap
    */
-  public Feedback(Map<TrackableType, Float> hashMap){
+  public Feedback(@JsonProperty("hashMap") Map<TrackableType, Float> hashMap){
     checkIfObjectIsNull(hashMap, "Hashmap");
     this.hashMap = hashMap;
   }

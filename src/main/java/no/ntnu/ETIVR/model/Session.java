@@ -1,14 +1,17 @@
 package no.ntnu.ETIVR.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Transient;
 
-
+@Entity
 public class Session {
-    List<TrackableObjects> trackableObjects = new ArrayList<>();
+    @Transient
+    List<TrackableObject> trackableObjects = new ArrayList<>();
     private float totalTime;
 
     @Id
@@ -16,13 +19,16 @@ public class Session {
     @Column(name = "sessionId", nullable = false)
     private long sessionId;
 
+    public Session() {
+    }
+
     /**
      * Constructor with parameters
      * @param trackableObjects list of objects to be tracked
      * @param totalTime float - time it takes to track objects
      * @param sessionId unique id for user
      */
-    public Session(List<TrackableObjects> trackableObjects, float totalTime, long sessionId) {
+    public Session(List<TrackableObject> trackableObjects, float totalTime, long sessionId) {
         this.trackableObjects = trackableObjects;
         this.totalTime = totalTime;
         this.sessionId = sessionId;
@@ -33,7 +39,7 @@ public class Session {
      * Get list of trackable objects
      * @return trackable objects
      */
-    public List<TrackableObjects> getTrackableObjects() {
+    public List<TrackableObject> getTrackableObjects() {
         return trackableObjects;
     }
 
@@ -41,7 +47,7 @@ public class Session {
      * Set the trackable objects
      * @param trackableObjects list of trackable objects
      */
-    public void setTrackableObjects(List<TrackableObjects> trackableObjects) {
+    public void setTrackableObjects(List<TrackableObject> trackableObjects) {
         this.trackableObjects = trackableObjects;
     }
 

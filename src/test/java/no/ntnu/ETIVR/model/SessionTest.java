@@ -1,14 +1,9 @@
 package no.ntnu.ETIVR.model;
 
-import no.ntnu.ETIVR.model.Session;
-import no.ntnu.ETIVR.model.TrackableObjects;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -22,7 +17,7 @@ public class SessionTest {
 
     private final String illegalPrefix;
 
-    private ArrayList<TrackableObjects> list;
+    private ArrayList<TrackableObject> list;
 
     public SessionTest() {
         this.illegalPrefix = makeExceptionString();

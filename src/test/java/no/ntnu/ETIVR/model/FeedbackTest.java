@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -18,11 +17,6 @@ public class FeedbackTest extends DefaultTest {
   @BeforeEach
   public void SetupTestData() {
     setUpStringBuilder();
-  }
-
-  @BeforeEach
-  public void Test(){
-    System.out.println("pog");
   }
 
   @Override
@@ -57,8 +51,4 @@ public class FeedbackTest extends DefaultTest {
       addErrorWithException("Expected to get a feedback object since", "the input is valid", exception);
     }
   }
-
-
-
-
 }

@@ -1,6 +1,8 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.ref.Reference;
+import javax.persistence.Id;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -8,6 +10,7 @@ import java.lang.ref.Reference;
  */
 public class ReferencePosition {
 
+  @Id
   private String locationId;
 
   private String locationName;
@@ -27,7 +30,8 @@ public class ReferencePosition {
    * @param locationName the name of the location
    * @param positionDuration the time spent at position
    */
-  public ReferencePosition(String locationId, String locationName, float positionDuration){
+  public ReferencePosition(@JsonProperty("locationId") String locationId,@JsonProperty("locationName") String locationName,
+                           @JsonProperty("positionDuration") float positionDuration){
     checkString(locationId, "location ID");
     checkString(locationName, locationName);
     checkFloat(positionDuration, "position duration");

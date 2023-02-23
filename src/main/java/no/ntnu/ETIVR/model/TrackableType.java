@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+
 public enum TrackableType {
 
     /**

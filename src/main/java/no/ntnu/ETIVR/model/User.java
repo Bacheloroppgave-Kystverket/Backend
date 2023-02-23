@@ -11,10 +11,10 @@ import javax.persistence.*;
      */
     @Entity(name = "user")
     public class User {
+
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(unique = true)
-
         private long userId;
         private String userName;
         private String password;

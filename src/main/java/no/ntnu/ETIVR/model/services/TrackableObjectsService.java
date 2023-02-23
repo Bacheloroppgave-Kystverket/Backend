@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import no.ntnu.ETIVR.model.TrackableObjects;
+import no.ntnu.ETIVR.model.TrackableObject;
 import no.ntnu.ETIVR.model.repository.TrackableObjectsRepository;
 
 public class TrackableObjectsService {
@@ -23,8 +23,8 @@ public class TrackableObjectsService {
      * @param iterable Iterable
      * @return the list
      */
-    public List<TrackableObjects> iterableToList(Iterable<TrackableObjects> iterable) {
-        List<TrackableObjects> list = new LinkedList<>();
+    public List<TrackableObject> iterableToList(Iterable<TrackableObject> iterable) {
+        List<TrackableObject> list = new LinkedList<>();
         iterable.forEach(list::add);
         return list;
     }
@@ -34,8 +34,8 @@ public class TrackableObjectsService {
      * @param name String
      * @return The trackable object or null if not found
      */
-    public TrackableObjects findTrackableObjectByName(String name) {
-        Optional<TrackableObjects> trackableObjects = trackableObjectsRepository.findById(name);
+    public TrackableObject findTrackableObjectByName(String name) {
+        Optional<TrackableObject> trackableObjects = trackableObjectsRepository.findById(name);
         return trackableObjects.orElse(null);
     }
 
@@ -43,19 +43,19 @@ public class TrackableObjectsService {
      * Get all trackable objects
      * @return list of trackable objects
      */
-    public List<TrackableObjects> getAll() {
+    public List<TrackableObject> getAll() {
         return iterableToList(trackableObjectsRepository.findAll());
     }
 
     /**
      * Add new trackable objects
-     * @param trackableObjects Trackable objects
+     * @param trackableObject Trackable objects
      * @return true if added, false if not
      */
-    public boolean addNewTrackableObject(TrackableObjects trackableObjects) {
+    public boolean addNewTrackableObject(TrackableObject trackableObject) {
         boolean added = false;
-        if (trackableObjects != null) {
-            trackableObjectsRepository.save(trackableObjects);
+        if (trackableObject != null) {
+            trackableObjectsRepository.save(trackableObject);
             added = true;
         }
         return added;
@@ -63,13 +63,13 @@ public class TrackableObjectsService {
 
     /**
      * Delete a trackable object
-     * @param trackableObjects TrackableObject
+     * @param trackableObject TrackableObject
      * @return true if deleted, false if not
      */
-    public boolean deleteTrackableObject(TrackableObjects trackableObjects) {
+    public boolean deleteTrackableObject(TrackableObject trackableObject) {
         boolean deleted = false;
-        if (trackableObjects != null) {
-            trackableObjectsRepository.delete(trackableObjects);
+        if (trackableObject != null) {
+            trackableObjectsRepository.delete(trackableObject);
             deleted = true;
         }
         return deleted;
@@ -79,23 +79,23 @@ public class TrackableObjectsService {
     /**
      * Update trackable object by name
      * @param name String
-     * @param trackableObjects TrackableObject
+     * @param trackableObject TrackableObject
      * @return error message telling whether it has been updated or not
      */
-    public String updateTrackableObject(String name, TrackableObjects trackableObjects) {
-        TrackableObjects existingTrackableObject = findTrackableObjectByName(name);
+    public String updateTrackableObject(String name, TrackableObject trackableObject) {
+        TrackableObject existingTrackableObject = findTrackableObjectByName(name);
         String errorMessage = null;
         if (existingTrackableObject == null) {
             errorMessage = "No trackable object with " + name + "found";
         }
-        if (trackableObjects == null) {
+        if (trackableObject == null) {
             errorMessage = "Please check if your data is correct";
         }
-        else if (!Objects.equals(trackableObjects.getNameOfObject(), name)) {
+        else if (!Objects.equals(trackableObject.getNameOfObject(), name)) {
             errorMessage = "Please check your name, it does not match";
         }
         if (errorMessage == null) {
-            trackableObjectsRepository.save(trackableObjects);
+            trackableObjectsRepository.save(trackableObject);
         }
         return errorMessage;
     }

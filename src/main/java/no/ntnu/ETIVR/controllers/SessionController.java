@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/session")
+//@RestController
+//@RequestMapping("/session")
 public class SessionController {
     private final SessionRegister sessionRegister;
 

@@ -1,14 +1,20 @@
 package no.ntnu.ETIVR.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-public class TrackableObjects {
+@Entity
+public class TrackableObject {
+
+    ///Id her er bare så jeg får testa
+    @Id
     private String nameOfObject;
 
     /**
      * Constructor with parameters
      * @param nameOfObject String
      */
-    public TrackableObjects(String nameOfObject) {
+    public TrackableObject(String nameOfObject) {
 
         this.nameOfObject = nameOfObject;
     }

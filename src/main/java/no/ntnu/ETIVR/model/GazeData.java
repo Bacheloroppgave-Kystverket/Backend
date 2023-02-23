@@ -1,5 +1,7 @@
 package no.ntnu.ETIVR.model;
 
+import javax.persistence.Entity;
+
 
 public class GazeData {
     private String locationID;
