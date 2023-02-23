@@ -23,30 +23,8 @@ public class TrackableObjectsService implements TrackableObjectRegister {
     }
 
     /**
-     * Making an iterable to list
-     * @param iterable Iterable
-     * @return the list
-     */
-    public List<TrackableObject> iterableToList(Iterable<TrackableObject> iterable) {
-        List<TrackableObject> list = new LinkedList<>();
-        iterable.forEach(list::add);
-        return list;
-    }
-
-    public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
-        checkIfNumberIsAboveZero(trackableObjectID);
-        if(trackableObjectsRepository.existsById(trackableObjectID)) {
-            trackableObjectsRepository.deleteById(trackableObjectID);
-        }
-        else {
-            throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
-        }
-    }
-
-    /**
      * Add new trackable objects
      * @param trackableObject Trackable objects
-     * @return true if added, false if not
      */
     @Override
     public void addTrackableObjects(TrackableObject trackableObject) throws CouldNotAddTrackableObjectException {
@@ -61,7 +39,6 @@ public class TrackableObjectsService implements TrackableObjectRegister {
     /**
      * Delete a trackable object
      * @param trackableObject TrackableObject
-     * @return true if deleted, false if not
      */
     @Override
     public void removeTrackableObject(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException {
@@ -74,6 +51,12 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         }
     }
 
+    /**
+     * Get trackable object by ID
+     * @param trackableObjectID long
+     * @return Trackable object if it exists
+     * @throws CouldNotGetTrackableObjectException if it is not found in the system
+     */
     @Override
     public TrackableObject getTrackableObjectById(long trackableObjectID) throws CouldNotGetTrackableObjectException {
         Optional<TrackableObject> optionalTrackableObject = trackableObjectsRepository.findById(trackableObjectID);
@@ -92,7 +75,37 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         return iterableToList(trackableObjectsRepository.findAll());
     }
 
+    /**
+     * Making an iterable to list
+     * @param iterable Iterable
+     * @return the list
+     */
+    public List<TrackableObject> iterableToList(Iterable<TrackableObject> iterable) {
+        List<TrackableObject> list = new LinkedList<>();
+        iterable.forEach(list::add);
+        return list;
+    }
 
+
+    /**
+     * Remove trackable object with ID
+     * @param trackableObjectID long
+     * @throws CouldNotRemoveTrackableObjectException gets thrown if it is not in the system
+     */
+    public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
+        checkIfNumberIsAboveZero(trackableObjectID);
+        if(trackableObjectsRepository.existsById(trackableObjectID)) {
+            trackableObjectsRepository.deleteById(trackableObjectID);
+        }
+        else {
+            throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
+        }
+    }
+
+    /**
+     * Check if trackable object is valid
+     * @param trackableObject Trackable
+     */
     private void checkIfTrackableObjectIsValid(TrackableObject trackableObject) {
         checkIfObjectIsNull(trackableObject, "trackable object");
     }
