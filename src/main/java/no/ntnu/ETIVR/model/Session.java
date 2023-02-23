@@ -1,23 +1,41 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.LocalDateTime;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Session {
-    @Transient
-    List<TrackableObject> trackableObjects = new ArrayList<>();
-    private float totalTime;
 
     @Id
     @GeneratedValue
     @Column(name = "sessionId", nullable = false)
     private long sessionId;
+
+    private LocalDateTime currentDate;
+
+    private int userId;
+
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableObject.class)
+    @JoinColumn(name = "sessionId")
+    private List<TrackableObject> trackableObjects = new ArrayList<>();
+
+    private List<ReferencePosition> referencePositions;
+
+    private List<Feedback> feedbackLog;
+
 
     public Session() {
     }
@@ -28,9 +46,8 @@ public class Session {
      * @param totalTime float - time it takes to track objects
      * @param sessionId unique id for user
      */
-    public Session(List<TrackableObject> trackableObjects, float totalTime, long sessionId) {
+    public Session(@JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects, long sessionId) {
         this.trackableObjects = trackableObjects;
-        this.totalTime = totalTime;
         this.sessionId = sessionId;
     }
 

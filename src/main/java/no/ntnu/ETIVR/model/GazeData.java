@@ -1,12 +1,16 @@
 package no.ntnu.ETIVR.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-
+@Embeddable
 public class GazeData {
+
     private String locationID;
     private int fixations;
     private float fixationDuration;
+
+    public GazeData() {
+    }
 
     /**
      * Make an instance of GazeData

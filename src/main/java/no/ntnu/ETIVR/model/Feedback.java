@@ -3,12 +3,14 @@ package no.ntnu.ETIVR.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 import java.util.Map;
+import javax.persistence.Entity;
 import javax.sound.midi.Track;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
+
 public class Feedback {
 
   private Map<TrackableType, Float> hashMap;
@@ -16,8 +18,8 @@ public class Feedback {
   /**
    * Makes an instance of the Feedback class.
    */
-  public Feedback() {
-
+  public Feedback(){
+    
   }
 
   /**
