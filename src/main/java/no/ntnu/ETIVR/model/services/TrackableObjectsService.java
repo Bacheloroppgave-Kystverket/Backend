@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.TrackableObject;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveTrackableObjectException;
 import no.ntnu.ETIVR.model.repository.TrackableObjectsRepository;
 
 public class TrackableObjectsService {
@@ -52,13 +54,14 @@ public class TrackableObjectsService {
      * @param trackableObject Trackable objects
      * @return true if added, false if not
      */
-    public boolean addNewTrackableObject(TrackableObject trackableObject) {
-        boolean added = false;
+    public void addNewTrackableObject(TrackableObject trackableObject) throws CouldNotAddTrackableObjectException{
+        checkIfTrackableObjectIsValid(trackableObject);
+        Optional<TrackableObject> optionalTrackableObject = trackableObjectsRepository.existsById(trackableObject.getTrackableType());
         if (trackableObject != null) {
             trackableObjectsRepository.save(trackableObject);
-            added = true;
+        } else {
+            throw new CouldNotAddTrackableObjectException("The trackable object is already used.");
         }
-        return added;
     }
 
     /**
@@ -66,13 +69,18 @@ public class TrackableObjectsService {
      * @param trackableObject TrackableObject
      * @return true if deleted, false if not
      */
-    public boolean deleteTrackableObject(TrackableObject trackableObject) {
-        boolean deleted = false;
-        if (trackableObject != null) {
-            trackableObjectsRepository.delete(trackableObject);
-            deleted = true;
+    public void deleteTrackableObject(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException {
+        checkIfTrackableObjectIsValid(trackableObject);
+    }
+
+    public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
+        checkIfNumberIsAboveZero(trackableObjectID, "trackable object");
+        if(trackableObjectsRepository.existsById(trackableObjectID)) {
+            trackableObjectsRepository.deleteById(trackableObjectID);
         }
-        return deleted;
+        else {
+            throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
+        }
     }
 
 
@@ -98,5 +106,31 @@ public class TrackableObjectsService {
             trackableObjectsRepository.save(trackableObject);
         }
         return errorMessage;
+    }
+
+    private void checkIfTrackableObjectIsValid(TrackableObject trackableObject) {
+        checkIfObjectIsNull(trackableObject, "trackable object");
+    }
+
+    /**
+     * Checks if an object is null.
+     * @param object the object you want to check.
+     * @param error  the error message the exception should have.
+     * @throws IllegalArgumentException gets thrown if the object is null.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
+
+    /**
+     * Checks if the input number is above zero.
+     * @param numberToCheck the number to check.
+     */
+    private void checkIfNumberIsAboveZero(long numberToCheck, String prefix){
+        if (numberToCheck <= 0){
+            throw new IllegalArgumentException("The " + prefix + " must be larger than zero.");
+        }
     }
 }

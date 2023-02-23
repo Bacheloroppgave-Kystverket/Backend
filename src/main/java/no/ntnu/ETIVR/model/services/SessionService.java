@@ -11,14 +11,14 @@ import java.util.Optional;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 
-public class SessionJPA implements SessionRegister {
+public class SessionService implements SessionRegister {
     private final SessionRepository sessionRepository;
 
     /**
-     * Makes an instance of the SessionJPA class
+     * Makes an instance of the SessionService class
      * @param sessionRepository the session repository
      */
-    public SessionJPA(SessionRepository sessionRepository) {
+    public SessionService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
     }
 
