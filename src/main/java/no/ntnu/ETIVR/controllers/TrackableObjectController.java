@@ -1,6 +1,13 @@
 package no.ntnu.ETIVR.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import java.util.Map;
+import javax.sound.midi.Track;
+import no.ntnu.ETIVR.model.Feedback;
 import no.ntnu.ETIVR.model.TrackableObject;
+import no.ntnu.ETIVR.model.TrackableType;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +20,7 @@ import java.util.List;
  * REST API Controller for trackable objects
  */
 @RestController
+@RequestMapping("/trackableObject")
 public class TrackableObjectController {
 
     //private final TrackableObjectsService trackableObjectsService;
@@ -68,17 +76,30 @@ public class TrackableObjectController {
      * @param trackableObject trackable object to be added
      * @return HTTP response OK if added, HTTP response BAD REQUEST if not
      */
-    @PostMapping
-    public ResponseEntity<String> add(@RequestBody TrackableObject trackableObject) {
+    @PutMapping
+    public ResponseEntity<String> add(@RequestBody String body) throws JsonProcessingException {
         ResponseEntity<String> response;
-        System.out.println(trackableObject);
+        System.out.println(body);
+        //System.out.println(makeFeedback(body));
+        System.out.println("pog");
         //trackableObjectsService.addNewTrackableObject(trackableObject)
-        if (trackableObject != null) {
+        if ("" != null) {
             response = new ResponseEntity<>(HttpStatus.OK);
         } else {
             response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } return response;
 
+    }
+
+    private Feedback makeFeedback(String body) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(body, Feedback.class);
+    }
+
+    public static void main(String[] args) {
+        HashMap<TrackableType, Float> maps = new HashMap<>();
+        maps.put(TrackableType.CUBE, 10f);
+        System.out.println(maps);
     }
 
 
