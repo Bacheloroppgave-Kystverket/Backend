@@ -44,9 +44,9 @@ public class TrackableObject {
      * @param nameOfObject
      */
     public TrackableObject(String nameOfObject, TrackableType trackableType, ViewDistance viewDistance, long trackableObjectID) {
-        this.gazeList = new ArrayList<>();
         this.nameOfObject = nameOfObject;
-        this.trackableType = TrackableType.UNDEFINED;
+        this.trackableType = trackableType;
+        this.gazeList = new ArrayList<>();
         this.viewDistance = viewDistance;
         this.trackableObjectID = trackableObjectID;
     }
