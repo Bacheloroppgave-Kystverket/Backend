@@ -31,7 +31,7 @@ public class ReferencePositionTest extends DefaultTest {
   public void testConstructorWorksWithInvalidInput(){
     String locationId = "1";
     String locationName = "Position 1";
-    Float positionDuration = 10f;
+    float positionDuration = 10f;
     ReferencePosition referencePosition;
     try {
       referencePosition = new ReferencePosition(null, locationName, positionDuration);

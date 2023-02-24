@@ -43,14 +43,13 @@ public class Session {
      * @param sessionId unique id for user
      */
     public Session(LocalDateTime currentDate, int userId, @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects, long sessionId, List<ReferencePosition> referencePositions, List<Feedback> feedbackLog) {
+        this.currentDate = currentDate;
         this.trackableObjects = trackableObjects;
+        this.userId = userId;
         this.sessionId = sessionId;
         this.referencePositions = referencePositions;
         this.feedbackLog = feedbackLog;
-        this.currentDate = currentDate;
-        this.userId = userId;
     }
-
 
     /**
      * Get list of trackable objects
