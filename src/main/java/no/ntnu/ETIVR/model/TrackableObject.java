@@ -41,7 +41,7 @@ public class TrackableObject {
 
     /**
      * Constructor with parameters
-     * @param nameOfObject
+     * @param nameOfObject String
      */
     public TrackableObject(String nameOfObject, TrackableType trackableType, ViewDistance viewDistance, long trackableObjectID) {
         this.nameOfObject = nameOfObject;

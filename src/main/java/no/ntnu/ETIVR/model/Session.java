@@ -2,12 +2,14 @@ package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.JoinColumn;
@@ -43,11 +45,22 @@ public class Session {
      * @param sessionId unique id for user
      */
     public Session(LocalDateTime currentDate, int userId, @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects, long sessionId, List<ReferencePosition> referencePositions, List<Feedback> feedbackLog) {
+        checkIfDateIsBeforeOrEqualToCurrentDate(currentDate);
         this.currentDate = currentDate;
+
+        checkIfObjectIsNull(trackableObjects, "trackable objects");
         this.trackableObjects = trackableObjects;
+
+        checkIfIntNumberNotNegative(userId, "user ID");
         this.userId = userId;
+
+        checkIfNumberNotNegative(sessionId, "session ID");
         this.sessionId = sessionId;
+
+        checkIfObjectIsNull(referencePositions, "reference position");
         this.referencePositions = referencePositions;
+
+        checkIfObjectIsNull(feedbackLog, "feedback log");
         this.feedbackLog = feedbackLog;
     }
 
@@ -146,6 +159,66 @@ public class Session {
     public void setFeedbackLog(List<Feedback> feedbackLog) {
         this.feedbackLog = feedbackLog;
     }
+
+
+    /**
+     * Checks if a string is of a valid format or not.
+     *
+     * @param stringToCheck the string you want to check.
+     * @param errorPrefix   the error the exception should have if the string is invalid.
+     */
+    private void checkString(String stringToCheck, String errorPrefix) {
+        checkIfObjectIsNull(stringToCheck, errorPrefix);
+        if (stringToCheck.isEmpty()) {
+            throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
+        }
+    }
+
+    /**
+     * Check to make sure that integer values cannot be negative.
+     * @param object the object to be checked.
+     * @param error exception message to be displayed.
+     */
+    private void checkIfNumberNotNegative(long object, String error) {
+        if (object <= 0) {
+            throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
+        }
+    }
+
+    /**
+     * Checks if an input date is before or equal to today's date.
+     * @param localDateTime the date to check.
+     */
+    private void checkIfDateIsBeforeOrEqualToCurrentDate(LocalDateTime localDateTime){
+        checkIfObjectIsNull(localDateTime, "date");
+        if (LocalDate.now().isBefore(ChronoLocalDate.from(localDateTime))){
+            throw new IllegalArgumentException("The set date is after current date.");
+        }
+    }
+
+    /**
+     * Checks if an object is null.
+     *
+     * @param object the object you want to check.
+     * @param error  the error message the exception should have.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
+
+    /**
+     * Checks if an int number is not negative
+     * @param object int object to be checked
+     * @param error String
+     */
+    private void checkIfIntNumberNotNegative(int object, String error) {
+        if (object <= 0) {
+            throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
+        }
+    }
+
 }
 
 
