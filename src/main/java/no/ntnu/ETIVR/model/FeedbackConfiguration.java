@@ -31,9 +31,21 @@ public class FeedbackConfiguration {
   public FeedbackConfiguration(@JsonProperty("trackableType") TrackableType trackableType,
                                @JsonProperty("threshold") float threshold){
     checkIfObjectIsNull(trackableType, "trackable type");
-    checkFloat(threshold, "threshold");
+    checkIfFloatIsBetweenZeroAndOne(threshold, "threshold");
     this.trackableType = trackableType;
     this.threshold = threshold;
+  }
+
+  /**
+   * Checks if a number is between zero and one.
+   * @param number the number to check.
+   * @param error the error.
+   */
+  private void checkIfFloatIsBetweenZeroAndOne(float number, String error){
+    checkFloat(number, error);
+    if(number > 1){
+      throw new IllegalArgumentException("The number must be below 1.");
+    }
   }
 
   /**
@@ -44,21 +56,6 @@ public class FeedbackConfiguration {
   private void checkFloat(float numberToCheck, String error){
     if(numberToCheck < 0){
       throw new IllegalArgumentException("The " + error + " cannot be below zero");
-    }
-  }
-
-
-
-  /**
-   * Checks if a string is of a valid format or not.
-   * @param stringToCheck the string you want to check.
-   * @param errorPrefix   the error the exception should have if the string is invalid.
-   * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
-   */
-  private void checkString(String stringToCheck, String errorPrefix) {
-    checkIfObjectIsNull(stringToCheck, errorPrefix);
-    if (stringToCheck.isEmpty()) {
-      throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
     }
   }
 
