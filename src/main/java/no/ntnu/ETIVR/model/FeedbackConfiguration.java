@@ -1,48 +1,39 @@
 package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.ref.Reference;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Enumerated;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity
-public class ReferencePosition {
+@Embeddable
+public class FeedbackConfiguration {
 
-  @Id
-  @GeneratedValue
-  private long locationId;
+  @Enumerated
+  private TrackableType trackableType;
 
-  private String locationName;
-
-  private float positionDuration;
+  private float threshold;
 
   /**
-   * Makes an instance of the ReferencePosition class.
+   * Makes an instance of the FeedbackConfiguration class.
    */
-  public ReferencePosition() {
+  public FeedbackConfiguration() {
 
   }
 
   /**
-   * Makes an instance of the reference position.
-   * @param locationId the id of the location
-   * @param locationName the name of the location
-   * @param positionDuration the time spent at position
+   * Makes an instance of the FeedbackConfiguration
+   * @param trackableType the trackable type
+   * @param threshold the threshold
    */
-  public ReferencePosition(@JsonProperty("locationID") long locationId,@JsonProperty("locationName") String locationName,
-                           @JsonProperty("positionDuration") float positionDuration){
-    checkFloat(locationId, "location ID");
-    checkString(locationName, "location name");
-    checkFloat(positionDuration, "position duration");
-    this.locationId = locationId;
-    this.locationName = locationName;
-    this.positionDuration = positionDuration;
+  public FeedbackConfiguration(@JsonProperty("trackableType") TrackableType trackableType,
+                               @JsonProperty("threshold") float threshold){
+    checkIfObjectIsNull(trackableType, "trackable type");
+    checkFloat(threshold, "threshold");
+    this.trackableType = trackableType;
+    this.threshold = threshold;
   }
 
   /**
@@ -50,15 +41,16 @@ public class ReferencePosition {
    * @param numberToCheck the number to check.
    * @param error the error.
    */
-  public void checkFloat(float numberToCheck, String error){
+  private void checkFloat(float numberToCheck, String error){
     if(numberToCheck < 0){
       throw new IllegalArgumentException("The " + error + " cannot be below zero");
     }
   }
 
+
+
   /**
    * Checks if a string is of a valid format or not.
-   *
    * @param stringToCheck the string you want to check.
    * @param errorPrefix   the error the exception should have if the string is invalid.
    * @throws IllegalArgumentException gets thrown if the string to check is empty or null.

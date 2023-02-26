@@ -2,18 +2,32 @@ package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.sound.midi.Track;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-
+@Entity
 public class Feedback {
 
-  private Map<TrackableType, Float> hashMap;
+  @Id
+  @GeneratedValue
+  private int feedbackId;
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "calculatedFeedbacks", joinColumns = @JoinColumn(name = "feedbackId"))
+  private List<CalculatedFeedback> feedbackList;
 
   /**
    * Makes an instance of the Feedback class.
@@ -24,11 +38,11 @@ public class Feedback {
 
   /**
    * Makes an instance of the Feedback class.
-   * @param hashMap the hashmap
+   * @param feedbackList the feedback list.
    */
-  public Feedback(@JsonProperty("hashMap") Map<TrackableType, Float> hashMap){
-    checkIfObjectIsNull(hashMap, "Hashmap");
-    this.hashMap = hashMap;
+  public Feedback(@JsonProperty("feedbackList") List<CalculatedFeedback> feedbackList){
+    checkIfObjectIsNull(feedbackList, "feedback list");
+    this.feedbackList = feedbackList;
   }
 
   /**

@@ -2,6 +2,9 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap;
+import no.ntnu.ETIVR.model.Feedback;
+import no.ntnu.ETIVR.model.TrackableType;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import no.ntnu.ETIVR.model.Session;
@@ -12,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@RestController
-//@RequestMapping("/session")
+@RestController
+@RequestMapping("/session")
 public class SessionController {
     private final SessionRegister sessionRegister;
 
@@ -37,7 +40,9 @@ public class SessionController {
      * Add session
      * @param body String
      */
+    @PutMapping
     public void add(@RequestBody String body) throws CouldNotAddSessionException, JsonProcessingException {
+        System.out.println(body);
         sessionRegister.addSession(makeSessionFromJson(body));
     }
 

@@ -1,48 +1,37 @@
 package no.ntnu.ETIVR.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.ref.Reference;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Enumerated;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity
-public class ReferencePosition {
+@Embeddable
+public class CalculatedFeedback {
 
-  @Id
-  @GeneratedValue
-  private long locationId;
+  @Enumerated
+  private TrackableType trackableType;
 
-  private String locationName;
-
-  private float positionDuration;
+  private float prosentage;
 
   /**
-   * Makes an instance of the ReferencePosition class.
+   * Makes an instance of the CalculatedFeedback class.
    */
-  public ReferencePosition() {
+  public CalculatedFeedback() {
 
   }
 
   /**
-   * Makes an instance of the reference position.
-   * @param locationId the id of the location
-   * @param locationName the name of the location
-   * @param positionDuration the time spent at position
+   * Makes an instance of the Calculated Feedback
+   * @param trackableType the trackable type.
+   * @param prosentage the type.
    */
-  public ReferencePosition(@JsonProperty("locationID") long locationId,@JsonProperty("locationName") String locationName,
-                           @JsonProperty("positionDuration") float positionDuration){
-    checkFloat(locationId, "location ID");
-    checkString(locationName, "location name");
-    checkFloat(positionDuration, "position duration");
-    this.locationId = locationId;
-    this.locationName = locationName;
-    this.positionDuration = positionDuration;
+  public CalculatedFeedback(TrackableType trackableType, float prosentage){
+    checkIfObjectIsNull(trackableType, "trackable type");
+    checkFloat(prosentage, "prosentage");
+    this.prosentage = prosentage;
+    this.trackableType = trackableType;
   }
 
   /**
@@ -50,7 +39,7 @@ public class ReferencePosition {
    * @param numberToCheck the number to check.
    * @param error the error.
    */
-  public void checkFloat(float numberToCheck, String error){
+  private void checkFloat(float numberToCheck, String error){
     if(numberToCheck < 0){
       throw new IllegalArgumentException("The " + error + " cannot be below zero");
     }
@@ -58,7 +47,6 @@ public class ReferencePosition {
 
   /**
    * Checks if a string is of a valid format or not.
-   *
    * @param stringToCheck the string you want to check.
    * @param errorPrefix   the error the exception should have if the string is invalid.
    * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
