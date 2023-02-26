@@ -27,7 +27,7 @@ class SessionTest extends DefaultTest{
 
     @Test
     @DisplayName("Tests if the constructor works with invalid input")
-    void testConstructorInvalidInput() {
+    void testConstructorValidInput() {
         List<TrackableObject> trackableObjects = new ArrayList<>();
         List<ReferencePosition> referencePositions = new ArrayList<>();
         List<Feedback> feedbackLog = new ArrayList<>();
@@ -42,7 +42,7 @@ class SessionTest extends DefaultTest{
 
     @Test
     @DisplayName("Tests if the constructor works with valid input")
-    void testConstructorValidInput() {
+    void testConstructorInvalidInput() {
         LocalDateTime currentDate = LocalDateTime.now();
         List<TrackableObject> trackableObjects = new ArrayList<>();
         long sessionId = 2L;
@@ -62,7 +62,7 @@ class SessionTest extends DefaultTest{
             addError(getIllegalPrefix(), "the trackable objects cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
-            session = new Session(currentDate, userId, trackableObjects, 0L, referencePositions, feedbackLog, feedbackConfigurations);
+            session = new Session(currentDate, userId, trackableObjects, -4L, referencePositions, feedbackLog, feedbackConfigurations);
             addError(getIllegalPrefix(), "the session id cannot be 0");
         } catch (IllegalArgumentException e) {}
         try {
