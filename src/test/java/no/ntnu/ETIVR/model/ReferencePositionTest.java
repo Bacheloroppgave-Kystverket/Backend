@@ -29,17 +29,13 @@ public class ReferencePositionTest extends DefaultTest {
   @Test
   @DisplayName("Tests if constructor works with invalid input")
   public void testConstructorWorksWithInvalidInput(){
-    String locationId = "1";
+    long locationId = 1;
     String locationName = "Position 1";
     float positionDuration = 10f;
     ReferencePosition referencePosition;
     try {
-      referencePosition = new ReferencePosition(null, locationName, positionDuration);
-      addError(getIllegalPrefix(), "the input location id is null");
-    }catch (IllegalArgumentException exception){}
-    try {
-      referencePosition = new ReferencePosition("", locationName, positionDuration);
-      addError(getIllegalPrefix(), "the input location id is empty");
+      referencePosition = new ReferencePosition(0, locationName, positionDuration);
+      addError(getIllegalPrefix(), "the input location id is 0");
     }catch (IllegalArgumentException exception){}
     try {
       referencePosition = new ReferencePosition(locationId, null, positionDuration);
@@ -61,7 +57,7 @@ public class ReferencePositionTest extends DefaultTest {
   @Test
   @DisplayName("Tests if constructor works with valid input")
   public void testConstructorWithValidInput(){
-    String locationId = "1";
+    long locationId = 1;
     String locationName = "Position 1";
     Float positionDuration = 10f;
     ReferencePosition referencePosition;
