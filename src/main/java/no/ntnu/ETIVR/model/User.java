@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
-/**
-     *
-     */
+
     @Entity(name = "user")
     public class User {
 
@@ -16,8 +14,11 @@ import javax.persistence.*;
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(unique = true)
         private long userId;
+
         private String userName;
+
         private String password;
+
         private boolean active = true;
 
 
@@ -28,55 +29,62 @@ import javax.persistence.*;
 
         }
 
-
+    /**
+     * Constructor with parameters.
+     * @param userId
+     * @param userName
+     * @param password
+     */
         @JsonCreator
-        public User(@JsonProperty("userId") int userId, @JsonProperty("userName") String userName, @JsonProperty("password") String password){
+        public User(@JsonProperty("userId") long userId, @JsonProperty("userName") String userName, @JsonProperty("password") String password){
             this.userId = userId;
             this.userName = userName;
             this.password = password;
         }
 
-        /**
-         *
-         */
-        public boolean isActive() {
+    /**
+     * Cheking if the user is active.
+     * @return returning status
+     */
+    public boolean isActive() {
             return active;
         }
 
-        /**
-         *
-         */
-        public void setActive(){
+
+    /**
+     * Setting user to active.
+     */
+    public void setActive(){
             this.active = active;
         }
 
-        /**
-         *
-         * @return
-         */
-        public long getUserId(){
+    /**
+     * Gets the userId.
+     * @return returning the userId
+     */
+    public long getUserId(){
             return userId;
         }
 
-        /**
-         *
-         */
-        public void setUserId(){
+    /**
+     * Sets the userId.
+     */
+    public void setUserId(){
             this.userId =userId;
         }
 
-        /**
-         *
-         * @return
-         */
-        public String getPassword() {
+    /**
+     * Gets the password of the user.
+     * @return returning the password.
+     */
+    public String getPassword() {
             return password;
         }
 
-        /**
-         *
-         */
-        public void setPassword(){
+    /**
+     * Sets the password to a user.
+     */
+    public void setPassword(){
             this.password = password;
         }
     }

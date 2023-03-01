@@ -23,13 +23,31 @@ public interface UserRegister {
     void addNewUser(User user) throws CouldNotAddUserException;
 
 
-    Optional<User> findUserByID(int userId) throws CouldNotGetUserException;
+    /**
+     *
+     * @param userId the userId to find the user.
+     * @return returns the user.
+     * @throws CouldNotGetUserException gets thrown if the user could not be found.
+     */
+    User findUserById(long userId) throws CouldNotGetUserException;
 
 
-    void removeUserWithId(int userId) throws CouldNotRemoveUserException;
+
+    /**
+     *
+     * @param userId
+     * @throws CouldNotRemoveUserException
+     */
+    void removeUserWithId(long userId) throws CouldNotRemoveUserException;
 
 
+    /**
+     *
+     * @return
+     */
     User findAll();
+
+
 
 }
 

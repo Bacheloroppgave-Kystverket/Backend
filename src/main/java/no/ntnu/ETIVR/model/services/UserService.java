@@ -10,32 +10,28 @@ import no.ntnu.ETIVR.model.repository.UserRepository;
 
 public class UserService implements UserRegister {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     /**
-     *
-     * @param userRepository
+     * Makes an instance of the UserService class.
+     * @param userRepository the user repository
      */
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
     }
 
-    //Todo: Arver dokumentasjon fra interfacet.
+
     @Override
     public List<User> getAllUsers(){
         ///todo: Ikke cast om du ikke må. dette kan føre til mange nasty bugs. Dette er casting: (List<User>)
         return (List<User>) userRepository.findAll();
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
-    public User findUserById(int id){
-        //Optional<User> user = userRepository.findById(id);
-        //return user.get();
-        return null;
+
+    @Override
+    public User findUserById(long userId){
+        Optional<User> user = userRepository.findById(userId);
+        return user.get();
     }
 
 
@@ -52,16 +48,13 @@ public class UserService implements UserRegister {
     }
 
 
-    public void removeUserWithId(int userId) {
-        //Optional<User> user = userRepository.findById(userId);
-        //user.ifPresent(value -> userRepository.delete(value));
-
-    }
-
     @Override
-    public Optional<User> findUserByID(int userId) {
-        return Optional.empty();
+    public void removeUserWithId(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        user.ifPresent(value -> userRepository.delete(value));
+
     }
+
 
     @Override
     public User findAll() {
