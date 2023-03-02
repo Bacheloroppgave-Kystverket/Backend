@@ -35,8 +35,6 @@ public class UserService implements UserRegister {
     }
 
 
-
-    //Todo: Jeg gjorde denne metoden for å vise deg.
     @Override
     public void addNewUser(User user) throws CouldNotAddUserException {
         checkIfObjectIsNull(user, "user");
@@ -56,10 +54,6 @@ public class UserService implements UserRegister {
     }
 
 
-    @Override
-    public User findAll() {
-        return null;
-    }
 
     /**
      * Checks if an object is null.

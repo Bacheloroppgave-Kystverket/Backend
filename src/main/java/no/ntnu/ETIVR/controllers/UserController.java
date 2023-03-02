@@ -21,7 +21,7 @@ UserController {
 
 
     /**
-     *
+     * The constructor of the class.
      * @param userService
      */
     public UserController(UserService userService) {
@@ -31,16 +31,17 @@ UserController {
     @GetMapping
 
     /**
-     *
+     * Gets the users from the list.
+     * @return returns all users
      */
     public List<User> getUser() {
         return userService.getAllUsers();
     }
 
     /**
-     *
-     * @param userId
-     * @return
+     * Gets one User by id.
+     * @param userId the userid to find one user
+     * @return the response if they find a user or not.
      */
     @GetMapping
     public ResponseEntity<User> getOneUser(@PathParam("user") @PathVariable("id") int userId){
@@ -73,11 +74,11 @@ UserController {
     }
 
     /**
-     *
-     * @param userId
+     * Deletes a user by userId
+     * @param userId finding the id of the user you want to delete.
      */
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable("id") int userId){
+    public void deleteUser(@PathVariable("id") long userId){
         userService.removeUserWithId(userId);
     }
 

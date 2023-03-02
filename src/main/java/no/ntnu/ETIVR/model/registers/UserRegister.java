@@ -11,7 +11,8 @@ public interface UserRegister {
 
 
     /**
-     * @return
+     * Gets all users.
+     * @return returns all users
      */
     List<User> getAllUsers();
 
@@ -24,7 +25,7 @@ public interface UserRegister {
 
 
     /**
-     *
+     * Finding the user by id.
      * @param userId the userId to find the user.
      * @return returns the user.
      * @throws CouldNotGetUserException gets thrown if the user could not be found.
@@ -34,18 +35,12 @@ public interface UserRegister {
 
 
     /**
-     *
+     * Removes User wit ID. and throws exception
      * @param userId
      * @throws CouldNotRemoveUserException
      */
     void removeUserWithId(long userId) throws CouldNotRemoveUserException;
 
-
-    /**
-     *
-     * @return
-     */
-    User findAll();
 
 
 
