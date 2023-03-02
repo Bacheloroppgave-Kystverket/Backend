@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SessionService implements SessionRegister {
     private final SessionRepository sessionRepository;
 
