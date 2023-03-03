@@ -96,4 +96,13 @@ public abstract class DefaultTest {
     stringBuilder.append("\n").append(errorPrefix).append(" ").append(error);
     errors++;
   }
+
+  /**
+   * Makes a could not get default string.
+   * @param defaultString the default string
+   * @return the new could not get default string.
+   */
+  protected String makeCouldNotGetDefaultString(String defaultString){
+    return "Default " + defaultString + " could not be added. ";
+  }
 }

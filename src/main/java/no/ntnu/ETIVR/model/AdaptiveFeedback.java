@@ -1,48 +1,66 @@
 package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.sound.midi.Track;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
 @Entity
-public class Feedback {
+public class AdaptiveFeedback {
 
   @Id
   @GeneratedValue
   private int feedbackId;
 
+  private String positionName;
+
+  private float positionTime;
+
   @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "calculatedFeedbacks", joinColumns = @JoinColumn(name = "feedbackId"))
-  private List<CalculatedFeedback> feedbackList;
+  private List<CategoryFeedback> feedbackList;
 
   /**
    * Makes an instance of the Feedback class.
    */
-  public Feedback(){
+  public AdaptiveFeedback(){
     
   }
 
   /**
    * Makes an instance of the Feedback class.
+   * @param positionName the name of the position.
+   * @param positionTime the time of the position.
    * @param feedbackList the feedback list.
    */
-  public Feedback(@JsonProperty("feedbackList") List<CalculatedFeedback> feedbackList){
+  public AdaptiveFeedback(@JsonProperty("positionName") String positionName,
+                          @JsonProperty("positionTime") float positionTime ,
+                          @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList){
     checkIfObjectIsNull(feedbackList, "feedback list");
+    checkString(positionName, "position name");
+    checkFloat(positionTime, "Position time");
     this.feedbackList = feedbackList;
+  }
+
+  /**
+   * Checks if a float is above zero.
+   * @param numberToCheck the number to check.
+   * @param error the error.
+   */
+  private void checkFloat(float numberToCheck, String error){
+    if(numberToCheck < 0){
+      throw new IllegalArgumentException("The " + error + " cannot be below zero");
+    }
   }
 
   /**

@@ -31,15 +31,14 @@ public class CalculatedFeedbackTest extends DefaultTest{
     @DisplayName("Tests if the constructor works with valid input")
     public void testIfConstructorWorksWithValidInput(){
         TrackableType trackableType = TrackableType.CUBE;
-        float prosentage = 1f;
-        CalculatedFeedback calculatedFeedback;
+        float prosentage = 0f;
+        CategoryFeedback categoryFeedback;
         try{
-            calculatedFeedback = new CalculatedFeedback(trackableType, prosentage);
+            categoryFeedback = new CategoryFeedback(trackableType, prosentage);
         }catch (IllegalArgumentException exception){
             addErrorWithException("Expected the calculated feedback to be made", "since the input is valid", exception);
         }
     }
-
 
     /**
      * Tests if the constructor works with invalid input.
@@ -49,13 +48,13 @@ public class CalculatedFeedbackTest extends DefaultTest{
     public void testIfConstructorWorksWithInvalidInput(){
         TrackableType trackableType = TrackableType.CUBE;
         float prosentage = 1f;
-        CalculatedFeedback calculatedFeedback;
+        CategoryFeedback categoryFeedback;
         try {
-            calculatedFeedback = new CalculatedFeedback(null, prosentage);
+            categoryFeedback = new CategoryFeedback(null, prosentage);
             addError(getIllegalPrefix(), "the trackable type is null");
         }catch (IllegalArgumentException exception){}
         try{
-            calculatedFeedback = new CalculatedFeedback(trackableType, -2f);
+            categoryFeedback = new CategoryFeedback(trackableType, -2f);
             addError(getIllegalPrefix(), "the input prosentage is negative");
         }catch (IllegalArgumentException exception){}
     }

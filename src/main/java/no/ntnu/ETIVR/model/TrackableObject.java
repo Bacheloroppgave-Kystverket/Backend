@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -42,7 +43,10 @@ public class TrackableObject {
      * Constructor with parameters
      * @param nameOfObject String
      */
-    public TrackableObject(String nameOfObject, TrackableType trackableType, ViewDistance viewDistance, long trackableObjectID) {
+    public TrackableObject(@JsonProperty("nameOfObject") String nameOfObject,
+                           @JsonProperty("trackableType") TrackableType trackableType,
+                           @JsonProperty("viewDistance") ViewDistance viewDistance,
+                           @JsonProperty("trackableObjectID") long trackableObjectID) {
         checkString(nameOfObject, "name of object");
         this.nameOfObject = nameOfObject;
 

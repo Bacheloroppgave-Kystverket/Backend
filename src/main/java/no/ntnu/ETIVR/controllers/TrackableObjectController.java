@@ -3,18 +3,12 @@ package no.ntnu.ETIVR.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
-import java.util.Map;
-import javax.sound.midi.Track;
-import no.ntnu.ETIVR.model.Feedback;
-import no.ntnu.ETIVR.model.TrackableObject;
+
+import no.ntnu.ETIVR.model.AdaptiveFeedback;
 import no.ntnu.ETIVR.model.TrackableType;
-import no.ntnu.ETIVR.model.services.TrackableObjectsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * REST API Controller for trackable objects
@@ -91,9 +85,9 @@ public class TrackableObjectController {
 
     }
 
-    private Feedback makeFeedback(String body) throws JsonProcessingException {
+    private AdaptiveFeedback makeFeedback(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue(body, Feedback.class);
+        return objectMapper.readValue(body, AdaptiveFeedback.class);
     }
 
     public static void main(String[] args) {

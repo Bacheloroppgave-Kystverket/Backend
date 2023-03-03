@@ -8,6 +8,8 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import java.util.List;
 
 public interface SessionRegister {
+
+
     void addSession(Session session) throws CouldNotAddSessionException;
 
     void removeSession(Session session) throws CouldNotRemoveSessionException;

@@ -2,9 +2,6 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.HashMap;
-import no.ntnu.ETIVR.model.Feedback;
-import no.ntnu.ETIVR.model.TrackableType;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import no.ntnu.ETIVR.model.Session;

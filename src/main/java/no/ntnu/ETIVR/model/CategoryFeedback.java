@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
 
@@ -8,29 +9,29 @@ import javax.persistence.Enumerated;
  * @version 0.1
  */
 @Embeddable
-public class CalculatedFeedback {
+public class CategoryFeedback {
 
   @Enumerated
   private TrackableType trackableType;
 
-  private float prosentage;
+  private float time;
 
   /**
    * Makes an instance of the CalculatedFeedback class.
    */
-  public CalculatedFeedback() {
+  public CategoryFeedback() {
 
   }
 
   /**
    * Makes an instance of the Calculated Feedback
    * @param trackableType the trackable type.
-   * @param prosentage the type.
+   * @param time the time.
    */
-  public CalculatedFeedback(TrackableType trackableType, float prosentage){
+  public CategoryFeedback(@JsonProperty("trackableType") TrackableType trackableType, @JsonProperty("time") float time){
     checkIfObjectIsNull(trackableType, "trackable type");
-    checkFloat(prosentage, "prosentage");
-    this.prosentage = prosentage;
+    checkFloat(time, "time");
+    this.time = time;
     this.trackableType = trackableType;
   }
 

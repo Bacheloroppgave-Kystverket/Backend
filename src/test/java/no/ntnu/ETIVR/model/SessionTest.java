@@ -30,9 +30,9 @@ class SessionTest extends DefaultTest{
     void testConstructorValidInput() {
         List<TrackableObject> trackableObjects = new ArrayList<>();
         List<ReferencePosition> referencePositions = new ArrayList<>();
-        List<Feedback> feedbackLog = new ArrayList<>();
+        List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
         try{
-            Session session = new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, feedbackLog, new LinkedList<>());
+            Session session = new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog, new LinkedList<>());
         } catch (IllegalArgumentException e) {
             addErrorWithException("Expected the session", "to made", e);
         }
@@ -48,25 +48,25 @@ class SessionTest extends DefaultTest{
         long sessionId = 2L;
         int userId = 1;
         List<ReferencePosition> referencePositions = new ArrayList<>();
-        List<Feedback> feedbackLog = new ArrayList<>();
+        List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
         List<FeedbackConfiguration> feedbackConfigurations = new LinkedList<>();
 
         Session session;
 
         try{
-            session = new Session(currentDate, -1, trackableObjects, sessionId, referencePositions, feedbackLog, feedbackConfigurations);
+            session = new Session(currentDate, -1, trackableObjects, sessionId, referencePositions, adaptiveFeedbackLog, feedbackConfigurations);
             addError(getIllegalPrefix(), "the user id cannot be under 0");
         } catch (IllegalArgumentException e) {}
         try {
-            session = new Session(currentDate, userId, null, sessionId, referencePositions, feedbackLog,feedbackConfigurations);
+            session = new Session(currentDate, userId, null, sessionId, referencePositions, adaptiveFeedbackLog,feedbackConfigurations);
             addError(getIllegalPrefix(), "the trackable objects cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
-            session = new Session(currentDate, userId, trackableObjects, -4L, referencePositions, feedbackLog, feedbackConfigurations);
+            session = new Session(currentDate, userId, trackableObjects, -4L, referencePositions, adaptiveFeedbackLog, feedbackConfigurations);
             addError(getIllegalPrefix(), "the session id cannot be 0");
         } catch (IllegalArgumentException e) {}
         try {
-            session = new Session(currentDate, userId, trackableObjects, sessionId, null, feedbackLog, feedbackConfigurations);
+            session = new Session(currentDate, userId, trackableObjects, sessionId, null, adaptiveFeedbackLog, feedbackConfigurations);
             addError(getIllegalPrefix(), "the reference position cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
@@ -74,7 +74,7 @@ class SessionTest extends DefaultTest{
             addError(getIllegalPrefix(), "the feedback log cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
-            session = new Session(currentDate, userId, trackableObjects, sessionId, referencePositions, feedbackLog, null);
+            session = new Session(currentDate, userId, trackableObjects, sessionId, referencePositions, adaptiveFeedbackLog, null);
             addError(getIllegalPrefix(), "the feedback configuration is invalid");
         }catch (IllegalArgumentException exception){}
     }

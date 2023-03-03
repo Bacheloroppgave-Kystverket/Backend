@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 @Entity
 public class Session {
@@ -43,9 +42,9 @@ public class Session {
     @CollectionTable(name = "sessionFeedbackConfiguration", joinColumns = @JoinColumn(name = "sessionId"))
     private List<FeedbackConfiguration> feedbackConfigurations;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Feedback.class)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
     @JoinColumn(name = "sessionId")
-    private List<Feedback> feedbackLog;
+    private List<AdaptiveFeedback> adaptiveFeedbackLog;
 
 
     public Session() {
@@ -61,7 +60,7 @@ public class Session {
                    @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
                    @JsonProperty("sessionID") long sessionId,
                    @JsonProperty("referencePositions") List<ReferencePosition> referencePositions,
-                   @JsonProperty("feedbackLog") List<Feedback> feedbackLog,
+                   @JsonProperty("feedbackLog") List<AdaptiveFeedback> adaptiveFeedbackLog,
                    @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurations) {
 
         this.currentDate = currentDate;
@@ -78,8 +77,8 @@ public class Session {
         checkIfObjectIsNull(referencePositions, "reference position");
         this.referencePositions = referencePositions;
 
-        checkIfObjectIsNull(feedbackLog, "feedback log");
-        this.feedbackLog = feedbackLog;
+        checkIfObjectIsNull(adaptiveFeedbackLog, "feedback log");
+        this.adaptiveFeedbackLog = adaptiveFeedbackLog;
 
         checkIfObjectIsNull(feedbackConfigurations, "feedback configurations");
         this.feedbackConfigurations = feedbackConfigurations;
@@ -169,16 +168,16 @@ public class Session {
      * Get feedback log
      * @return feedback log
      */
-    public List<Feedback> getFeedbackLog() {
-        return feedbackLog;
+    public List<AdaptiveFeedback> getFeedbackLog() {
+        return adaptiveFeedbackLog;
     }
 
     /**
      * Set feedback log
-     * @param feedbackLog list of feedback logs
+     * @param adaptiveFeedbackLog list of feedback logs
      */
-    public void setFeedbackLog(List<Feedback> feedbackLog) {
-        this.feedbackLog = feedbackLog;
+    public void setFeedbackLog(List<AdaptiveFeedback> adaptiveFeedbackLog) {
+        this.adaptiveFeedbackLog = adaptiveFeedbackLog;
     }
 
 

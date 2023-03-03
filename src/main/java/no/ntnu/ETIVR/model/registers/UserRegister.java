@@ -8,8 +8,7 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveUserException;
 
 public interface UserRegister {
-
-
+    
     /**
      * Gets all users.
      * @return returns all users

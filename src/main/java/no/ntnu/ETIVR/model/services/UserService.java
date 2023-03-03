@@ -8,6 +8,7 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.repository.UserRepository;
 
+
 public class UserService implements UserRegister {
 
     private final UserRepository userRepository;

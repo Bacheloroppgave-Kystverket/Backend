@@ -34,7 +34,7 @@ public class ReferencePositionTest extends DefaultTest {
     float positionDuration = 10f;
     ReferencePosition referencePosition;
     try {
-      referencePosition = new ReferencePosition(0, locationName, positionDuration);
+      referencePosition = new ReferencePosition(-1, locationName, positionDuration);
       addError(getIllegalPrefix(), "the input location id is 0");
     }catch (IllegalArgumentException exception){}
     try {

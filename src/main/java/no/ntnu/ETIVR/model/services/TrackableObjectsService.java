@@ -9,7 +9,9 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotGetTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveTrackableObjectException;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.repository.TrackableObjectsRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TrackableObjectsService implements TrackableObjectRegister {
     private final TrackableObjectsRepository trackableObjectsRepository;
 
@@ -22,12 +24,8 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         this.trackableObjectsRepository = trackableObjectsRepository;
     }
 
-    /**
-     * Add new trackable objects
-     * @param trackableObject Trackable objects
-     */
     @Override
-    public void addTrackableObjects(TrackableObject trackableObject) throws CouldNotAddTrackableObjectException {
+    public void addTrackableObject(TrackableObject trackableObject) throws CouldNotAddTrackableObjectException {
         checkIfTrackableObjectIsValid(trackableObject);
         if (!trackableObjectsRepository.existsById(trackableObject.getTrackableObjectID())) {
             trackableObjectsRepository.save(trackableObject);
@@ -36,10 +34,6 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         }
     }
 
-    /**
-     * Delete a trackable object
-     * @param trackableObject TrackableObject
-     */
     @Override
     public void removeTrackableObject(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException {
         checkIfTrackableObjectIsValid(trackableObject);
@@ -51,14 +45,21 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         }
     }
 
-    /**
-     * Get trackable object by ID
-     * @param trackableObjectID long
-     * @return Trackable object if it exists
-     * @throws CouldNotGetTrackableObjectException if it is not found in the system
-     */
+    @Override
+    public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
+        checkIfNumberIsAboveZero(trackableObjectID);
+        if(trackableObjectsRepository.existsById(trackableObjectID)) {
+            trackableObjectsRepository.deleteById(trackableObjectID);
+        }
+        else {
+            throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
+        }
+    }
+
+
     @Override
     public TrackableObject getTrackableObjectById(long trackableObjectID) throws CouldNotGetTrackableObjectException {
+        checkIfNumberIsAboveZero(trackableObjectID);
         Optional<TrackableObject> optionalTrackableObject = trackableObjectsRepository.findById(trackableObjectID);
         if (optionalTrackableObject.isEmpty()) {
             throw new CouldNotGetTrackableObjectException("The trackable object with this ID " + trackableObjectID + " is not found in the system");
@@ -66,10 +67,6 @@ public class TrackableObjectsService implements TrackableObjectRegister {
         return optionalTrackableObject.get();
     }
 
-    /**
-     * Get all trackable objects
-     * @return list of trackable objects
-     */
     @Override
     public List<TrackableObject> getAllTrackableObjects() {
         return iterableToList(trackableObjectsRepository.findAll());
@@ -80,26 +77,10 @@ public class TrackableObjectsService implements TrackableObjectRegister {
      * @param iterable Iterable
      * @return the list
      */
-    public List<TrackableObject> iterableToList(Iterable<TrackableObject> iterable) {
+    private List<TrackableObject> iterableToList(Iterable<TrackableObject> iterable) {
         List<TrackableObject> list = new LinkedList<>();
         iterable.forEach(list::add);
         return list;
-    }
-
-
-    /**
-     * Remove trackable object with ID
-     * @param trackableObjectID long
-     * @throws CouldNotRemoveTrackableObjectException gets thrown if it is not in the system
-     */
-    public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
-        checkIfNumberIsAboveZero(trackableObjectID);
-        if(trackableObjectsRepository.existsById(trackableObjectID)) {
-            trackableObjectsRepository.deleteById(trackableObjectID);
-        }
-        else {
-            throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
-        }
     }
 
     /**
