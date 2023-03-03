@@ -7,8 +7,9 @@ import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class UserService implements UserRegister {
 
     private final UserRepository userRepository;
