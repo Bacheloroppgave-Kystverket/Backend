@@ -38,10 +38,6 @@ public class Session {
     @JoinColumn(name = "sessionId")
     private List<ReferencePosition> referencePositions;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "sessionFeedbackConfiguration", joinColumns = @JoinColumn(name = "sessionId"))
-    private List<FeedbackConfiguration> feedbackConfigurations;
-
     @OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
     @JoinColumn(name = "sessionId")
     private List<AdaptiveFeedback> adaptiveFeedbackLog;
@@ -54,14 +50,17 @@ public class Session {
      * Constructor with parameters
      * @param trackableObjects list of objects to be tracked
      * @param sessionId unique id for user
+     * @param adaptiveFeedbackLog the adaptive feedback log
+     * @param currentDate the current date.
+     * @param referencePositions the reference positions,
+     * @param userId the user id.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
                    @JsonProperty("userID") int userId,
                    @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
                    @JsonProperty("sessionID") long sessionId,
                    @JsonProperty("referencePositions") List<ReferencePosition> referencePositions,
-                   @JsonProperty("feedbackLog") List<AdaptiveFeedback> adaptiveFeedbackLog,
-                   @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurations) {
+                   @JsonProperty("feedbackLog") List<AdaptiveFeedback> adaptiveFeedbackLog) {
 
         this.currentDate = currentDate;
 
@@ -79,9 +78,6 @@ public class Session {
 
         checkIfObjectIsNull(adaptiveFeedbackLog, "feedback log");
         this.adaptiveFeedbackLog = adaptiveFeedbackLog;
-
-        checkIfObjectIsNull(feedbackConfigurations, "feedback configurations");
-        this.feedbackConfigurations = feedbackConfigurations;
     }
 
     /**
@@ -183,7 +179,6 @@ public class Session {
 
     /**
      * Checks if a string is of a valid format or not.
-     *
      * @param stringToCheck the string you want to check.
      * @param errorPrefix   the error the exception should have if the string is invalid.
      */

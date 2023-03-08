@@ -111,8 +111,8 @@ public class TrackableObject {
     }
 
     /**
-     * Get gaze list
-     * @return gaze list
+     * Get the gaze list.
+     * @return gaze list.
      */
     public List<GazeData> getGazeList() {
         return gazeList;
@@ -146,7 +146,7 @@ public class TrackableObject {
      * @param error exception message to be displayed.
      */
     private void checkIfNumberNotNegative(long object, String error) {
-        if (object <= 0) {
+        if (object < 0) {
             throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
         }
     }

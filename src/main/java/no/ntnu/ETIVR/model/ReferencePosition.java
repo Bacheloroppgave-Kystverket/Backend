@@ -2,10 +2,15 @@ package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.ref.Reference;
+import java.util.List;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -22,6 +27,10 @@ public class ReferencePosition {
 
   private float positionDuration;
 
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "feedbackConfigurations", joinColumns = @JoinColumn(name = "locationId"))
+  private List<FeedbackConfiguration> feedbackConfigurations;
+
   /**
    * Makes an instance of the ReferencePosition class.
    */
@@ -30,19 +39,24 @@ public class ReferencePosition {
   }
 
   /**
-   * Makes an instance of the reference position.
+   * Makes an instance of the reference position
    * @param locationId the id of the location
    * @param locationName the name of the location
    * @param positionDuration the time spent at position
+   * @param feedbackConfigurationList the feedback configuration list
    */
-  public ReferencePosition(@JsonProperty("locationID") long locationId,@JsonProperty("locationName") String locationName,
-                           @JsonProperty("positionDuration") float positionDuration){
+  public ReferencePosition(@JsonProperty("locationID") long locationId,
+                           @JsonProperty("locationName") String locationName,
+                           @JsonProperty("positionDuration") float positionDuration,
+                           @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurationList){
     checkFloat(locationId, "location ID");
     checkString(locationName, "location name");
     checkFloat(positionDuration, "position duration");
+    checkIfObjectIsNull(feedbackConfigurationList, "feedback configurations");
     this.locationId = locationId;
     this.locationName = locationName;
     this.positionDuration = positionDuration;
+    this.feedbackConfigurations = feedbackConfigurationList;
   }
 
   /**
