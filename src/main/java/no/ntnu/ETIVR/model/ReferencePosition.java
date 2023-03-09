@@ -65,7 +65,7 @@ public class ReferencePosition {
    * @param error the error.
    */
   public void checkFloat(float numberToCheck, String error){
-    if(numberToCheck < 0){
+    if(numberToCheck <= 0){
       throw new IllegalArgumentException("The " + error + " cannot be below zero");
     }
   }

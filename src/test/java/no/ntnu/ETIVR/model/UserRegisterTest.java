@@ -44,7 +44,7 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
         super();
         this.userRegister = userService;
         checkIfUserIsNull(userService, "User register");
-        removeException = "maksesExceptionString()";
+        removeException = "makesExceptionString()";
     }
 
     @Override
@@ -108,7 +108,7 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
     }
 
     @Test
-    @DisplayName("Tests if add user worsk with valid input")
+    @DisplayName("Tests if add user works with valid input")
     public void testIfAddUserWorksWithValidInput() {
         try {
             userRegister.addNewUser(null);
