@@ -2,6 +2,7 @@ package no.ntnu.ETIVR.controllers;
 
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,11 +47,11 @@ UserController {
     @GetMapping
     public ResponseEntity<User> getOneUser(@PathParam("user") @PathVariable("id") int userId){
         ResponseEntity<User> response;
-        User user = userService.findUserById(userId);
-        if(user != null){
-            response = new ResponseEntity<>(user, HttpStatus.OK);
 
-        }else {
+        try{
+            User user = userService.findUserById(userId);
+            response = new ResponseEntity<>(user, HttpStatus.OK);
+        }catch (CouldNotGetUserException exception){
             response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return response;
