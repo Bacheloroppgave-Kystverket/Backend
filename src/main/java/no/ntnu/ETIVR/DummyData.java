@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 @Profile("!test")
 public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private final TrackableObjectRepository trackableObjectRepository;
-    TrackableObjectsService trackableObjectsService;
+    private TrackableObjectsService trackableObjectsService;
 
     private final Logger logger = Logger.getLogger("DummyInit");
 

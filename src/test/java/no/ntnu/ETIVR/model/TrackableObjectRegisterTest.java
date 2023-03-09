@@ -70,7 +70,6 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
      * @param error  the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
@@ -86,7 +85,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      * @return the default trackable object.
      */
     private TrackableObject makeDefaultTrackableObject(){
-        return new TrackableObject("hei", TrackableType.CUBE, ViewDistance.CLOSE, 5000);
+        return new TrackableObject("hei", TrackableType.CUBE, ViewDistance.CLOSE, 500000);
     }
 
     @Override
