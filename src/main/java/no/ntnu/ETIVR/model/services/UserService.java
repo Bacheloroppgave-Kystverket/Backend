@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,14 @@ public class UserService implements UserRegister {
 
 
     @Override
-    public User findUserById(long userId){
+    public User findUserById(long userId) throws CouldNotGetUserException {
+        if(userId < 0){
+            throw new IllegalArgumentException("UserId can not be less then 0");
+        }
         Optional<User> user = userRepository.findById(userId);
+        if(user.isEmpty()){
+            throw new CouldNotGetUserException("User is not found");
+        }
         return user.get();
     }
 

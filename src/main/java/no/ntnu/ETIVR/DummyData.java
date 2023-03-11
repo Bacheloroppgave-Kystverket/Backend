@@ -20,13 +20,12 @@ import java.util.logging.Logger;
 @Component
 @Profile("!test")
 public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
-    private final TrackableObjectRepository trackableObjectRepository;
     private TrackableObjectsService trackableObjectsService;
 
     private final Logger logger = Logger.getLogger("DummyInit");
 
-    public DummyData(TrackableObjectRepository trackableObjectRepository, TrackableObjectsService trackableObjectsService){
-        this.trackableObjectRepository = trackableObjectRepository;
+    public DummyData(TrackableObjectsService trackableObjectsService){
+        this.trackableObjectsService = trackableObjectsService;
         try {
             addTestTrackableObject(trackableObjectsService);
         } catch (CouldNotAddTrackableObjectException couldNotAddTrackableObjectException){
@@ -37,13 +36,18 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     @Override
     @SneakyThrows
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        if (trackableObjectRepository.count() > 0) {
+        if (!trackableObjectsService.getAllTrackableObjects().isEmpty()) {
             logger.info("Data already exists");
-            return;
+        } else {
+            logger.info("importing test data...");
         }
-        logger.info("importing test data...");
     }
 
+    /**
+     * Adding trackable object test data
+     * @param trackableObjectRegister Track
+     * @throws CouldNotAddTrackableObjectException
+     */
     public void addTestTrackableObject(TrackableObjectRegister trackableObjectRegister) throws CouldNotAddTrackableObjectException {
         checkIfObjectIsNull(trackableObjectRegister);
         List<TrackableObject> trackableObjects = new ArrayList<>();

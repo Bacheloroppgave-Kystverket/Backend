@@ -214,7 +214,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
         try {
             trackableObjectRegister.getTrackableObjectById(trackableObjectInRegister.getTrackableObjectID());
         }catch (IllegalArgumentException | CouldNotGetTrackableObjectException exception){
-            addErrorWithException("Expected the trackable object to be recived since", "the input is valid", exception);
+            addErrorWithException("Expected the trackable object to be received since", "the input is valid", exception);
         }
     }
 

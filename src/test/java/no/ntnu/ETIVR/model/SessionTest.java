@@ -26,7 +26,7 @@ class SessionTest extends DefaultTest{
     }
 
     @Test
-    @DisplayName("Tests if the constructor works with invalid input")
+    @DisplayName("Tests if the constructor works with valid input")
     void testConstructorValidInput() {
         List<TrackableObject> trackableObjects = new ArrayList<>();
         List<ReferencePosition> referencePositions = new ArrayList<>();
@@ -41,7 +41,7 @@ class SessionTest extends DefaultTest{
 
 
     @Test
-    @DisplayName("Tests if the constructor works with valid input")
+    @DisplayName("Tests if the constructor works with invalid input")
     void testConstructorInvalidInput() {
         LocalDateTime currentDate = LocalDateTime.now();
         List<TrackableObject> trackableObjects = new ArrayList<>();
