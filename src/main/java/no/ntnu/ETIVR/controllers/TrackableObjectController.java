@@ -67,7 +67,7 @@ public class TrackableObjectController {
 
     /**
      * Add a trackable object
-     * @param trackableObject trackable object to be added
+     * @param body trackable object to be added as JSon
      * @return HTTP response OK if added, HTTP response BAD REQUEST if not
      */
     @PutMapping
@@ -88,12 +88,6 @@ public class TrackableObjectController {
     private AdaptiveFeedback makeFeedback(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(body, AdaptiveFeedback.class);
-    }
-
-    public static void main(String[] args) {
-        HashMap<TrackableType, Float> maps = new HashMap<>();
-        maps.put(TrackableType.CUBE, 10f);
-        System.out.println(maps);
     }
 
 

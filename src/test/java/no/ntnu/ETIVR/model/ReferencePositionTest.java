@@ -35,7 +35,7 @@ public class ReferencePositionTest extends DefaultTest {
     String locationName = "Position 1";
     float positionDuration = 10f;
     List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
-    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.SPHERE, 0.1f));
+    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
       referencePosition = new ReferencePosition(-1, locationName, positionDuration, feedbackConfigurationList);
@@ -71,7 +71,7 @@ public class ReferencePositionTest extends DefaultTest {
     String locationName = "Position 1";
     Float positionDuration = 10f;
     List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
-    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.SPHERE, 0.1f));
+    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
       referencePosition = new ReferencePosition(locationId, locationName, positionDuration, feedbackConfigurationList);

@@ -29,7 +29,7 @@ public class FeedbackTest extends  DefaultTest {
     @DisplayName("Tests if the constructor works with valid input")
     @Test
     public void testIfConstructorWorksWithValidInput(){
-        TrackableType trackableType = TrackableType.CUBE;
+        TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
         try{
             FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(trackableType, threshold);
@@ -45,7 +45,7 @@ public class FeedbackTest extends  DefaultTest {
     @DisplayName("Tests if the constructor works with invalid input.")
     @Test
     public void testIfConstructorWorksWithInvalidInput(){
-        TrackableType trackableType = TrackableType.CUBE;
+        TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
         try{
             FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(null, threshold);

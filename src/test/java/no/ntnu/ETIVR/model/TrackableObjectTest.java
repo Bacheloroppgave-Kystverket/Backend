@@ -42,7 +42,7 @@ class TrackableObjectTest extends DefaultTest{
             addError(getIllegalPrefix(), "the view distance of the object cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
-            trackableObject = new TrackableObject(nameOfObject, trackableType, viewDistance, 0L);
+            trackableObject = new TrackableObject(nameOfObject, trackableType, viewDistance, -1L);
             addError(getIllegalPrefix(), "the trackable object id of the object cannot be 0");
         } catch (IllegalArgumentException e) {}
     }

@@ -30,7 +30,7 @@ public class CalculatedFeedbackTest extends DefaultTest{
     @Test
     @DisplayName("Tests if the constructor works with valid input")
     public void testIfConstructorWorksWithValidInput(){
-        TrackableType trackableType = TrackableType.CUBE;
+        TrackableType trackableType = TrackableType.WALL;
         float prosentage = 0f;
         CategoryFeedback categoryFeedback;
         try{
@@ -46,7 +46,7 @@ public class CalculatedFeedbackTest extends DefaultTest{
     @DisplayName("Tests if the constructor works with invalid input")
     @Test
     public void testIfConstructorWorksWithInvalidInput(){
-        TrackableType trackableType = TrackableType.CUBE;
+        TrackableType trackableType = TrackableType.WALL;
         float prosentage = 1f;
         CategoryFeedback categoryFeedback;
         try {
