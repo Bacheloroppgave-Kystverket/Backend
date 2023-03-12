@@ -12,6 +12,8 @@ import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
+
 @Service
 public class SessionService implements SessionRegister {
     private final SessionRepository sessionRepository;
@@ -45,6 +47,16 @@ public class SessionService implements SessionRegister {
     }
 
     @Override
+    public void removeSessionByID(long sessionID) throws CouldNotRemoveSessionException {
+        checkIfNumberIsAboveZero(sessionID);
+        if(sessionRepository.existsById(sessionID)) {
+            sessionRepository.deleteById(sessionID);
+        } else {
+            throw new CouldNotRemoveSessionException("the session with the ID " + sessionID + " is not in the system");
+        }
+    }
+
+    @Override
     public Session getSessionById(long sessionID) throws CouldNotGetSessionException {
         checkIfObjectIsNull(sessionID, "session ID");
         Optional<Session> optionalSession = sessionRepository.findById(sessionID);
@@ -69,6 +81,16 @@ public class SessionService implements SessionRegister {
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
+
+    /**
+     * Checks if the input number is above zero.
+     * @param numberToCheck the number to check.
+     */
+    private void checkIfNumberIsAboveZero(long numberToCheck){
+        if (numberToCheck <= 0){
+            throw new IllegalArgumentException("The " + "trackable object" + " must be larger than zero.");
         }
     }
 }

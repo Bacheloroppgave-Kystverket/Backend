@@ -3,9 +3,12 @@ package no.ntnu.ETIVR.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
+import java.util.List;
 
 import no.ntnu.ETIVR.model.AdaptiveFeedback;
+import no.ntnu.ETIVR.model.TrackableObject;
 import no.ntnu.ETIVR.model.TrackableType;
+import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,59 +18,63 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/trackableObject")
+@CrossOrigin
 public class TrackableObjectController {
 
-    //private final TrackableObjectsService trackableObjectsService;
+    private final TrackableObjectsService trackableObjectsService;
 
-    public TrackableObjectController() {
-        //TrackableObjectsService trackableObjectsService
-        //this.trackableObjectsService = trackableObjectsService;
+    public TrackableObjectController(TrackableObjectsService trackableObjectsService) {
+        this.trackableObjectsService = trackableObjectsService;
     }
 
-//    /**
-//     * Get all available data
-//     * @return list of trackable objects
-//     */
-//    @GetMapping
-//    public List<TrackableObject> getAll() {return trackableObjectsService.getAll();}
-//
-//    /**
-//     * Get a specific trackable object by name
-//     * @param name String
-//     * @return Trackable object with the given name, or status 404
-//     */
-//    @GetMapping("/id")
-//    public ResponseEntity<TrackableObject> getOne(@PathVariable String name) {
-//        ResponseEntity<TrackableObject> response;
-//        TrackableObject trackableObject = trackableObjectsService.findTrackableObjectByName(name);
-//        if (trackableObject != null) {
-//            response = new ResponseEntity<>(trackableObject, HttpStatus.OK);
-//        } else {
-//            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//        return  response;
-//    }
-//
-//    /**
-//     * Delete trackable object
-//     * @param trackableObject trackable object to be deleted
-//     * @return HTTP response OK if deleted, HTTP response NOT FOUND if not found
-//     */
-//    @DeleteMapping
-//    public ResponseEntity<String> delete(@PathVariable TrackableObject trackableObject) {
-//        ResponseEntity<String> response;
-//        if (trackableObjectsService.deleteTrackableObject(trackableObject)) {
-//            response = new ResponseEntity<>(HttpStatus.OK);
-//        }
-//        else {
-//            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        } return response;
-//    }
+/**
+     * Get all available data
+     * @return list of trackable objects
+     */
+    @GetMapping
+    public List<TrackableObject> getAll() {return trackableObjectsService.getAllTrackableObjects();}
+
+/*    *//**
+     * Get a specific trackable object by name
+     * @param name String
+     * @return Trackable object with the given name, or status 404
+     *//*
+    @GetMapping("/id")
+    public ResponseEntity<TrackableObject> getOne(@PathVariable String name) {
+        ResponseEntity<TrackableObject> response;
+        TrackableObject trackableObject = trackableObjectsService.;
+        if (trackableObject != null) {
+            response = new ResponseEntity<>(trackableObject, HttpStatus.OK);
+        } else {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return  response;
+    }*/
+
+/*
+    */
+/**
+     * Delete trackable object
+     * @param trackableObject trackable object to be deleted
+     * @return HTTP response OK if deleted, HTTP response NOT FOUND if not found
+     *//*
+
+    @DeleteMapping
+    public ResponseEntity<String> delete(@PathVariable TrackableObject trackableObject) {
+        ResponseEntity<String> response;
+        if (trackableObjectsService.deleteTrackableObject(trackableObject)) {
+            response = new ResponseEntity<>(HttpStatus.OK);
+        }
+        else {
+            response = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } return response;
+    }
+*/
 
 
     /**
      * Add a trackable object
-     * @param body trackable object to be added as JSon
+     * @param body String
      * @return HTTP response OK if added, HTTP response BAD REQUEST if not
      */
     @PutMapping
@@ -88,6 +95,12 @@ public class TrackableObjectController {
     private AdaptiveFeedback makeFeedback(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(body, AdaptiveFeedback.class);
+    }
+
+    public static void main(String[] args) {
+        HashMap<TrackableType, Float> maps = new HashMap<>();
+        maps.put(TrackableType.CUBE, 10f);
+        System.out.println(maps);
     }
 
 
