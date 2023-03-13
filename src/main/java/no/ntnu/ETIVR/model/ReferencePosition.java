@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.ref.Reference;
 import java.util.List;
@@ -23,8 +24,10 @@ public class ReferencePosition {
   @GeneratedValue
   private long locationId;
 
+  @JsonInclude
   private String locationName;
 
+  @JsonInclude
   private float positionDuration;
 
   @ElementCollection(fetch = FetchType.EAGER)
@@ -60,12 +63,28 @@ public class ReferencePosition {
   }
 
   /**
+   * Gets the name of the location.
+   * @return the location name.
+   */
+  public String getLocationName(){
+    return locationName;
+  }
+
+  /**
+   * Gets the position duration.
+   * @return the position duration.
+   */
+  public float getPositionDuration(){
+    return positionDuration;
+  }
+
+  /**
    * Checks if a float is above zero.
    * @param numberToCheck the number to check.
    * @param error the error.
    */
   public void checkFloat(float numberToCheck, String error){
-    if(numberToCheck <= 0){
+    if(numberToCheck < 0){
       throw new IllegalArgumentException("The " + error + " cannot be below zero");
     }
   }

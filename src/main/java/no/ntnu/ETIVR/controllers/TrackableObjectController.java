@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * REST API Controller for trackable objects
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/trackableObject")
 public class TrackableObjectController {
 

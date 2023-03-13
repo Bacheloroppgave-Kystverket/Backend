@@ -10,9 +10,12 @@ import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/session")
 public class SessionController {
     private final SessionRegister sessionRegister;
@@ -29,18 +32,23 @@ public class SessionController {
      * Get all sessions
      * @return list of all sessions
      */
+    @GetMapping
     public List<Session> getAllSession() {
-        return sessionRegister.getAllSessions();
+        List<Session> sessions = sessionRegister.getAllSessions();
+
+        return sessions;
     }
 
     /**
      * Add session
      * @param body String
      */
-    @PutMapping
+    @PostMapping
     public void add(@RequestBody String body) throws CouldNotAddSessionException, JsonProcessingException {
         System.out.println(body);
-        sessionRegister.addSession(makeSessionFromJson(body));
+        Session session = makeSessionFromJson(body);
+        session.setCurrentDate(LocalDateTime.now());
+        sessionRegister.addSession(session);
     }
 
     /**

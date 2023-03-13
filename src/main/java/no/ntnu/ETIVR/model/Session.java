@@ -34,7 +34,7 @@ public class Session {
     @JoinColumn(name = "sessionId")
     private List<TrackableObject> trackableObjects = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "sessionId")
     private List<ReferencePosition> referencePositions;
 
