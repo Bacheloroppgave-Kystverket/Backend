@@ -99,7 +99,7 @@ public class TrackableObjectController {
 
     public static void main(String[] args) {
         HashMap<TrackableType, Float> maps = new HashMap<>();
-        maps.put(TrackableType.CUBE, 10f);
+        maps.put(TrackableType.WALL, 10f);
         System.out.println(maps);
     }
 

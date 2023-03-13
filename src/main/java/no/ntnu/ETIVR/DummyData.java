@@ -1,10 +1,10 @@
 package no.ntnu.ETIVR;
 
 import lombok.SneakyThrows;
-import no.ntnu.ETIVR.model.TrackableObject;
-import no.ntnu.ETIVR.model.TrackableType;
-import no.ntnu.ETIVR.model.ViewDistance;
+import no.ntnu.ETIVR.model.*;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
+import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.repository.TrackableObjectRepository;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -59,6 +60,20 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             for (TrackableObject trackableObject : trackableObjects) {
                 trackableObjectRegister.addTrackableObject(trackableObject);
             }
+        }
+    }
+
+    public void addTestSessions(SessionRegister sessionRegister) throws CouldNotAddSessionException {
+        checkIfObjectIsNull(sessionRegister);
+        List<Session> sessionList = new ArrayList<>();
+        List<TrackableObject> trackableObjects = new ArrayList<>();
+        List<ReferencePosition> referencePositions = new ArrayList<>();
+        List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
+        if (sessionRegister.getAllSessions().isEmpty()) {
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
+
         }
     }
 

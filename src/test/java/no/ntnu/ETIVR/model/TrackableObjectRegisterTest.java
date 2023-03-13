@@ -115,7 +115,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
     }
 
     /**
-     * Tests if a remove trackable object works with invalid input
+     * Tests if add trackable object works with invalid input
      */
     @DisplayName("Tests if a remove trackable object works with invalid input")
     @Test

@@ -7,6 +7,9 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 
 import java.util.List;
 
+/**
+ * Represents a session register.
+ */
 public interface SessionRegister {
     /**
      * Gets all sessions
