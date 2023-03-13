@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 @Component
 @Profile("!test")
 public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
+
     private TrackableObjectsService trackableObjectsService;
 
     private final SessionRegister sessionRegister;
@@ -146,7 +147,19 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
+    public void addTestSessions(SessionRegister sessionRegister) throws CouldNotAddSessionException {
+        checkIfObjectIsNull(sessionRegister);
+        List<Session> sessionList = new ArrayList<>();
+        List<TrackableObject> trackableObjects = new ArrayList<>();
+        List<ReferencePosition> referencePositions = new ArrayList<>();
+        List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
+        if (sessionRegister.getAllSessions().isEmpty()) {
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
+            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
 
+        }
+    }
 
     /**
      * Checks if an object is null.
