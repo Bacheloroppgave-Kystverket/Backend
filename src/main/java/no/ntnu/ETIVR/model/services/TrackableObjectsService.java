@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TrackableObjectsService implements TrackableObjectRegister {
+
     private final TrackableObjectRepository trackableObjectRepository;
 
     /**

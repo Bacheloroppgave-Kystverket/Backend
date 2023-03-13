@@ -2,14 +2,9 @@ package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.lang.ref.Reference;
 import java.util.List;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -22,7 +17,12 @@ public class AdaptiveFeedback {
   @GeneratedValue
   private int feedbackId;
 
-  private String positionName;
+  @Column(name = "referencePositionId")
+  private long referencePositionId;
+
+  @ManyToOne
+  @JoinColumn(name = "positionsOfFeedback")
+  private ReferencePosition referencePosition;
 
   private float positionTime;
 
@@ -39,17 +39,19 @@ public class AdaptiveFeedback {
 
   /**
    * Makes an instance of the Feedback class.
-   * @param positionName the name of the position.
    * @param positionTime the time of the position.
    * @param feedbackList the feedback list.
+   * @param referencePosition the reference position of the position.
    */
-  public AdaptiveFeedback(@JsonProperty("positionName") String positionName,
-                          @JsonProperty("positionTime") float positionTime ,
-                          @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList){
+  public AdaptiveFeedback(@JsonProperty("positionTime") float positionTime ,
+                          @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList,
+                          @JsonProperty("referencePosition")ReferencePosition referencePosition){
     checkIfObjectIsNull(feedbackList, "feedback list");
-    checkString(positionName, "position name");
     checkFloat(positionTime, "Position time");
+    checkIfObjectIsNull(referencePosition, "reference position");
     this.feedbackList = feedbackList;
+    this.positionTime = positionTime;
+    this.referencePosition = referencePosition;
   }
 
   /**

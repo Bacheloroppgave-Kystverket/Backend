@@ -36,21 +36,18 @@ public class AdaptiveFeedbackTest extends DefaultTest {
     float positionTime = 1f;
     List<CategoryFeedback> feedbackList = new ArrayList<>();
     AdaptiveFeedback adaptiveFeedback;
+    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1");
     try {
-      adaptiveFeedback =  new AdaptiveFeedback(null, positionTime, feedbackList);
-      addError(getIllegalPrefix(), "the input position name is null");
-    }catch (IllegalArgumentException exception){}
-    try {
-      adaptiveFeedback = new AdaptiveFeedback("", positionTime, feedbackList);
-      addError(getIllegalPrefix(), "the input position name is empty");
-    }catch (IllegalArgumentException exception){}
-    try {
-      adaptiveFeedback = new AdaptiveFeedback(positionName, -2, feedbackList);
+      adaptiveFeedback = new AdaptiveFeedback(-2, feedbackList, referencePosition);
       addError(getIllegalPrefix(), "the position time is negative");
     }catch (IllegalArgumentException exception){}
     try {
-      adaptiveFeedback = new AdaptiveFeedback(positionName, positionTime, null);
+      adaptiveFeedback = new AdaptiveFeedback(positionTime, null, referencePosition);
       addError(getIllegalPrefix(), "the feedback list is null");
+    }catch (IllegalArgumentException exception){}
+    try {
+      adaptiveFeedback = new AdaptiveFeedback(positionTime, feedbackList, null);
+      addError(getIllegalPrefix(), "the reference position is null");
     }catch (IllegalArgumentException exception){}
   }
 
@@ -60,11 +57,11 @@ public class AdaptiveFeedbackTest extends DefaultTest {
   @Test
   @DisplayName("Tests if the constructor works with valid input")
   public void testConstructorWorksWithValidInput(){
-    String positionName = "Seat 1";
     float positionTime = 1f;
     List<CategoryFeedback> feedbackList = new ArrayList<>();
+    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1");
     try {
-      AdaptiveFeedback adaptiveFeedback =  new AdaptiveFeedback(positionName, positionTime, feedbackList);
+      AdaptiveFeedback adaptiveFeedback =  new AdaptiveFeedback(positionTime, feedbackList, referencePosition);
     }catch (IllegalArgumentException exception){
       addErrorWithException("Expected the adaptive feedback to be made", "since the input is valid", exception);
     }

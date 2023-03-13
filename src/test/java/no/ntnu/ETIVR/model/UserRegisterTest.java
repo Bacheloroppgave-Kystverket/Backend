@@ -107,6 +107,9 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
         return new User(1l, "John", "1t3b");
     }
 
+    /**
+     * Tests if add user works with valid input
+     */
     @Test
     @DisplayName("Tests if add user works with valid input")
     public void testIfAddUserWorksWithValidInput() {
@@ -196,7 +199,7 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
 
         try{
             userRegister.findUserById(5000);
-                addError(getException,"the input is not in the register");
+            addError(getException,"the input is not in the register");
             } catch (IllegalArgumentException exception){
             addErrorWithException(getException, "the input is not in the register", exception);
         } catch (CouldNotGetUserException exception){

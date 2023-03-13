@@ -1,48 +1,58 @@
 package no.ntnu.ETIVR.model;
 
-import javax.persistence.Embeddable;
+import javax.persistence.*;
+import java.lang.ref.Reference;
 
 @Embeddable
 public class GazeData {
 
-    private String locationID;
+    @Column(name = "referencePositionId")
+    private long referencePositionId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reference_position_location_id", insertable = false)
+    private ReferencePosition referencePosition;
+
     private int fixations;
+
     private float fixationDuration;
+
 
     public GazeData() {
     }
 
     /**
      * Make an instance of GazeData
-     * @param locationID location ID
+     * @param fixations the amount of fixations.
+     * @param fixationDuration the fixation duration
+     * @param referencePosition the reference position.
      */
-    public GazeData(String locationID) {
-        this.locationID = locationID;
+    public GazeData(int fixations, float fixationDuration, ReferencePosition referencePosition) {
+        checkIfObjectIsNull(referencePosition, "reference position");
+        checkFloat(fixationDuration, "fixation duration");
+        checkFloat(fixations, "fixations");
+        this.fixations = fixations;
+        this.fixationDuration = fixationDuration;
+        this.referencePosition = referencePosition;
     }
 
     /**
-     * Increment fixation
+     * Checks if a float is above zero.
+     * @param numberToCheck the number to check.
+     * @param error the error.
      */
-    public void incrementFixation() {
-        fixations++;
-    }
-
-    /**
-     * Adding delta time to fixation duration
-     */
-    public void addTime() {
-        long time = System.currentTimeMillis();
-        long currentTime = System.currentTimeMillis();
-        int changeInTime = (int) (time-currentTime);
-        fixationDuration += changeInTime;
+    private void checkFloat(float numberToCheck, String error){
+        if(numberToCheck < 0){
+            throw new IllegalArgumentException("The " + error + " cannot be below zero");
+        }
     }
 
     /**
      * Get location ID
      * @return location ID
      */
-    public String getLocationID() {
-        return locationID;
+    public long getReferencePositionId() {
+        return referencePositionId;
     }
 
     /**
@@ -59,5 +69,17 @@ public class GazeData {
      */
     public float getFixationDuration() {
         return fixationDuration;
+    }
+
+    /**
+     * Checks if an object is null.
+     *
+     * @param object the object you want to check.
+     * @param error  the error message the exception should have.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
     }
 }

@@ -24,15 +24,7 @@ public class ReferencePosition {
   @GeneratedValue
   private long locationId;
 
-  @JsonInclude
   private String locationName;
-
-  @JsonInclude
-  private float positionDuration;
-
-  @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "feedbackConfigurations", joinColumns = @JoinColumn(name = "locationId"))
-  private List<FeedbackConfiguration> feedbackConfigurations;
 
   /**
    * Makes an instance of the ReferencePosition class.
@@ -45,21 +37,13 @@ public class ReferencePosition {
    * Makes an instance of the reference position
    * @param locationId the id of the location
    * @param locationName the name of the location
-   * @param positionDuration the time spent at position
-   * @param feedbackConfigurationList the feedback configuration list
    */
   public ReferencePosition(@JsonProperty("locationID") long locationId,
-                           @JsonProperty("locationName") String locationName,
-                           @JsonProperty("positionDuration") float positionDuration,
-                           @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurationList){
+                           @JsonProperty("locationName") String locationName){
     checkFloat(locationId, "location ID");
     checkString(locationName, "location name");
-    checkFloat(positionDuration, "position duration");
-    checkIfObjectIsNull(feedbackConfigurationList, "feedback configurations");
     this.locationId = locationId;
     this.locationName = locationName;
-    this.positionDuration = positionDuration;
-    this.feedbackConfigurations = feedbackConfigurationList;
   }
 
   /**
@@ -70,13 +54,7 @@ public class ReferencePosition {
     return locationName;
   }
 
-  /**
-   * Gets the position duration.
-   * @return the position duration.
-   */
-  public float getPositionDuration(){
-    return positionDuration;
-  }
+
 
   /**
    * Checks if a float is above zero.

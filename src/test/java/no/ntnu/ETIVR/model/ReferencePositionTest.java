@@ -33,32 +33,21 @@ public class ReferencePositionTest extends DefaultTest {
   public void testConstructorWorksWithInvalidInput(){
     long locationId = 1;
     String locationName = "Position 1";
-    float positionDuration = 10f;
     List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
     feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
-      referencePosition = new ReferencePosition(-1, locationName, positionDuration, feedbackConfigurationList);
+      referencePosition = new ReferencePosition(-1, locationName);
       addError(getIllegalPrefix(), "the input location id is 0");
     }catch (IllegalArgumentException exception){}
     try {
-      referencePosition = new ReferencePosition(locationId, null, positionDuration, feedbackConfigurationList);
+      referencePosition = new ReferencePosition(locationId, null);
       addError(getIllegalPrefix(), "the input location name is null");
     }catch (IllegalArgumentException exception){}
     try {
-      referencePosition = new ReferencePosition(locationId, "", positionDuration, feedbackConfigurationList);
+      referencePosition = new ReferencePosition(locationId, "");
       addError(getIllegalPrefix(), "the input location name is empty");
     }catch (IllegalArgumentException exception){}
-    try {
-      referencePosition = new ReferencePosition(locationId, locationName, -1, feedbackConfigurationList);
-      addError(getIllegalPrefix(), "the input position duration is negative");
-    }catch (IllegalArgumentException exception){}
-    try {
-      referencePosition = new ReferencePosition(locationId, locationName, positionDuration, null);
-      addError(getIllegalPrefix(), "the input configuration is null");
-    }catch (IllegalArgumentException exception){
-
-    }
   }
 
   /**
@@ -69,12 +58,11 @@ public class ReferencePositionTest extends DefaultTest {
   public void testConstructorWithValidInput(){
     long locationId = 1;
     String locationName = "Position 1";
-    Float positionDuration = 10f;
     List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
     feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
-      referencePosition = new ReferencePosition(locationId, locationName, positionDuration, feedbackConfigurationList);
+      referencePosition = new ReferencePosition(locationId, locationName);
     }catch (IllegalArgumentException exception){
       addErrorWithException("Expected the reference position", "to be made", exception);
     }
