@@ -12,7 +12,6 @@ import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 
 @Service
 public class SessionService implements SessionRegister {
@@ -23,12 +22,13 @@ public class SessionService implements SessionRegister {
      * @param sessionRepository the session repository
      */
     public SessionService(SessionRepository sessionRepository) {
+        checkIfObjectIsNull(sessionRepository, "session repository");
         this.sessionRepository = sessionRepository;
     }
 
     @Override
     public void addSession(Session session) throws CouldNotAddSessionException {
-        checkIfObjectIsNull(session,"session");
+        checkIfSessionIsValid(session);
         if (!sessionRepository.existsById(session.getSessionId())) {
             sessionRepository.save(session);
         } else {
@@ -38,11 +38,9 @@ public class SessionService implements SessionRegister {
 
     @Override
     public void removeSession(Session session) throws CouldNotRemoveSessionException {
-        checkIfObjectIsNull(session, "session");
-        //Todo: Denne metoden kan bare bruke RemoveSessionById og ta ut Iden for deg. Slipper du dobbelt arbeid.
-        //Todo: Men ja her sier du at den IKKE må eksistere. POG
-        if (!sessionRepository.existsById(session.getSessionId())) {
-            sessionRepository.delete(session);
+        checkIfSessionIsValid(session);
+        if (sessionRepository.existsById(session.getSessionId())) {
+            sessionRepository.deleteById(session.getSessionId());
         } else {
             throw new CouldNotRemoveSessionException("The session with id " + session.getSessionId() + "could not be located in the system");
         }
@@ -60,7 +58,7 @@ public class SessionService implements SessionRegister {
 
     @Override
     public Session getSessionById(long sessionID) throws CouldNotGetSessionException {
-        checkIfObjectIsNull(sessionID, "session ID");
+        checkIfNumberIsAboveZero(sessionID);
         Optional<Session> optionalSession = sessionRepository.findById(sessionID);
         if (optionalSession.isEmpty()) {
             throw new CouldNotGetSessionException("The session with id " + sessionID + " is not in the system");
@@ -70,7 +68,7 @@ public class SessionService implements SessionRegister {
 
     @Override
     public boolean CheckIfRegisterHasSession() {
-        return false;
+        return !getAllSessions().isEmpty();
     }
 
     @Override
@@ -84,6 +82,10 @@ public class SessionService implements SessionRegister {
         if (object == null) {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }
+    }
+
+    private void checkIfSessionIsValid(Session session) {
+        checkIfObjectIsNull(session, "session");
     }
 
     /**

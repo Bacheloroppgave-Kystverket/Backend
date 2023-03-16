@@ -41,8 +41,7 @@ import java.util.List;
         super();
         this.sessionRegister = sessionService;
         checkIfObjectIsNull(sessionService, "Session Register");
-        //Todo: Method to string?
-        removeException = "makeExceptionString()";
+        removeException = makeExceptionString("remove exception");
     }
 
 
@@ -76,12 +75,11 @@ import java.util.List;
             List<Session> sessionList = sessionRegister.getAllSessions();
             for (Session session : sessionList) {
                 //Todo: Erroren skjer her. Du har ikke testa metoden her har du?
-                sessionRegister.removeSession(session);
+                sessionRegister.removeSessionByID(session.getSessionId());
             }
         } catch (CouldNotRemoveSessionException | IllegalArgumentException e) {
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -157,7 +155,7 @@ import java.util.List;
     }
 
     @Test
-    @DisplayName("Tests if remove sesssion with id works with valid input")
+    @DisplayName("Tests if remove session with id works with valid input")
     public void testIfRemoveSessionWithIdWorksWithValidInput() {
         try {
             sessionRegister.removeSessionByID(sessionInRegister.getSessionId());

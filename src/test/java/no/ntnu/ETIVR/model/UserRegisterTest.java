@@ -36,7 +36,7 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
     /**
      * Makes an instance of the user register test and tests the class.
      *
-     * @param userService
+     * @param userService User Service
      */
 
     @Autowired
