@@ -2,6 +2,9 @@ package no.ntnu.ETIVR.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import no.ntnu.ETIVR.model.configurations.CategoryConfiguration;
+import no.ntnu.ETIVR.model.position.ReferencePosition;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

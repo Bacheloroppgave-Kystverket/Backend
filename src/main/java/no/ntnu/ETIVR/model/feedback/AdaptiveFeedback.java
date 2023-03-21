@@ -1,8 +1,7 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.feedback;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.lang.ref.Reference;
 import java.util.List;
 import javax.persistence.*;
 

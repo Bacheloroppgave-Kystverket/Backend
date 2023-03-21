@@ -1,5 +1,8 @@
 package no.ntnu.ETIVR.model;
 
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
+import no.ntnu.ETIVR.model.trackable.ViewDistance;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class SimulationSetupTest extends DefaultTest{
+public class SimulationTemplateTest extends DefaultTest{
 
     @Override
     @BeforeEach

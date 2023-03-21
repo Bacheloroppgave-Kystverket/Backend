@@ -3,6 +3,9 @@ package no.ntnu.ETIVR.model;
 import java.util.ArrayList;
 
 import java.util.List;
+import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
+import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
+import no.ntnu.ETIVR.model.position.ReferencePosition;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

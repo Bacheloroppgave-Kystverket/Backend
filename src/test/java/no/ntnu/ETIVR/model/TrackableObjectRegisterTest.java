@@ -9,6 +9,8 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotGetTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveTrackableObjectException;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

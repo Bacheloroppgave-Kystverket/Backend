@@ -1,8 +1,9 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.configurations;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Embeddable;
 import javax.persistence.Enumerated;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 
 /**
  * @author Steinar Hjelle Midthus

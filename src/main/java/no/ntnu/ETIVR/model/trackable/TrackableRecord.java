@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.trackable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,15 +10,19 @@ import java.util.List;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Embeddable
-public class TrackableData {
+@Entity
+public class TrackableRecord {
+
+    @Id
+    @GeneratedValue
+    private long trackableDataId;
 
     @ManyToOne
     @JoinColumn(name = "trackableObjectsForSession")
     private TrackableObject trackableObject;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "gazeLocations", joinColumns = @JoinColumn(name = "trackableObjectID"))
+    @CollectionTable(name = "gazeLocations", joinColumns = @JoinColumn(name = "trackableDataId"))
     private final List<GazeData> gazeList;
 
     @Enumerated
@@ -34,9 +38,9 @@ public class TrackableData {
      * @param viewDistance
      * @param trackableObject
      */
-    public TrackableData(@JsonProperty("gazeList") List<GazeData> gazeList,
-                         @JsonProperty("viewDistance") ViewDistance viewDistance,
-                         @JsonProperty("trackableObject") TrackableObject trackableObject) {
+    public TrackableRecord(@JsonProperty("gazeList") List<GazeData> gazeList,
+                           @JsonProperty("viewDistance") ViewDistance viewDistance,
+                           @JsonProperty("trackableObject") TrackableObject trackableObject) {
         checkIfObjectIsNull(viewDistance, "view distance");
         checkIfObjectIsNull(gazeList, "gaze list");
         checkIfObjectIsNull(trackableObject, "trackable object");
@@ -45,7 +49,7 @@ public class TrackableData {
 
     }
 
-    public TrackableData(){
+    public TrackableRecord(){
         this.gazeList = new ArrayList<>();
     }
 

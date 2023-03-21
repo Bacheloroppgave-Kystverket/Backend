@@ -1,20 +1,12 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.trackable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.JoinColumn;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.SecondaryTable;
+import lombok.Builder;
 
 @Entity
 public class TrackableObject {

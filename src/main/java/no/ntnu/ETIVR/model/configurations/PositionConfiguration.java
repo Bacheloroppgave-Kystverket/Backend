@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.configurations;
 
 import java.util.List;
 import javax.persistence.CollectionTable;
@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import no.ntnu.ETIVR.model.position.PositionRecord;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -19,21 +19,21 @@ public class PositionConfiguration {
 
   @Id
   @GeneratedValue
-  private long referencePositionId;
+  private long positionConfigId;
 
-  @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "feedbackConfigurations", joinColumns = @JoinColumn(name = "locationId"))
+  @ElementCollection(fetch = FetchType.EAGER, targetClass = CategoryConfiguration.class)
+  @CollectionTable(name = "positionConfigurations", joinColumns = @JoinColumn(name = "positionConfigId"))
   private List<CategoryConfiguration> categoryConfigurations;
 
   /**
-   * Makes an instance of the ReferencePositionConfiguration class.
+   * Makes an instance of the PositionConfiguration class.
    */
   public PositionConfiguration() {
 
   }
 
   /**
-   * Makes an instance of the ReferencePositionConfiguration.
+   * Makes an instance of the PositionConfiguration.
    * @param categoryConfigurations the category configurations.
    */
   public PositionConfiguration(List<CategoryConfiguration> categoryConfigurations) {
@@ -43,7 +43,6 @@ public class PositionConfiguration {
 
   /**
    * Checks if an object is null.
-   *
    * @param object the object you want to check.
    * @param error  the error message the exception should have.
    */

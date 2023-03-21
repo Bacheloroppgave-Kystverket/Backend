@@ -1,38 +1,22 @@
 package no.ntnu.ETIVR.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
+import javax.persistence.*;
 import java.util.List;
+import no.ntnu.ETIVR.model.configurations.PositionConfiguration;
+import no.ntnu.ETIVR.model.position.ReferencePosition;
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.annotations.FetchProfile;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@NamedEntityGraph(
-    name = "sessionEntityGraph",
-    attributeNodes = {
-        @NamedAttributeNode("simulationSetupId"),
-        @NamedAttributeNode("nameOfSetup"),
-        @NamedAttributeNode("closeTrackableObjects"),
-        @NamedAttributeNode(value = "referencePositions", subgraph = "referencePositionGraph")
-    },
-    subgraphs = {
-        @NamedSubgraph(
-            name = "referencePositionGraph",
-            attributeNodes = {
-                @NamedAttributeNode("locationName")
-            }
-        )
-    }
-)
 @Entity(name = "simulationSetups")
-public class SimulationSetup implements Serializable{
+public class SimulationTemplate implements Serializable{
 
     @Id
     @GeneratedValue
@@ -42,49 +26,65 @@ public class SimulationSetup implements Serializable{
     @Column(unique = true)
     private String nameOfSetup;
 
-    @ManyToMany(targetEntity = TrackableObject.class)
-    @JoinTable(
-        name = "closeSimulationObjects",
-        joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
-        inverseJoinColumns = @JoinColumn(name = "trackableObjectID", referencedColumnName = "trackableObjectID")
-    )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SUBSELECT)
     private List<TrackableObject> closeTrackableObjects;
 
-    //@OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class, fetch = FetchType.EAGER)
-    //@JoinColumn(name = "sessionId")
-    @Transient
-    private List<ReferencePosition> referencePositions;
+    @OneToOne(targetEntity = PositionConfiguration.class, cascade = CascadeType.ALL)
+    private PositionConfiguration positionConfiguration;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "simulationPositions",
+        joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
+        inverseJoinColumns = @JoinColumn(name = "locationId", referencedColumnName = "locationId")
+    )
+    @Fetch(FetchMode.SUBSELECT)
+    private List<ReferencePosition> referencePositionList;
+
+    public Collection<TrackableObject> getCloseTrackableObjects() {
+        return closeTrackableObjects;
+    }
 
     /**
      * Makes an instance of the SimulationSetup class.
      */
-    public SimulationSetup() {
-
+    public SimulationTemplate() {
+        closeTrackableObjects =  new ArrayList<>();
     }
 
     /**
      * Makes an instance of the simulation setup.
      * @param nameOfSetup the name of the simulation setup.
      * @param trackableObjects the trackable objects.
-     * @param referencePositions the reference positions.
+     * @param simulationConfiguration the simulation configuration.
      */
-    public SimulationSetup(String nameOfSetup, List<TrackableObject> trackableObjects, List<ReferencePosition> referencePositions){
+    public SimulationTemplate(String nameOfSetup, List<TrackableObject> trackableObjects,
+                              PositionConfiguration positionConfiguration, List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
         this.nameOfSetup = nameOfSetup;
         this.closeTrackableObjects = trackableObjects;
         this.simulationSetupId = 500;
-        this.referencePositions = referencePositions;
+        this.positionConfiguration = positionConfiguration;
+        this.referencePositionList = referencePositions;
     }
 
     /**
      * Gets all the reference positions.
      * @return the reference positions.
      */
-    @Fetch(FetchMode.SUBSELECT)
     public List<ReferencePosition> getReferencePositions(){
-        return referencePositions;
+        return this.referencePositionList;
+    }
+
+    /**
+     * Gets the position configuration.
+     * @return the position configuration.
+     */
+    public PositionConfiguration getPositionConfiguration(){
+        return positionConfiguration;
     }
 
     /**
@@ -92,7 +92,7 @@ public class SimulationSetup implements Serializable{
      * @return the trackable objects.
      */
     public List<TrackableObject> getTrackableObjects(){
-        return closeTrackableObjects;
+        return closeTrackableObjects.stream().toList();
     }
 
     /**

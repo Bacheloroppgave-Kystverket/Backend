@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 
-import no.ntnu.ETIVR.model.AdaptiveFeedback;
-import no.ntnu.ETIVR.model.TrackableObject;
-import no.ntnu.ETIVR.model.TrackableType;
+import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

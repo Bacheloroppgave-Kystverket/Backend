@@ -3,7 +3,7 @@ package no.ntnu.ETIVR.model.services;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import no.ntnu.ETIVR.model.TrackableObject;
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveTrackableObjectException;

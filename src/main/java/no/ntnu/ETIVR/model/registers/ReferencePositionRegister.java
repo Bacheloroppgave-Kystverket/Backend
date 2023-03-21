@@ -1,6 +1,6 @@
 package no.ntnu.ETIVR.model.registers;
 
-import no.ntnu.ETIVR.model.ReferencePosition;
+import no.ntnu.ETIVR.model.position.ReferencePosition;
 
 public interface ReferencePositionRegister {
 

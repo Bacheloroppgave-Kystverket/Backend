@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.trackable;
 
 public enum ViewDistance {
     /**

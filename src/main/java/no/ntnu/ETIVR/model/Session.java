@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import javax.persistence.*;
 import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import no.ntnu.ETIVR.model.configurations.CategoryConfiguration;
+import no.ntnu.ETIVR.model.position.PositionRecord;
+import no.ntnu.ETIVR.model.trackable.TrackableRecord;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Session {
@@ -27,22 +31,25 @@ public class Session {
     )
     private User user;
 
-    private TrackableLog trackableLog;
+    @OneToMany(cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.SUBSELECT)
+    private List<TrackableRecord> trackableRecordList;
 
-    //@ManyToOne
-    //@JoinColumn(name = "session")
-    @Transient
-    private SimulationSetup simulationSetup;
 
-    /**
-     * Gets the simulation setup.
-     * @return the simulation setup
-     */
-    public SimulationSetup getSimulationSetup() {
-        return simulationSetup;
-    }
+    @OneToMany(cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.SUBSELECT)
+    private List<PositionRecord> positionData;
+
+    @OneToOne
+    @JoinColumn(name = "simulationSetupId")
+    private SimulationTemplate simulationTemplate;
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = CategoryConfiguration.class)
+    @CollectionTable(name = "categoryConfigurations", joinColumns = @JoinColumn(name = "sessionId"))
+    private List<CategoryConfiguration> categoryConfigurations;
 
     public Session() {
+
     }
 
     /**
@@ -50,28 +57,35 @@ public class Session {
      * @param trackableLog trackable log.
      * @param sessionId the id of the session
      * @param currentDate the current date.
+     * @param positionLog the position log.
+     * @param user the user.
+     * @param simulationTemplate the simulation setup.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
                    @JsonProperty("user") User user,
-                   @JsonProperty("trackableLog") TrackableLog trackableLog,
                    @JsonProperty("sessionID") long sessionId,
-                   @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
+                   @JsonProperty("trackableLog") List<TrackableRecord> trackableLog,
+                   @JsonProperty("positionLog") List<PositionRecord> positionLog,
+                   @JsonProperty("simulationSetup") SimulationTemplate simulationTemplate) {
         checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
-
-        checkIfObjectIsNull(trackableLog, "trackable log");
-        this.trackableLog = trackableLog;
-
         checkIfObjectIsNull(user, "user");
         this.user = user;
-
         checkIfNumberNotNegative(sessionId, "session ID");
         this.sessionId = sessionId;
-
-        checkIfObjectIsNull(simulationSetup, "simulation setup");
-        this.simulationSetup = simulationSetup;
+        checkIfObjectIsNull(simulationTemplate, "simulation setup");
+        this.simulationTemplate = simulationTemplate;
+        this.trackableRecordList = trackableLog;
+        this.positionData = positionLog;
     }
 
+    /**
+     * Gets the simulation setup.
+     * @return the simulation setup
+     */
+    public SimulationTemplate getSimulationSetup() {
+        return simulationTemplate;
+    }
 
 
     /**

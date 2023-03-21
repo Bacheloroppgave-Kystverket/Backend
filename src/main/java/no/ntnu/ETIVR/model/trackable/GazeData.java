@@ -1,7 +1,7 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.trackable;
 
 import javax.persistence.*;
-import java.lang.ref.Reference;
+import no.ntnu.ETIVR.model.position.ReferencePosition;
 
 @Embeddable
 public class GazeData {
@@ -9,8 +9,8 @@ public class GazeData {
     @Column(name = "referencePositionId")
     private long referencePositionId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "reference_position_location_id", insertable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "locationId", insertable = false)
     private ReferencePosition referencePosition;
 
     private int fixations;

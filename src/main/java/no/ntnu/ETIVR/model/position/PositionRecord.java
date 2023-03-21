@@ -1,65 +1,59 @@
-package no.ntnu.ETIVR.model;
+package no.ntnu.ETIVR.model.position;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
 
 /**
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
 @Entity
-public class PositionLog {
+public class PositionRecord {
 
     @Id
     @GeneratedValue
-    private long positionLogId;
+    private long posDataId;
 
-    private String referencePositionName;
-
-    private float positionDuration;
-
+    //@ManyToOne(targetEntity = ReferencePosition.class)
+    //@JoinColumn(name = "locationId")
+    @Transient
     private ReferencePosition referencePosition;
-
-    private PositionConfiguration positionConfiguration;
-
-    @ElementCollection
-    @CollectionTable(name = "adaptiveFeedbackForPositions", joinColumns = @JoinColumn(name = "positionLogId"))
+    private float positionDuration;
+    //@ElementCollection
+    //@CollectionTable(name = "adaptiveFeedbackForPositions", joinColumns = @JoinColumn(name = "positionLogId"))
+    @Transient
     private List<AdaptiveFeedback> adaptiveFeedbacks;
 
-    /**
-     * Makes an instance of the PositionLog class.
-     */
-    public PositionLog() {
-
+    public List<AdaptiveFeedback> getAdaptiveFeedbacks() {
+        return adaptiveFeedbacks;
     }
 
     /**
-     * Makes an instance of the PositionLog class.
+     * Makes an instance of the PositionData class.
+     */
+    public PositionRecord() {
+    }
+
+    /**
+     * Makes an instance of the PositionData class.
      * @param referencePosition the reference position of the log.
      * @param positionDuration the duration of the position log.
-     * @param positionConfiguration the position configuration.
+     * @param adaptiveFeedbacks the adaptive feedbacks.
      */
-    public PositionLog(@JsonProperty("referencePosition") ReferencePosition referencePosition,
-                       @JsonProperty("positionDuration") float positionDuration,
-                       @JsonProperty("positionConfiguration") PositionConfiguration positionConfiguration) {
+    public PositionRecord(@JsonProperty("referencePosition") ReferencePosition referencePosition,
+                          @JsonProperty("positionDuration") float positionDuration,
+                          @JsonProperty("adaptiveFeedbacks") List<AdaptiveFeedback> adaptiveFeedbacks){
         checkFloat(positionDuration, "position duration");
-        checkIfObjectIsNull(positionConfiguration, "feedback configurations");
         checkIfObjectIsNull(referencePosition, "reference position");
-        checkIfObjectIsNull(positionConfiguration, "position configuration");
+        checkIfObjectIsNull(adaptiveFeedbacks, "adaptive feedbacks");
         this.referencePosition = referencePosition;
-        this.positionLogId = 0;
         this.positionDuration = positionDuration;
-        this.positionConfiguration = positionConfiguration;
-    }
-
-    /**
-     * Gets the position duration.
-     * @return the position duration.
-     */
-    public float getPositionDuration(){
-        return positionDuration;
+        this.adaptiveFeedbacks = adaptiveFeedbacks;
     }
 
     /**
@@ -78,6 +72,7 @@ public class PositionLog {
      *
      * @param stringToCheck the string you want to check.
      * @param errorPrefix   the error the exception should have if the string is invalid.
+     * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
      */
     private void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
@@ -91,6 +86,7 @@ public class PositionLog {
      *
      * @param object the object you want to check.
      * @param error  the error message the exception should have.
+     * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

@@ -1,6 +1,6 @@
 package no.ntnu.ETIVR.model.registers;
 
-import no.ntnu.ETIVR.model.TrackableObject;
+import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveTrackableObjectException;

@@ -1,5 +1,7 @@
 package no.ntnu.ETIVR.model;
 
+import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
