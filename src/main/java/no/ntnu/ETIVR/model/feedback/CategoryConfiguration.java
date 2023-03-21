@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR.model.configurations;
+package no.ntnu.ETIVR.model.feedback;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Embeddable;

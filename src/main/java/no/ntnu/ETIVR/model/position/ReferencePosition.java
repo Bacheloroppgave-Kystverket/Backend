@@ -1,18 +1,13 @@
 package no.ntnu.ETIVR.model.position;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.lang.ref.Reference;
-import java.util.List;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -27,6 +22,14 @@ public class ReferencePosition {
 
   private String locationName;
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "positionConfigId")
+  private PositionConfiguration positionConfiguration;
+
+  public PositionConfiguration getPositionConfiguration() {
+    return positionConfiguration;
+  }
+
   /**
    * Makes an instance of the ReferencePosition class.
    */
@@ -35,16 +38,20 @@ public class ReferencePosition {
   }
 
   /**
-   * Makes an instance of the reference position
-   * @param locationId the id of the location
-   * @param locationName the name of the location
+   * Makes an instance of the reference position.
+   * @param locationId the id of the location.
+   * @param locationName the name of the location.
+   * @param positionConfiguration the position configuration.
    */
   public ReferencePosition(@JsonProperty("locationID") long locationId,
-                           @JsonProperty("locationName") String locationName){
+                           @JsonProperty("locationName") String locationName,
+                           @JsonProperty("positionConfiguration") PositionConfiguration positionConfiguration){
     checkFloat(locationId, "location ID");
     checkString(locationName, "location name");
+    checkIfObjectIsNull(positionConfiguration, "position configuration");
     this.locationId = locationId;
     this.locationName = locationName;
+    this.positionConfiguration = positionConfiguration;
   }
 
   /**

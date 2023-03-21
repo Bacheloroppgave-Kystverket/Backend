@@ -1,4 +1,4 @@
-package no.ntnu.ETIVR.model.configurations;
+package no.ntnu.ETIVR.model.feedback;
 
 import java.util.List;
 import javax.persistence.CollectionTable;
@@ -8,7 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import no.ntnu.ETIVR.model.position.PositionRecord;
+import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 
 /**
  * @author Steinar Hjelle Midthus

@@ -2,7 +2,7 @@ package no.ntnu.ETIVR.model.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import no.ntnu.ETIVR.model.SimulationTemplate;
+import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
 import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
@@ -30,19 +30,19 @@ public class SimulationSetupService implements SimulationSetupRegister {
     }
 
     @Override
-    public void addSimulationSetup(SimulationTemplate simulationTemplate) throws CouldNotAddSimulationSetupException {
-        checkIfObjectIsNull(simulationTemplate, "simulation setup");
-        if(!simulationSetupRepository.existsById(simulationTemplate.getSimulationSetupId())){
-            simulationSetupRepository.save(simulationTemplate);
+    public void addSimulationSetup(SimulationSetup simulationSetup) throws CouldNotAddSimulationSetupException {
+        checkIfObjectIsNull(simulationSetup, "simulation setup");
+        if(!simulationSetupRepository.existsById(simulationSetup.getSimulationSetupId())){
+            simulationSetupRepository.save(simulationSetup);
         }else{
-            throw new CouldNotAddSimulationSetupException("There is already a session with " + simulationTemplate.getSimulationSetupId() + " as id in the register.");
+            throw new CouldNotAddSimulationSetupException("There is already a session with " + simulationSetup.getSimulationSetupId() + " as id in the register.");
         }
     }
 
     @Override
-    public SimulationTemplate getSimulationSetupById(long simulationSetupId) throws CouldNotGetSimulationSetupException {
+    public SimulationSetup getSimulationSetupById(long simulationSetupId) throws CouldNotGetSimulationSetupException {
         checkFloat(simulationSetupId, "simulation setup");
-        Optional<SimulationTemplate> setupOptinal = simulationSetupRepository.findById(simulationSetupId);
+        Optional<SimulationSetup> setupOptinal = simulationSetupRepository.findById(simulationSetupId);
         if(setupOptinal.isEmpty()){
             throw new CouldNotGetSimulationSetupException("The simulation setup with id " + simulationSetupId + " is not in the register.");
         }
@@ -50,10 +50,10 @@ public class SimulationSetupService implements SimulationSetupRegister {
     }
 
     @Override
-    public List<SimulationTemplate> getSimulationSetups() {
-        List<SimulationTemplate> simulationTemplates = new ArrayList<>();
-        simulationSetupRepository.findAll().forEach(simulationTemplates::add);
-        return simulationTemplates;
+    public List<SimulationSetup> getSimulationSetups() {
+        List<SimulationSetup> simulationSetups = new ArrayList<>();
+        simulationSetupRepository.findAll().forEach(simulationSetups::add);
+        return simulationSetups;
     }
 
     /**

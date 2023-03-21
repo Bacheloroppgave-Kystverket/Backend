@@ -2,15 +2,15 @@ package no.ntnu.ETIVR;
 
 import lombok.SneakyThrows;
 import no.ntnu.ETIVR.model.*;
-import no.ntnu.ETIVR.model.SimulationTemplate;
+import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
-import no.ntnu.ETIVR.model.configurations.CategoryConfiguration;
+import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
-import no.ntnu.ETIVR.model.configurations.PositionConfiguration;
+import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.PositionRecord;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
@@ -96,7 +96,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         List<TrackableObject> trackableObjects = trackableObjectRegister.getAllTrackableObjects();
         List<ReferencePosition> referencePositions = makeReferencePositions();
         for (int i = 0; i < 1; i++){
-            simulationSetupService.addSimulationSetup(new SimulationTemplate("Tugboat " + i,trackableObjects, makePositionConfigurations() ,referencePositions ));
+            simulationSetupService.addSimulationSetup(new SimulationSetup("Tugboat " + i,trackableObjects ,referencePositions ));
         }
     }
 
@@ -107,13 +107,13 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private void addTestSession(SimulationSetupRegister simulationSetupRegister, UserRegister userRegister){
         try {
-            SimulationTemplate simulationTemplate = simulationSetupRegister.getSimulationSetups().get(0);
+            SimulationSetup simulationSetup = simulationSetupRegister.getSimulationSetups().get(0);
             User user = userRegister.getAllUsers().get(0);
             for (int i = 0; i < 4; i++){
-                List<TrackableObject> trackableObjects = simulationTemplate.getTrackableObjects();
-                List<ReferencePosition> referencePositions = simulationTemplate.getReferencePositions();
-                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationTemplate.getTrackableObjects()),
-                    simulationTemplate);
+                List<TrackableObject> trackableObjects = simulationSetup.getTrackableObjects();
+                List<ReferencePosition> referencePositions = simulationSetup.getReferencePositions();
+                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getTrackableObjects()),
+                    simulationSetup);
                 session.setUser(user);
                 sessionRegister.addSession(session);
             }
@@ -127,7 +127,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         return positionData;
     }
 
-    public PositionConfiguration makePositionConfigurations(){
+    public PositionConfiguration makePositionConfiguration(){
         return new PositionConfiguration(makeCategoryFeedback());
     }
 
@@ -138,7 +138,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private List<ReferencePosition> makeReferencePositions(){
         List<ReferencePosition> referencePositions = new ArrayList<>();
         for(int i = 0; i < 5; i++){
-            referencePositions.add(new ReferencePosition(500000, "Seat " + i));
+            referencePositions.add(new ReferencePosition(500000, "Seat " + i, makePositionConfiguration()));
         }
         return referencePositions;
     }

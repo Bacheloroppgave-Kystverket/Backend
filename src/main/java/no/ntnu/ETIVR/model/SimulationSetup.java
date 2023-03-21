@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.*;
 import java.util.List;
-import no.ntnu.ETIVR.model.configurations.PositionConfiguration;
+import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import org.hibernate.annotations.Fetch;
@@ -15,8 +15,8 @@ import org.hibernate.annotations.FetchMode;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity(name = "simulationSetups")
-public class SimulationTemplate implements Serializable{
+@Entity
+public class SimulationSetup implements Serializable{
 
     @Id
     @GeneratedValue
@@ -27,6 +27,11 @@ public class SimulationTemplate implements Serializable{
     private String nameOfSetup;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "closeTrackableObjects",
+        joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
+        inverseJoinColumns = @JoinColumn(name = "trackableObjectID", referencedColumnName = "trackableObjectID")
+    )
     @Fetch(FetchMode.SUBSELECT)
     private List<TrackableObject> closeTrackableObjects;
 
@@ -49,7 +54,7 @@ public class SimulationTemplate implements Serializable{
     /**
      * Makes an instance of the SimulationSetup class.
      */
-    public SimulationTemplate() {
+    public SimulationSetup() {
         closeTrackableObjects =  new ArrayList<>();
     }
 
@@ -57,10 +62,9 @@ public class SimulationTemplate implements Serializable{
      * Makes an instance of the simulation setup.
      * @param nameOfSetup the name of the simulation setup.
      * @param trackableObjects the trackable objects.
-     * @param simulationConfiguration the simulation configuration.
+     * @param referencePositions the reference positions.
      */
-    public SimulationTemplate(String nameOfSetup, List<TrackableObject> trackableObjects,
-                              PositionConfiguration positionConfiguration, List<ReferencePosition> referencePositions){
+    public SimulationSetup(String nameOfSetup, List<TrackableObject> trackableObjects, List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
