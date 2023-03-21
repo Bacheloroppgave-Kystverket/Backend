@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,8 +27,9 @@ public class UserService implements UserRegister {
 
     @Override
     public List<User> getAllUsers(){
-        ///todo: Ikke cast om du ikke må. dette kan føre til mange nasty bugs. Dette er casting: (List<User>)
-        return (List<User>) userRepository.findAll();
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        return users;
     }
 
 

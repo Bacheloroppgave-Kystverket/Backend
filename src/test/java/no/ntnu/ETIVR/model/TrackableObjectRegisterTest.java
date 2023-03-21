@@ -85,7 +85,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      * @return the default trackable object.
      */
     private TrackableObject makeDefaultTrackableObject(){
-        return new TrackableObject("hei", TrackableType.WALL, ViewDistance.CLOSE, 500000);
+        return new TrackableObject("hei", TrackableType.WALL, 500000);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private List<ReferencePosition> makeReferencePositions(){
         List<ReferencePosition> referencePositions = new ArrayList<>();
         for(int i = 0; i < 5; i++){
-            referencePositions.add(new ReferencePosition(500000, "Seat " + i, 1200, makeFeedbackConfigurations()));
+            referencePositions.add(new ReferencePosition(500000, "Seat " + i));
         }
         return referencePositions;
     }
@@ -98,7 +98,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private List<AdaptiveFeedback> makeAdaptiveFeedback(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects){
         List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
         int time = 20;
-        referencePositions.forEach(positon -> adaptiveFeedbacks.add(new AdaptiveFeedback(positon.getLocationName(), time, makeCategoryFeedback(time))));
+        referencePositions.forEach(positon -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time), positon)));
         return adaptiveFeedbacks;
     }
 
@@ -124,10 +124,10 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<TrackableObject> makeTrackableObjects(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
-        trackableObjects.add(new TrackableObject("Name Object", TrackableType.WALL, ViewDistance.FAR, 500000));
-        trackableObjects.add(new TrackableObject("Name Object1", TrackableType.WALL, ViewDistance.FAR, 500000));
-        trackableObjects.add(new TrackableObject("Name Object2", TrackableType.WALL, ViewDistance.FAR, 500000));
-        trackableObjects.add(new TrackableObject("Name Object3", TrackableType.WALL, ViewDistance.FAR, 500000));
+        trackableObjects.add(new TrackableObject("Name Object", TrackableType.WALL, 500000));
+        trackableObjects.add(new TrackableObject("Name Object1", TrackableType.WALL, 500000));
+        trackableObjects.add(new TrackableObject("Name Object2", TrackableType.WALL, 500000));
+        trackableObjects.add(new TrackableObject("Name Object3", TrackableType.WALL, 500000));
         return trackableObjects;
     }
 

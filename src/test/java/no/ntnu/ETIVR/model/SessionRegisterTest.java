@@ -90,9 +90,9 @@ import java.util.List;
         List<TrackableObject> trackableObjects = new ArrayList<>();
         List<ReferencePosition> referencePositions = new ArrayList<>();
         List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
-        trackableObjects.add(new TrackableObject("Pog", TrackableType.WALL, ViewDistance.CLOSE, 5000));
-        referencePositions.add(new ReferencePosition(50000, "Seat 1", 50, new ArrayList<>()));
-        adaptiveFeedbackLog.add(new AdaptiveFeedback("Seat 1", 50, new ArrayList<>()));
+        trackableObjects.add(new TrackableObject("Pog", TrackableType.WALL, 5000));
+        referencePositions.add(new ReferencePosition(50000, "Seat 1"));
+        adaptiveFeedbackLog.add(new AdaptiveFeedback(50, new ArrayList<>(), new ReferencePosition(1, "pog")));
         return new Session(LocalDateTime.now(), 2, trackableObjects, 50000, referencePositions, adaptiveFeedbackLog);
     }
 

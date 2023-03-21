@@ -4,19 +4,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Session {
@@ -30,18 +21,21 @@ public class Session {
 
     private int userId;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableObject.class)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableLog.class)
     @JoinColumn(name = "sessionId")
-    private List<TrackableObject> trackableObjects = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "sessionId")
-    private List<ReferencePosition> referencePositions;
+    private List<TrackableLog> trackableObjects = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
     @JoinColumn(name = "sessionId")
     private List<AdaptiveFeedback> adaptiveFeedbackLog;
 
+    @ManyToOne
+    @JoinColumn(name = "session")
+    private SimulationSetup simulationSetup;
+
+    public SimulationSetup getSimulationSetup() {
+        return simulationSetup;
+    }
 
     public Session() {
     }
@@ -50,17 +44,14 @@ public class Session {
      * Constructor with parameters
      * @param trackableObjects list of objects to be tracked
      * @param sessionId unique id for user
-     * @param adaptiveFeedbackLog the adaptive feedback log
      * @param currentDate the current date.
-     * @param referencePositions the reference positions,
      * @param userId the user id.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
                    @JsonProperty("userID") int userId,
                    @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
                    @JsonProperty("sessionID") long sessionId,
-                   @JsonProperty("referencePositions") List<ReferencePosition> referencePositions,
-                   @JsonProperty("feedbackLog") List<AdaptiveFeedback> adaptiveFeedbackLog) {
+                   @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
 
         this.currentDate = currentDate;
 
@@ -73,11 +64,8 @@ public class Session {
         checkIfNumberNotNegative(sessionId, "session ID");
         this.sessionId = sessionId;
 
-        checkIfObjectIsNull(referencePositions, "reference position");
-        this.referencePositions = referencePositions;
-
-        checkIfObjectIsNull(adaptiveFeedbackLog, "feedback log");
-        this.adaptiveFeedbackLog = adaptiveFeedbackLog;
+        checkIfObjectIsNull(simulationSetup, "simulation setup");
+        this.simulationSetup = simulationSetup;
     }
 
     /**

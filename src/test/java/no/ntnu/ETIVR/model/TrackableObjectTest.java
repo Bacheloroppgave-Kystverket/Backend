@@ -30,19 +30,15 @@ class TrackableObjectTest extends DefaultTest{
         TrackableObject trackableObject;
 
         try {
-            trackableObject = new TrackableObject("", trackableType, viewDistance, trackableObjectId);
+            trackableObject = new TrackableObject("", trackableType, trackableObjectId);
             addError(getIllegalPrefix(), "the name of the object cannot be empty");
         } catch (IllegalArgumentException e) {}
         try {
-            trackableObject = new TrackableObject(nameOfObject, null, viewDistance, trackableObjectId);
+            trackableObject = new TrackableObject(nameOfObject, null, trackableObjectId);
             addError(getIllegalPrefix(), "the trackable type of the object cannot be null");
         } catch (IllegalArgumentException e) {}
         try {
-            trackableObject = new TrackableObject(nameOfObject, trackableType, null, trackableObjectId);
-            addError(getIllegalPrefix(), "the view distance of the object cannot be null");
-        } catch (IllegalArgumentException e) {}
-        try {
-            trackableObject = new TrackableObject(nameOfObject, trackableType, viewDistance, -1L);
+            trackableObject = new TrackableObject(nameOfObject, trackableType, -1L);
             addError(getIllegalPrefix(), "the trackable object id of the object cannot be 0");
         } catch (IllegalArgumentException e) {}
     }
@@ -56,7 +52,7 @@ class TrackableObjectTest extends DefaultTest{
         ViewDistance viewDistance = ViewDistance.FAR;
         long trackableObjectId = 2L;
         try {
-            TrackableObject trackableObject = new TrackableObject(nameOfObject, trackableType, viewDistance, trackableObjectId);
+            TrackableObject trackableObject = new TrackableObject(nameOfObject, trackableType, trackableObjectId);
         } catch (IllegalArgumentException e) {
             addErrorWithException("Expected the trackable object", "to be made", e);
         }

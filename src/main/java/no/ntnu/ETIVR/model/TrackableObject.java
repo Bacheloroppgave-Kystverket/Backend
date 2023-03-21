@@ -16,27 +16,19 @@ import javax.persistence.JoinColumn;
 @Entity
 public class TrackableObject {
 
-    ///Id her er bare så jeg får test.
-    private String nameOfObject;
-
     @Id
     @GeneratedValue
     @Column(name = "trackableObjectID")
     private long trackableObjectID;
 
+    private String nameOfObject;
+
     @Enumerated
     private TrackableType trackableType;
 
-    @Enumerated
-    private ViewDistance viewDistance;
-
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "gazeLocations", joinColumns = @JoinColumn(name = "trackableObjectID"))
-    private final List<GazeData> gazeList;
-
 
     public TrackableObject() {
-        this.gazeList = new ArrayList<>();
+
     }
 
     /**
@@ -45,19 +37,11 @@ public class TrackableObject {
      */
     public TrackableObject(@JsonProperty("nameOfObject") String nameOfObject,
                            @JsonProperty("trackableType") TrackableType trackableType,
-                           @JsonProperty("viewDistance") ViewDistance viewDistance,
                            @JsonProperty("trackableObjectID") long trackableObjectID) {
         checkString(nameOfObject, "name of object");
         this.nameOfObject = nameOfObject;
-
         checkIfObjectIsNull(trackableType, "trackable type");
         this.trackableType = trackableType;
-
-        this.gazeList = new ArrayList<>();
-
-        checkIfObjectIsNull(viewDistance, "view distance");
-        this.viewDistance = viewDistance;
-
         checkIfNumberNotNegative(trackableObjectID, "trackable object ID");
         this.trackableObjectID = trackableObjectID;
     }
@@ -92,30 +76,6 @@ public class TrackableObject {
      */
     public void setTrackableType(TrackableType trackableType) {
         this.trackableType = trackableType;
-    }
-
-    /**
-     * Get view distance
-     * @return view distance
-     */
-    public ViewDistance getViewDistance() {
-        return viewDistance;
-    }
-
-    /**
-     * Set view distance
-     * @param viewDistance ViewDistance
-     */
-    public void setViewDistance(ViewDistance viewDistance) {
-        this.viewDistance = viewDistance;
-    }
-
-    /**
-     * Get the gaze list.
-     * @return gaze list.
-     */
-    public List<GazeData> getGazeList() {
-        return gazeList;
     }
 
     /**
