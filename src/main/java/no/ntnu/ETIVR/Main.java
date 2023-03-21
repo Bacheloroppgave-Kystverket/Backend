@@ -1,5 +1,8 @@
 package no.ntnu.ETIVR;
 
+import org.hibernate.annotations.FetchProfile;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

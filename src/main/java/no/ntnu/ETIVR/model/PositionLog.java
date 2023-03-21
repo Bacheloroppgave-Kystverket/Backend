@@ -16,11 +16,11 @@ public class PositionLog {
     @GeneratedValue
     private long positionLogId;
 
-    @ManyToOne
-    @JoinColumn(name = "referencePositionId")
-    private ReferencePosition referencePosition;
+    private String referencePositionName;
 
     private float positionDuration;
+
+    private ReferencePosition referencePosition;
 
     private PositionConfiguration positionConfiguration;
 

@@ -14,19 +14,30 @@ public class Session {
 
     @Id
     @GeneratedValue
-    @Column(name = "sessionId", nullable = false)
+    @Column(name = "sessionId", insertable = false, updatable = false)
     private long sessionId;
 
     private LocalDateTime currentDate;
 
-    private int userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinTable(
+        name = "sessionsOfUser",
+        joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
+        inverseJoinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId")
+    )
+    private User user;
 
     private TrackableLog trackableLog;
 
-    @ManyToOne
-    @JoinColumn(name = "session")
+    //@ManyToOne
+    //@JoinColumn(name = "session")
+    @Transient
     private SimulationSetup simulationSetup;
 
+    /**
+     * Gets the simulation setup.
+     * @return the simulation setup
+     */
     public SimulationSetup getSimulationSetup() {
         return simulationSetup;
     }
@@ -39,21 +50,20 @@ public class Session {
      * @param trackableLog trackable log.
      * @param sessionId the id of the session
      * @param currentDate the current date.
-     * @param userId the user id.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
-                   @JsonProperty("userID") int userId,
+                   @JsonProperty("user") User user,
                    @JsonProperty("trackableLog") TrackableLog trackableLog,
                    @JsonProperty("sessionID") long sessionId,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
-
+        checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
 
         checkIfObjectIsNull(trackableLog, "trackable log");
         this.trackableLog = trackableLog;
 
-        checkIfIntNumberNotNegative(userId, "user ID");
-        this.userId = userId;
+        checkIfObjectIsNull(user, "user");
+        this.user = user;
 
         checkIfNumberNotNegative(sessionId, "session ID");
         this.sessionId = sessionId;
@@ -62,21 +72,7 @@ public class Session {
         this.simulationSetup = simulationSetup;
     }
 
-    /**
-     * Get list of trackable objects
-     * @return trackable objects
-     */
-    public List<TrackableObject> getTrackableLogs() {
-        return trackableData;
-    }
 
-    /**
-     * Set the trackable objects
-     * @param trackableLogs list of trackable objects
-     */
-    public void setTrackableLogs(List<TrackableObject> trackableLogs) {
-        this.trackableData = trackableLogs;
-    }
 
     /**
      * Get session id
@@ -114,49 +110,20 @@ public class Session {
      * Get user ID
      * @return user id
      */
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
+
+
 
     /**
      * Set user ID
-     * @param userId int
+     * @param user the user of this session.
      */
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    /**
-     * Get reference position
-     * @return reference position
-     */
-    public List<ReferencePosition> getReferencePositions() {
-        return referencePositions;
-    }
-
-    /**
-     * Set reference position
-     * @param referencePositions list of reference position
-     */
-    public void setReferencePositions(List<ReferencePosition> referencePositions) {
-        this.referencePositions = referencePositions;
-    }
-
-    /**
-     * Get feedback log
-     * @return feedback log
-     */
-    public List<AdaptiveFeedback> getFeedbackLog() {
-        return adaptiveFeedbackLog;
-    }
-
-    /**
-     * Set feedback log
-     * @param adaptiveFeedbackLog list of feedback logs
-     */
-    public void setFeedbackLog(List<AdaptiveFeedback> adaptiveFeedbackLog) {
-        this.adaptiveFeedbackLog = adaptiveFeedbackLog;
-    }
 
 
     /**

@@ -20,9 +20,7 @@ public class AdaptiveFeedback {
   @Column(name = "referencePositionId")
   private long referencePositionId;
 
-  @ManyToOne
-  @JoinColumn(name = "positionsOfFeedback")
-  private ReferencePosition referencePosition;
+  private String referencePositionName;
 
   private float positionTime;
 
@@ -41,17 +39,17 @@ public class AdaptiveFeedback {
    * Makes an instance of the Feedback class.
    * @param positionTime the time of the position.
    * @param feedbackList the feedback list.
-   * @param referencePosition the reference position of the position.
+   * @param referencePositionName the reference position of the position.
    */
   public AdaptiveFeedback(@JsonProperty("positionTime") float positionTime ,
                           @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList,
-                          @JsonProperty("referencePosition")ReferencePosition referencePosition){
+                          @JsonProperty("referencePositionName") String referencePositionName){
     checkIfObjectIsNull(feedbackList, "feedback list");
     checkFloat(positionTime, "Position time");
-    checkIfObjectIsNull(referencePosition, "reference position");
+    checkString(referencePositionName, "reference position");
     this.feedbackList = feedbackList;
     this.positionTime = positionTime;
-    this.referencePosition = referencePosition;
+    this.referencePositionName = referencePositionName;
   }
 
   /**
