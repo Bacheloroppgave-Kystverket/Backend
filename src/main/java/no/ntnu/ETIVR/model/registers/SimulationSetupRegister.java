@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model.registers;
 
+import java.util.List;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
@@ -25,5 +26,10 @@ public interface SimulationSetupRegister {
      */
     SimulationSetup getSimulationSetupById(long simulationSetupId) throws CouldNotGetSimulationSetupException;
 
+    /**
+     * Gets all the simulation setups in the register.
+     * @return the simulation setups.
+     */
+    List<SimulationSetup> getSimulationSetups();
 
 }

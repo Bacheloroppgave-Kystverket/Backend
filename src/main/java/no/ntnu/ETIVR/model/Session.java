@@ -14,25 +14,38 @@ public class Session {
 
     @Id
     @GeneratedValue
-    @Column(name = "sessionId", nullable = false)
+    @Column(name = "sessionId", insertable = false, updatable = false)
     private long sessionId;
 
     private LocalDateTime currentDate;
 
-    private int userId;
+    @ManyToOne(targetEntity = User.class)
+    @JoinTable(
+        name = "sessionsOfUser",
+        joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
+        inverseJoinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId")
+    )
+    private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableLog.class)
-    @JoinColumn(name = "sessionId")
-    private List<TrackableLog> trackableObjects = new ArrayList<>();
+    //@OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableLog.class)
+    //@JoinColumn(name = "sessionId")
+    @Transient
+    private List<TrackableLog> trackableLogs;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
-    @JoinColumn(name = "sessionId")
+    //@OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
+    //@JoinColumn(name = "sessionId")
+    @Transient
     private List<AdaptiveFeedback> adaptiveFeedbackLog;
 
-    @ManyToOne
-    @JoinColumn(name = "session")
+    //@ManyToOne
+    //@JoinColumn(name = "session")
+    @Transient
     private SimulationSetup simulationSetup;
 
+    /**
+     * Gets the simulation setup.
+     * @return the simulation setup
+     */
     public SimulationSetup getSimulationSetup() {
         return simulationSetup;
     }
@@ -42,24 +55,20 @@ public class Session {
 
     /**
      * Constructor with parameters
-     * @param trackableObjects list of objects to be tracked
+     * @param trackableObjects list of object logs
      * @param sessionId unique id for user
      * @param currentDate the current date.
-     * @param userId the user id.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
-                   @JsonProperty("userID") int userId,
-                   @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
+                   @JsonProperty("closeTrackableObjects") List<TrackableLog> trackableObjects,
                    @JsonProperty("sessionID") long sessionId,
+                   @JsonProperty("adaptiveFeedbackLog") List<AdaptiveFeedback> adaptiveFeedbackLog,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
 
         this.currentDate = currentDate;
 
         checkIfObjectIsNull(trackableObjects, "trackable objects");
-        this.trackableObjects = trackableObjects;
-
-        checkIfIntNumberNotNegative(userId, "user ID");
-        this.userId = userId;
+        this.trackableLogs = trackableObjects;
 
         checkIfNumberNotNegative(sessionId, "session ID");
         this.sessionId = sessionId;
@@ -72,16 +81,16 @@ public class Session {
      * Get list of trackable objects
      * @return trackable objects
      */
-    public List<TrackableObject> getTrackableObjects() {
-        return trackableObjects;
+    public List<TrackableLog> getTrackableObjects() {
+        return trackableLogs;
     }
 
     /**
      * Set the trackable objects
      * @param trackableObjects list of trackable objects
      */
-    public void setTrackableObjects(List<TrackableObject> trackableObjects) {
-        this.trackableObjects = trackableObjects;
+    public void setTrackableObjects(List<TrackableLog> trackableObjects) {
+        this.trackableLogs = trackableObjects;
     }
 
     /**
@@ -120,32 +129,18 @@ public class Session {
      * Get user ID
      * @return user id
      */
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
+
+
 
     /**
      * Set user ID
-     * @param userId int
+     * @param user the user of this session.
      */
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    /**
-     * Get reference position
-     * @return reference position
-     */
-    public List<ReferencePosition> getReferencePositions() {
-        return referencePositions;
-    }
-
-    /**
-     * Set reference position
-     * @param referencePositions list of reference position
-     */
-    public void setReferencePositions(List<ReferencePosition> referencePositions) {
-        this.referencePositions = referencePositions;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     /**

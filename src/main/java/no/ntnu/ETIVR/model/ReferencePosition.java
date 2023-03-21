@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.lang.ref.Reference;
 import java.util.List;
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
@@ -17,11 +18,9 @@ import javax.persistence.JoinColumn;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity
+@Embeddable
 public class ReferencePosition {
 
-  @Id
-  @GeneratedValue
   private long locationId;
 
   private String locationName;

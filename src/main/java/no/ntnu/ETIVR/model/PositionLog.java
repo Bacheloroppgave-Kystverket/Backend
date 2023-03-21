@@ -18,9 +18,7 @@ public class PositionLog {
     @GeneratedValue
     private long positionLogId;
 
-    @ManyToOne
-    @JoinColumn(name = "referencePositionId")
-    private ReferencePosition referencePosition;
+    private String referencePositionName;
 
     private float positionDuration;
 
@@ -34,17 +32,17 @@ public class PositionLog {
 
     /**
      * Makes an instance of the PositionLog class.
-     * @param referencePosition the reference position of the log.
+     * @param referencePositionName the reference position of the log.
      * @param positionDuration the duration of the position log.
      * @param feedbackConfigurationList the feedback configuration list.
      */
-    public PositionLog(@JsonProperty("referencePosition") ReferencePosition referencePosition,
+    public PositionLog(@JsonProperty("referencePositionName") String referencePositionName,
                        @JsonProperty("positionDuration") float positionDuration,
                        @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurationList) {
         checkFloat(positionDuration, "position duration");
         checkIfObjectIsNull(feedbackConfigurationList, "feedback configurations");
-        checkIfObjectIsNull(referencePosition, "reference position");
-        this.referencePosition = referencePosition;
+        checkIfObjectIsNull(referencePositionName, "reference position");
+        this.referencePositionName = referencePositionName;
         this.positionLogId = 0;
         this.positionDuration = positionDuration;
         this.feedbackConfigurations = feedbackConfigurationList;

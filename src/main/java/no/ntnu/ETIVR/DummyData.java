@@ -3,12 +3,17 @@ package no.ntnu.ETIVR;
 import lombok.SneakyThrows;
 import no.ntnu.ETIVR.model.*;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
+import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
-import no.ntnu.ETIVR.model.repository.TrackableObjectRepository;
+import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.services.SessionService;
+import no.ntnu.ETIVR.model.services.SimulationSetupService;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
+import no.ntnu.ETIVR.model.services.UserService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
@@ -29,13 +34,17 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     private final Logger logger = Logger.getLogger("DummyInit");
 
-    public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService){
+    public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService, SimulationSetupService simulationSetupService, UserService userRegister){
         this.trackableObjectsService = trackableObjectsService;
         this.sessionRegister = sessionService;
         try {
-            addTestTrackableObject(trackableObjectsService);
-            addTestSession();
-        } catch (CouldNotAddTrackableObjectException couldNotAddTrackableObjectException){
+            addTrackableObjects(trackableObjectsService);
+            addTestSimulationSetup(simulationSetupService, trackableObjectsService);
+            addDefaultUsers(userRegister);
+            addTestSession(simulationSetupService, userRegister);
+            //addTrackableObjects(trackableObjectsService);
+
+        } catch (Exception couldNotAddTrackableObjectException){
             System.err.println("Test data could not be added but got an " + couldNotAddTrackableObjectException.getClass().getSimpleName() + ".");
         }
     }
@@ -51,14 +60,46 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     /**
-     * Adds test sessions to the database.
+     * Adds default users to the backend.
+     * @param userRegister the user register.
      */
-    private void addTestSession(){
+    private void addDefaultUsers(UserRegister userRegister) throws CouldNotAddUserException {
+        for (int i = 0; i < 5; i++){
+            User user = new User(5000, "Hei " + i, "pass");
+            userRegister.addNewUser(user);
+        }
+    }
+
+    private List<User> makeDefaultUsers(){
+        return null;
+    }
+
+    /**
+     * Adds default test simulation setups.
+     * @param simulationSetupService the setup simulation register.
+     * @param trackableObjectRegister the trackable objects register.
+     * @throws CouldNotAddSimulationSetupException gets thrown if the simulation setup could not be added.
+     */
+    private void addTestSimulationSetup(SimulationSetupService simulationSetupService, TrackableObjectRegister trackableObjectRegister) throws CouldNotAddSimulationSetupException {
+        List<TrackableObject> trackableObjects = trackableObjectRegister.getAllTrackableObjects();List<ReferencePosition> referencePositions = makeReferencePositions();
+        for (int i = 0; i < 5; i++){
+            simulationSetupService.addSimulationSetup(new SimulationSetup("Tugboat " + i,trackableObjects, referencePositions));
+        }
+    }
+
+    /**
+     * Adds test sessions to the database.
+     * @param simulationSetupRegister the simulation setup register.
+     */
+    private void addTestSession(SimulationSetupRegister simulationSetupRegister, UserRegister userRegister){
         try {
+            SimulationSetup simulationSetup = simulationSetupRegister.getSimulationSetups().get(0);
+            User user = userRegister.getAllUsers().get(0);
             for (int i = 0; i < 4; i++){
-                List<ReferencePosition> referencePositions =  makeReferencePositions();
-                List<TrackableObject> trackableObjects = makeTrackableObjects();
-                sessionRegister.addSession(new Session(LocalDateTime.now(), 1, trackableObjects, 500000, referencePositions, makeAdaptiveFeedback(referencePositions, trackableObjects)));
+                List<TrackableObject> trackableObjects = simulationSetup.getTrackableObjects();
+                Session session = new Session(LocalDateTime.now(), makeTrackableLogs(trackableObjects) , 500000, makeAdaptiveFeedback(simulationSetup.getReferencePositions(), trackableObjects), simulationSetup);
+                session.setUser(user);
+                sessionRegister.addSession(session);
             }
         }catch (CouldNotAddSessionException couldNotAddSessionException) {
             logger.warning("The defualt session could not be added.");
@@ -98,7 +139,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private List<AdaptiveFeedback> makeAdaptiveFeedback(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects){
         List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
         int time = 20;
-        referencePositions.forEach(positon -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time), positon)));
+        referencePositions.forEach(positon -> trackableObjects.forEach(trackableObject -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time), positon.getLocationName()))));
         return adaptiveFeedbacks;
     }
 
@@ -113,7 +154,6 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         int dividedTime = time/amount;
         for (TrackableType trackableType : TrackableType.values()){
             categoryFeedbacks.add(new CategoryFeedback(trackableType, dividedTime));
-
         }
         return categoryFeedbacks;
     }
@@ -122,43 +162,44 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      * Makes a set of predefined trackable objects.
      * @return the trackable objects
      */
-    private List<TrackableObject> makeTrackableObjects(){
-        List<TrackableObject> trackableObjects = new ArrayList<>();
-        trackableObjects.add(new TrackableObject("Name Object", TrackableType.WALL, 500000));
-        trackableObjects.add(new TrackableObject("Name Object1", TrackableType.WALL, 500000));
-        trackableObjects.add(new TrackableObject("Name Object2", TrackableType.WALL, 500000));
-        trackableObjects.add(new TrackableObject("Name Object3", TrackableType.WALL, 500000));
+    private List<TrackableLog> makeTrackableLogs(List<TrackableObject> trackableObjectList){
+        List<TrackableLog> trackableObjects = new ArrayList<>();
+        trackableObjectList.forEach(trackableObject -> {
+            trackableObjects.add(new TrackableLog(new ArrayList<>(), ViewDistance.CLOSE, trackableObject));
+        });
         return trackableObjects;
     }
 
     /**
-     * Adding trackable object test data
+     * Makes a default trackable object based on the name.
+     * @param nameOfObject the name of the object.
+     * @return the trackable object.
+     */
+    private TrackableObject makeTrackableObject(String nameOfObject){
+        return new TrackableObject(nameOfObject, TrackableType.WALL, 500000);
+    }
+
+    /**
+     * Adding trackable logs test data
      * @param trackableObjectRegister Track
      * @throws CouldNotAddTrackableObjectException
      */
-    public void addTestTrackableObject(TrackableObjectRegister trackableObjectRegister) throws CouldNotAddTrackableObjectException {
+    public void addTrackableObjects(TrackableObjectRegister trackableObjectRegister) throws CouldNotAddTrackableObjectException {
         checkIfObjectIsNull(trackableObjectRegister);
 
         if (trackableObjectRegister.getAllTrackableObjects().isEmpty()) {
-            List<TrackableObject> trackableObjects = makeTrackableObjects();
-            for (TrackableObject trackableObject : trackableObjects) {
+            for (TrackableObject trackableObject: makeDefaultTrackableObjects()){
                 trackableObjectRegister.addTrackableObject(trackableObject);
             }
         }
     }
 
-    public void addTestSessions(SessionRegister sessionRegister) throws CouldNotAddSessionException {
-        checkIfObjectIsNull(sessionRegister);
-        List<Session> sessionList = new ArrayList<>();
+    public List<TrackableObject> makeDefaultTrackableObjects(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
-        List<ReferencePosition> referencePositions = new ArrayList<>();
-        List<AdaptiveFeedback> adaptiveFeedbackLog = new ArrayList<>();
-        if (sessionRegister.getAllSessions().isEmpty()) {
-            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
-            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
-            sessionList.add(new Session(LocalDateTime.now(), 2, trackableObjects, 3, referencePositions, adaptiveFeedbackLog));
-
+        for (int i = 0; i < 5; i++) {
+            trackableObjects.add(makeTrackableObject("Pog " + i));
         }
+        return trackableObjects;
     }
 
     /**

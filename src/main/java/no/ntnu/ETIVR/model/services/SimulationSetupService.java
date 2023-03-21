@@ -1,5 +1,7 @@
 package no.ntnu.ETIVR.model.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
@@ -45,6 +47,13 @@ public class SimulationSetupService implements SimulationSetupRegister {
             throw new CouldNotGetSimulationSetupException("The simulation setup with id " + simulationSetupId + " is not in the register.");
         }
         return setupOptinal.get();
+    }
+
+    @Override
+    public List<SimulationSetup> getSimulationSetups() {
+        List<SimulationSetup> simulationSetups = new ArrayList<>();
+        simulationSetupRepository.findAll().forEach(simulationSetups::add);
+        return simulationSetups;
     }
 
     /**

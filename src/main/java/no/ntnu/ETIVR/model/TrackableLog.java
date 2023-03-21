@@ -11,23 +11,25 @@ import java.util.List;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Embeddable
 public class TrackableLog {
 
-    @ManyToOne
-    @JoinColumn(name = "trackableObjectsForSession")
+    @Id
+    @GeneratedValue
+    @Column(name = "trackableLogID")
+    private long trackableLogID;
+
+    //@ManyToOne(fetch = FetchType.EAGER)
+    //@JoinColumn(name = "trackableLogID")
+    @Transient
     private TrackableObject trackableObject;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "gazeLocations", joinColumns = @JoinColumn(name = "trackableObjectID"))
+    //@ElementCollection(fetch = FetchType.EAGER)
+    //@CollectionTable(name = "gazeLocations", joinColumns = @JoinColumn(name = "trackableLogID"))
+    @Transient
     private final List<GazeData> gazeList;
 
     @Enumerated
     private ViewDistance viewDistance;
-
-    public TrackableObject getTrackableObject() {
-        return trackableObject;
-    }
 
     /**
      * Makes an instance of the TrackableLog class.
@@ -59,6 +61,22 @@ public class TrackableLog {
     }
 
     /**
+     * Get the gaze list.
+     * @return gaze list.
+     */
+    public List<GazeData> getGazeList() {
+        return gazeList;
+    }
+
+    /**
+     * Gets the trackable object this log represents.
+     * @return the trackable object.
+     */
+    public TrackableObject getTrackableObject() {
+        return trackableObject;
+    }
+
+    /**
      * Set view distance
      * @param viewDistance ViewDistance
      */
@@ -66,13 +84,7 @@ public class TrackableLog {
         this.viewDistance = viewDistance;
     }
 
-    /**
-     * Get the gaze list.
-     * @return gaze list.
-     */
-    public List<GazeData> getGazeList() {
-        return gazeList;
-    }
+
 
     /**
      * Checks if a string is of a valid format or not.
