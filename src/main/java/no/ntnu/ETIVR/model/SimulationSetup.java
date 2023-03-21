@@ -22,8 +22,9 @@ public class SimulationSetup {
     @JoinColumn(name = "sessionId")
     private List<TrackableObject> closeTrackableObjects = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "sessionId")
+    //@OneToMany(cascade = CascadeType.ALL, targetEntity = ReferencePosition.class, fetch = FetchType.EAGER)
+    //@JoinColumn(name = "sessionId")
+    @Transient
     private List<ReferencePosition> referencePositions;
 
     /**

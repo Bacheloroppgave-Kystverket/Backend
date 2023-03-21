@@ -32,7 +32,8 @@ public class FeedbackTest extends  DefaultTest {
         TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
         try{
-            FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(trackableType, threshold);
+            CategoryConfiguration
+                categoryConfiguration = new CategoryConfiguration(trackableType, threshold);
         }catch (IllegalArgumentException exception){
             addErrorWithException("Expected the feedback configuration to be made", "since the input is valid", exception);
         }
@@ -48,15 +49,16 @@ public class FeedbackTest extends  DefaultTest {
         TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
         try{
-            FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(null, threshold);
+            CategoryConfiguration categoryConfiguration = new CategoryConfiguration(null, threshold);
             addError(getIllegalPrefix(),"the input trackable type is null");
         }catch (IllegalArgumentException exception){}
         try{
-            FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(trackableType, -2f);
+            CategoryConfiguration categoryConfiguration = new CategoryConfiguration(trackableType, -2f);
             addError(getIllegalPrefix(), "the input threshold is negative");
         }catch (IllegalArgumentException exception){}
         try {
-            FeedbackConfiguration feedbackConfiguration = new FeedbackConfiguration(trackableType, 1.2f);
+            CategoryConfiguration
+                categoryConfiguration = new CategoryConfiguration(trackableType, 1.2f);
             addError(getIllegalPrefix(), "the input threshold is above 1");
         }catch (IllegalArgumentException exception){}
     }

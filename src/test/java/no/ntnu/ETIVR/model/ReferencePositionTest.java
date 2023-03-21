@@ -33,8 +33,8 @@ public class ReferencePositionTest extends DefaultTest {
   public void testConstructorWorksWithInvalidInput(){
     long locationId = 1;
     String locationName = "Position 1";
-    List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
-    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
+    List<CategoryConfiguration> categoryConfigurationList = new ArrayList<>();
+    categoryConfigurationList.add(new CategoryConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
       referencePosition = new ReferencePosition(-1, locationName);
@@ -58,8 +58,8 @@ public class ReferencePositionTest extends DefaultTest {
   public void testConstructorWithValidInput(){
     long locationId = 1;
     String locationName = "Position 1";
-    List<FeedbackConfiguration> feedbackConfigurationList = new ArrayList<>();
-    feedbackConfigurationList.add(new FeedbackConfiguration(TrackableType.WALL, 0.1f));
+    List<CategoryConfiguration> categoryConfigurationList = new ArrayList<>();
+    categoryConfigurationList.add(new CategoryConfiguration(TrackableType.WALL, 0.1f));
     ReferencePosition referencePosition;
     try {
       referencePosition = new ReferencePosition(locationId, locationName);

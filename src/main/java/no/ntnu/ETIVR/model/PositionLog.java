@@ -1,9 +1,7 @@
 package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import no.ntnu.ETIVR.model.registers.ReferencePositionRegister;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,10 +22,15 @@ public class PositionLog {
 
     private float positionDuration;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "feedbackConfigurations", joinColumns = @JoinColumn(name = "locationId"))
-    private List<FeedbackConfiguration> feedbackConfigurations;
+    private PositionConfiguration positionConfiguration;
 
+    @ElementCollection
+    @CollectionTable(name = "adaptiveFeedbackForPositions", joinColumns = @JoinColumn(name = "positionLogId"))
+    private List<AdaptiveFeedback> adaptiveFeedbacks;
+
+    /**
+     * Makes an instance of the PositionLog class.
+     */
     public PositionLog() {
 
     }
@@ -36,18 +39,19 @@ public class PositionLog {
      * Makes an instance of the PositionLog class.
      * @param referencePosition the reference position of the log.
      * @param positionDuration the duration of the position log.
-     * @param feedbackConfigurationList the feedback configuration list.
+     * @param positionConfiguration the position configuration.
      */
     public PositionLog(@JsonProperty("referencePosition") ReferencePosition referencePosition,
                        @JsonProperty("positionDuration") float positionDuration,
-                       @JsonProperty("feedbackConfigurations") List<FeedbackConfiguration> feedbackConfigurationList) {
+                       @JsonProperty("positionConfiguration") PositionConfiguration positionConfiguration) {
         checkFloat(positionDuration, "position duration");
-        checkIfObjectIsNull(feedbackConfigurationList, "feedback configurations");
+        checkIfObjectIsNull(positionConfiguration, "feedback configurations");
         checkIfObjectIsNull(referencePosition, "reference position");
+        checkIfObjectIsNull(positionConfiguration, "position configuration");
         this.referencePosition = referencePosition;
         this.positionLogId = 0;
         this.positionDuration = positionDuration;
-        this.feedbackConfigurations = feedbackConfigurationList;
+        this.positionConfiguration = positionConfiguration;
     }
 
     /**

@@ -21,13 +21,7 @@ public class Session {
 
     private int userId;
 
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = TrackableLog.class)
-    @JoinColumn(name = "sessionId")
-    private List<TrackableLog> trackableObjects = new ArrayList<>();
-
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = AdaptiveFeedback.class)
-    @JoinColumn(name = "sessionId")
-    private List<AdaptiveFeedback> adaptiveFeedbackLog;
+    private TrackableLog trackableLog;
 
     @ManyToOne
     @JoinColumn(name = "session")
@@ -41,22 +35,22 @@ public class Session {
     }
 
     /**
-     * Constructor with parameters
-     * @param trackableObjects list of objects to be tracked
-     * @param sessionId unique id for user
+     * Makes an instance of the Session class.
+     * @param trackableLog trackable log.
+     * @param sessionId the id of the session
      * @param currentDate the current date.
      * @param userId the user id.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
                    @JsonProperty("userID") int userId,
-                   @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
+                   @JsonProperty("trackableLog") TrackableLog trackableLog,
                    @JsonProperty("sessionID") long sessionId,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
 
         this.currentDate = currentDate;
 
-        checkIfObjectIsNull(trackableObjects, "trackable objects");
-        this.trackableObjects = trackableObjects;
+        checkIfObjectIsNull(trackableLog, "trackable log");
+        this.trackableLog = trackableLog;
 
         checkIfIntNumberNotNegative(userId, "user ID");
         this.userId = userId;
@@ -72,16 +66,16 @@ public class Session {
      * Get list of trackable objects
      * @return trackable objects
      */
-    public List<TrackableObject> getTrackableObjects() {
-        return trackableObjects;
+    public List<TrackableObject> getTrackableLogs() {
+        return trackableData;
     }
 
     /**
      * Set the trackable objects
-     * @param trackableObjects list of trackable objects
+     * @param trackableLogs list of trackable objects
      */
-    public void setTrackableObjects(List<TrackableObject> trackableObjects) {
-        this.trackableObjects = trackableObjects;
+    public void setTrackableLogs(List<TrackableObject> trackableLogs) {
+        this.trackableData = trackableLogs;
     }
 
     /**

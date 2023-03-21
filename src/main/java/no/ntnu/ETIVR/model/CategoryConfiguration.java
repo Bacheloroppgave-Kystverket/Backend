@@ -9,7 +9,7 @@ import javax.persistence.Enumerated;
  * @version 0.1
  */
 @Embeddable
-public class FeedbackConfiguration {
+public class CategoryConfiguration {
 
   @Enumerated
   private TrackableType trackableType;
@@ -19,7 +19,7 @@ public class FeedbackConfiguration {
   /**
    * Makes an instance of the FeedbackConfiguration class.
    */
-  public FeedbackConfiguration() {
+  public CategoryConfiguration() {
 
   }
 
@@ -28,7 +28,7 @@ public class FeedbackConfiguration {
    * @param trackableType the trackable type
    * @param threshold the threshold
    */
-  public FeedbackConfiguration(@JsonProperty("trackableType") TrackableType trackableType,
+  public CategoryConfiguration(@JsonProperty("trackableType") TrackableType trackableType,
                                @JsonProperty("threshold") float threshold){
     checkIfObjectIsNull(trackableType, "trackable type");
     checkIfFloatIsBetweenZeroAndOne(threshold, "threshold");

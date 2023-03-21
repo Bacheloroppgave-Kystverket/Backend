@@ -6,7 +6,6 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
-import no.ntnu.ETIVR.model.repository.TrackableObjectRepository;
 import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -81,12 +80,12 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      * Makes the feedback configurations for the seats.
      * @return the feedback configurations
      */
-    private List<FeedbackConfiguration> makeFeedbackConfigurations(){
-        List<FeedbackConfiguration> feedbackConfigurations = new ArrayList<>();
+    private List<CategoryConfiguration> makeFeedbackConfigurations(){
+        List<CategoryConfiguration> categoryConfigurations = new ArrayList<>();
         for (TrackableType trackableType : TrackableType.values()){
-            feedbackConfigurations.add(new FeedbackConfiguration(trackableType, 0.2f));
+            categoryConfigurations.add(new CategoryConfiguration(trackableType, 0.2f));
         }
-        return feedbackConfigurations;
+        return categoryConfigurations;
     }
 
     /**
