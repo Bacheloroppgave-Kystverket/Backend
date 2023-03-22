@@ -47,7 +47,7 @@ public class SimulationSetup implements Serializable{
     @Fetch(FetchMode.SUBSELECT)
     private List<ReferencePosition> referencePositionList;
 
-    public Collection<TrackableObject> getCloseTrackableObjects() {
+    public List<TrackableObject> getCloseTrackableObjects() {
         return closeTrackableObjects;
     }
 
@@ -64,7 +64,9 @@ public class SimulationSetup implements Serializable{
      * @param trackableObjects the trackable objects.
      * @param referencePositions the reference positions.
      */
-    public SimulationSetup(String nameOfSetup, List<TrackableObject> trackableObjects, List<ReferencePosition> referencePositions){
+    public SimulationSetup(String nameOfSetup,
+                           List<TrackableObject> trackableObjects,
+                           List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");

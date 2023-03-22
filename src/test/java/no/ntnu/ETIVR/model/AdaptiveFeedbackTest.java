@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import java.util.List;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
+import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
+import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
+import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +33,16 @@ public class AdaptiveFeedbackTest extends DefaultTest {
   }
 
   /**
+   * Makes a new default position configuration.
+   * @return the position configuration.
+   */
+  private PositionConfiguration makePositionConfiguration(){
+    List<CategoryConfiguration> categoryFeedbacks = new ArrayList<>();
+    categoryFeedbacks.add(new CategoryConfiguration(TrackableType.OTHER, 0.5f));
+    return new PositionConfiguration(categoryFeedbacks);
+  }
+
+  /**
    * Tests if the constructor works with invalid input.
    */
   @Test
@@ -39,7 +52,8 @@ public class AdaptiveFeedbackTest extends DefaultTest {
     float positionTime = 1f;
     List<CategoryFeedback> feedbackList = new ArrayList<>();
     AdaptiveFeedback adaptiveFeedback;
-    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1");
+
+    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1", makePositionConfiguration());
     try {
       adaptiveFeedback = new AdaptiveFeedback(-2, feedbackList, referencePosition.getLocationName());
       addError(getIllegalPrefix(), "the position time is negative");
@@ -62,7 +76,7 @@ public class AdaptiveFeedbackTest extends DefaultTest {
   public void testConstructorWorksWithValidInput(){
     float positionTime = 1f;
     List<CategoryFeedback> feedbackList = new ArrayList<>();
-    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1");
+    ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1", makePositionConfiguration());
     try {
       AdaptiveFeedback adaptiveFeedback =  new AdaptiveFeedback(positionTime, feedbackList, referencePosition.getLocationName());
     }catch (IllegalArgumentException exception){

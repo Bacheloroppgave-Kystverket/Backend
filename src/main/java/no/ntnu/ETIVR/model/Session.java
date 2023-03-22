@@ -59,18 +59,18 @@ public class Session {
 
     /**
      * Makes an instance of the Session class.
-     * @param trackableLog trackable log.
+     * @param trackableRecords trackable log.
      * @param sessionId the id of the session
      * @param currentDate the current date.
-     * @param positionLog the position log.
+     * @param positionRecords the position log.
      * @param user the user.
      * @param simulationSetup the simulation setup.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
                    @JsonProperty("user") User user,
                    @JsonProperty("sessionID") long sessionId,
-                   @JsonProperty("trackableLog") List<TrackableRecord> trackableLog,
-                   @JsonProperty("positionLog") List<PositionRecord> positionLog,
+                   @JsonProperty("trackableRecords") List<TrackableRecord> trackableRecords,
+                   @JsonProperty("positionRecords") List<PositionRecord> positionRecords,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
         checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
@@ -80,8 +80,10 @@ public class Session {
         this.sessionId = sessionId;
         checkIfObjectIsNull(simulationSetup, "simulation setup");
         this.simulationSetup = simulationSetup;
-        this.trackableRecordList = trackableLog;
-        this.positionRecords = positionLog;
+        checkIfObjectIsNull(trackableRecords, "trakcable records");
+        this.trackableRecordList = trackableRecords;
+        checkIfObjectIsNull(positionRecords, "position records");
+        this.positionRecords = positionRecords;
     }
 
     /**

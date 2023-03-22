@@ -82,10 +82,6 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
-    private List<User> makeDefaultUsers(){
-        return null;
-    }
-
     /**
      * Adds default test simulation setups.
      * @param simulationSetupService the setup simulation register.
