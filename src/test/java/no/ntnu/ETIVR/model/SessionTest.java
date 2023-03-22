@@ -100,6 +100,7 @@ class SessionTest extends DefaultTest{
         adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks ,referencePosition.getLocationName()));
         return adaptiveFeedbacks;
     }
+
     /**
      * Makes a default session
      * @return the default session.
@@ -111,7 +112,7 @@ class SessionTest extends DefaultTest{
 
     @Test
     @DisplayName("Tests if the constructor works with valid input")
-    void testConstructorValidInput() {
+    public void testConstructorValidInput() {
         LocalDateTime localDateTime = LocalDateTime.now();
         User user = makeUser();
         long sessionId = 500000;
@@ -130,7 +131,7 @@ class SessionTest extends DefaultTest{
 
     @Test
     @DisplayName("Tests if the constructor works with invalid input")
-    void testConstructorInvalidInput() {
+    public void testConstructorInvalidInput() {
         LocalDateTime localDateTime = LocalDateTime.now();
         User user = makeUser();
         long sessionId = 500000;

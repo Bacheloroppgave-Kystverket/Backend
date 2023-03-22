@@ -7,7 +7,10 @@ import java.lang.ref.Reference;
 import javax.swing.text.Position;
 import no.ntnu.ETIVR.Main;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
 import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
@@ -16,7 +19,10 @@ import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.PositionRecord;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
+import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
+import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.services.SessionService;
+import no.ntnu.ETIVR.model.services.SimulationSetupService;
 import no.ntnu.ETIVR.model.trackable.GazeData;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import no.ntnu.ETIVR.model.trackable.TrackableRecord;
@@ -41,20 +47,39 @@ import java.util.List;
 public class SessionRegisterTest extends DefaultTest implements RegisterTest{
   private final SessionRegister sessionRegister;
 
+  private final SimulationSetupRegister simulationSetupRegister;
+
+  private final UserRegister userRegister;
+
+  private User user;
+
   private Session sessionInRegister;
 
   private final String removeException;
+
+  private SimulationSetup simulationSetup;
 
   private String addException;
 
   private String getException;
 
   @Autowired
-  public SessionRegisterTest(SessionService sessionService) {
+  public SessionRegisterTest(SessionService sessionService, SimulationSetupService simulationSetupService, UserRegister userRegister) {
     super();
     this.sessionRegister = sessionService;
+    this.simulationSetupRegister = simulationSetupService;
+    this.userRegister = userRegister;
     checkIfObjectIsNull(sessionService, "Session Register");
     removeException = makeExceptionString("remove exception");
+    try {
+      this.simulationSetupRegister.addSimulationSetup(makeSimulationSetup());
+      this.simulationSetup = this.simulationSetupRegister.getSimulationSetups().get(0);
+      userRegister.addNewUser(makeUser());
+      this.user = userRegister.getAllUsers().get(0);
+    }catch (IllegalArgumentException | CouldNotAddSimulationSetupException |
+            CouldNotAddUserException e){
+      fail("Data could not be added.");
+    }
   }
 
 
@@ -70,7 +95,6 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
       sessionInRegister = sessionRegister.getAllSessions().get(0);
     } catch (CouldNotRemoveSessionException | CouldNotAddSessionException | IllegalArgumentException e) {
       fail(makeCouldNotGetDefaultString("test data"));
-      e.printStackTrace();
     }
   }
 
@@ -156,8 +180,8 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
    * @return the default session.
    */
   private Session makeDefaultSession() {
-    SimulationSetup simulationSetup = makeSimulationSetup();
-    return new Session(LocalDateTime.now(), makeUser() ,500000, makeTrackableRecords(simulationSetup), makePositionRecords(simulationSetup),simulationSetup);
+    SimulationSetup simulationSetup = this.simulationSetup;
+    return new Session(LocalDateTime.now(), this.user ,500000, makeTrackableRecords(simulationSetup), makePositionRecords(simulationSetup),simulationSetup);
   }
 
   @DisplayName("Tests if add session works with valid input")
