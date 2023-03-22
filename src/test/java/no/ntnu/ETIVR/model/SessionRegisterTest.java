@@ -6,12 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import java.lang.ref.Reference;
 import javax.swing.text.Position;
 import no.ntnu.ETIVR.Main;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
+import no.ntnu.ETIVR.model.exceptions.*;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
 import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
@@ -20,9 +15,11 @@ import no.ntnu.ETIVR.model.position.PositionRecord;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
+import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.services.SimulationSetupService;
+import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import no.ntnu.ETIVR.model.trackable.GazeData;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import no.ntnu.ETIVR.model.trackable.TrackableRecord;
@@ -45,11 +42,14 @@ import java.util.List;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class SessionRegisterTest extends DefaultTest implements RegisterTest{
+
   private final SessionRegister sessionRegister;
 
   private final SimulationSetupRegister simulationSetupRegister;
 
   private final UserRegister userRegister;
+
+  private TrackableObjectRegister trackableObjectRegister;
 
   private User user;
 
@@ -64,7 +64,7 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
   private String getException;
 
   @Autowired
-  public SessionRegisterTest(SessionService sessionService, SimulationSetupService simulationSetupService, UserRegister userRegister) {
+  public SessionRegisterTest(SessionService sessionService, SimulationSetupService simulationSetupService, UserRegister userRegister, TrackableObjectsService trackableObjectRegister) {
     super();
     this.sessionRegister = sessionService;
     this.simulationSetupRegister = simulationSetupService;
@@ -72,12 +72,14 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
     checkIfObjectIsNull(sessionService, "Session Register");
     removeException = makeExceptionString("remove exception");
     try {
+      this.trackableObjectRegister = trackableObjectRegister;
+      this.trackableObjectRegister.addTrackableObject(new TrackableObject("Pog", TrackableType.WALL, 5000));
       this.simulationSetupRegister.addSimulationSetup(makeSimulationSetup());
       this.simulationSetup = this.simulationSetupRegister.getSimulationSetups().get(0);
       userRegister.addNewUser(makeUser());
       this.user = userRegister.getAllUsers().get(0);
-    }catch (IllegalArgumentException | CouldNotAddSimulationSetupException |
-            CouldNotAddUserException e){
+
+    }catch (IllegalArgumentException | CouldNotAddSimulationSetupException | CouldNotAddUserException | CouldNotAddTrackableObjectException e){
       fail("Data could not be added.");
     }
   }
@@ -108,13 +110,20 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
   @AfterAll
   public void cleanUp() {
     try {
-      //Todo: Breakpoint her.
       List<Session> sessionList = sessionRegister.getAllSessions();
       for (Session session : sessionList) {
-        //Todo: Erroren skjer her. Du har ikke testa metoden her har du?
         sessionRegister.removeSessionByID(session.getSessionId());
       }
-    } catch (CouldNotRemoveSessionException | IllegalArgumentException e) {
+      for (SimulationSetup simulationSetup : simulationSetupRegister.getSimulationSetups()){
+        simulationSetupRegister.removeSimulationSetup(simulationSetup);
+      }
+      for (User user : userRegister.getAllUsers()){
+        userRegister.removeUserWithId(user.getUserId());
+      }
+      for (TrackableObject trackableObject : trackableObjectRegister.getAllTrackableObjects()){
+        trackableObjectRegister.removeTrackableObject(trackableObject);
+      }
+    } catch (CouldNotRemoveSessionException | IllegalArgumentException | CouldNotRemoveSimulationSetupException | CouldNotRemoveUserException | CouldNotRemoveTrackableObjectException e) {
       e.printStackTrace();
     }
   }
@@ -146,13 +155,17 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
    * @return the simulation setup.
    */
   private SimulationSetup makeSimulationSetup(){
-    List<TrackableObject> trackableObjects = new ArrayList<>();
+    List<TrackableObject> trackableObjects = trackableObjectRegister.getAllTrackableObjects();
     List<ReferencePosition> referencePositions = new ArrayList<>();
-    trackableObjects.add(new TrackableObject("Pog", TrackableType.WALL, 5000));
     referencePositions.add(makeReferencePosition());
     return new SimulationSetup("Hei", trackableObjects, referencePositions);
   }
 
+  /**
+   * Makes the trackable records.
+   * @param simulationSetup the simulation setup.
+   * @return the trackable records.
+   */
   private List<TrackableRecord> makeTrackableRecords(SimulationSetup simulationSetup){
     List<GazeData> gazeData = new ArrayList<>();
     gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositions().get(0)));
@@ -170,7 +183,7 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
     ReferencePosition referencePosition = simulationSetup.getReferencePositions().get(0);
     List<CategoryFeedback> categoryFeedbacks = new ArrayList<>();
     categoryFeedbacks.add(new CategoryFeedback(TrackableType.OTHER, 1));
-    adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks ,referencePosition.getLocationName()));
+    adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks));
     positionRecords.add(new PositionRecord(referencePosition,1,  adaptiveFeedbacks));
     return positionRecords;
   }

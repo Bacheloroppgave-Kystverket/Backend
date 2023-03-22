@@ -4,6 +4,7 @@ import java.util.List;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSimulationSetupException;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -17,6 +18,13 @@ public interface SimulationSetupRegister {
      * @throws CouldNotAddSimulationSetupException gets thrown if the simulation setup is already in the register.
      */
     void addSimulationSetup(SimulationSetup simulationSetup) throws CouldNotAddSimulationSetupException;
+
+    /**
+     * Removes a simulation setup from the register.
+     * @param simulationSetup the simulation setup to remove.
+     * @throws CouldNotRemoveSimulationSetupException gets thrown if the simulation setup is not in the register.
+     */
+    void removeSimulationSetup(SimulationSetup simulationSetup) throws CouldNotRemoveSimulationSetupException;
 
     /**
      * Gets a simulation setup by id.

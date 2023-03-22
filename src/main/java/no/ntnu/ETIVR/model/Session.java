@@ -59,11 +59,11 @@ public class Session {
 
     /**
      * Makes an instance of the Session class.
-     * @param trackableRecords trackable log.
-     * @param sessionId the id of the session
      * @param currentDate the current date.
-     * @param positionRecords the position log.
      * @param user the user.
+     * @param sessionId the id of the session
+     * @param trackableRecords trackable log.
+     * @param positionRecords the position log.
      * @param simulationSetup the simulation setup.
      */
     public Session(@JsonProperty("currentDate") LocalDateTime currentDate,
@@ -104,14 +104,6 @@ public class Session {
     }
 
     /**
-     * Set user id
-     * @param sessionId int
-     */
-    public void setSessionId(long sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    /**
      * Get current date
      * @return current date
      */
@@ -124,7 +116,17 @@ public class Session {
      * @param currentDate current date
      */
     public void setCurrentDate(LocalDateTime currentDate) {
+        checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
+    }
+
+    /**
+     * Set user ID
+     * @param user the user of this session.
+     */
+    public void setUser(User user) {
+        checkIfObjectIsNull(user, "user");
+        this.user = user;
     }
 
     /**
@@ -135,29 +137,6 @@ public class Session {
         return user;
     }
 
-
-
-    /**
-     * Set user ID
-     * @param user the user of this session.
-     */
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-
-
-    /**
-     * Checks if a string is of a valid format or not.
-     * @param stringToCheck the string you want to check.
-     * @param errorPrefix   the error the exception should have if the string is invalid.
-     */
-    private void checkString(String stringToCheck, String errorPrefix) {
-        checkIfObjectIsNull(stringToCheck, errorPrefix);
-        if (stringToCheck.isEmpty()) {
-            throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
-        }
-    }
 
     /**
      * Check to make sure that integer values cannot be negative.

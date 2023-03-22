@@ -26,7 +26,7 @@ public class SimulationSetup implements Serializable{
     @Column(unique = true)
     private String nameOfSetup;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
         name = "closeTrackableObjects",
         joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),

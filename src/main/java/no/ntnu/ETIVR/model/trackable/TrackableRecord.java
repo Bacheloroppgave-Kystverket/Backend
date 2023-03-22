@@ -34,9 +34,9 @@ public class TrackableRecord {
 
     /**
      * Makes an instance of the TrackableLog class.
-     * @param gazeList
-     * @param viewDistance
-     * @param trackableObject
+     * @param gazeList the gaze objects.
+     * @param viewDistance the view distance.
+     * @param trackableObject the trackable objects.
      */
     public TrackableRecord(@JsonProperty("gazeList") List<GazeData> gazeList,
                            @JsonProperty("viewDistance") ViewDistance viewDistance,

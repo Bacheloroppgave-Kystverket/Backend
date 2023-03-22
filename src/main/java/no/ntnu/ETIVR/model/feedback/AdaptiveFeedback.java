@@ -16,39 +16,31 @@ public class AdaptiveFeedback {
   @GeneratedValue
   private int feedbackId;
 
-  @Column(name = "referencePositionId")
-  private long referencePositionId;
-
-  private String referencePositionName;
-
   private float positionTime;
 
   @ElementCollection(fetch = FetchType.EAGER)
-  @CollectionTable(name = "calculatedFeedbacks", joinColumns = @JoinColumn(name = "feedbackId"))
+  @CollectionTable(name = "categoryFeedbacks", joinColumns = @JoinColumn(name = "feedbackId"))
   private List<CategoryFeedback> feedbackList;
 
   /**
    * Makes an instance of the Feedback class.
    */
   public AdaptiveFeedback(){
-    
+    this.feedbackId = 0;
   }
 
   /**
    * Makes an instance of the Feedback class.
    * @param positionTime the time of the position.
    * @param feedbackList the feedback list.
-   * @param referencePositionName the reference position of the position.
    */
   public AdaptiveFeedback(@JsonProperty("positionTime") float positionTime ,
-                          @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList,
-                          @JsonProperty("referencePositionName") String referencePositionName){
+                          @JsonProperty("feedbackList") List<CategoryFeedback> feedbackList){
     checkIfObjectIsNull(feedbackList, "feedback list");
     checkFloat(positionTime, "Position time");
-    checkString(referencePositionName, "reference position");
     this.feedbackList = feedbackList;
     this.positionTime = positionTime;
-    this.referencePositionName = referencePositionName;
+    this.feedbackId = 0;
   }
 
   /**

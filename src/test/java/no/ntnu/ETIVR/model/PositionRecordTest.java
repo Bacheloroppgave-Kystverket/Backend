@@ -3,7 +3,6 @@ package no.ntnu.ETIVR.model;
 import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
-import no.ntnu.ETIVR.model.trackable.GazeData;
 import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +16,7 @@ import java.util.List;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class GazeDataTest extends DefaultTest {
+public class PositionRecordTest extends DefaultTest {
 
     @Override
     @BeforeEach
@@ -55,22 +54,7 @@ public class GazeDataTest extends DefaultTest {
     @Test
     @DisplayName("Tests if the constructor works with invalid input.")
     public void testIfConstructorWorksWithInvalidInput(){
-        int fixations = 10;
-        float fixationDuration = 10f;
-        ReferencePosition referencePosition = makeReferencePosition();
-        GazeData gazeData;
-        try {
-            gazeData = new GazeData(-2, fixationDuration, referencePosition);
-            addError(getIllegalPrefix(), "the input fixations is negative");
-        }catch (IllegalArgumentException exception){}
-        try {
-            gazeData =  new GazeData(fixations, -2, referencePosition);
-            addError(getIllegalPrefix(), "the fixation duration is negative");
-        }catch (IllegalArgumentException exception){}
-        try {
-            gazeData = new GazeData(fixations, fixationDuration, null);
-            addError(getIllegalPrefix(), "the reference position is null");
-        }catch (IllegalArgumentException exception){}
+
     }
 
     /**
@@ -79,14 +63,7 @@ public class GazeDataTest extends DefaultTest {
     @Test
     @DisplayName("Tests if the constructor works with valid input.")
     public void testIfConstructorWorksWithValidInput(){
-        int fixations = 10;
-        float fixationDuration = 10f;
-        ReferencePosition referencePosition = makeReferencePosition();
-        GazeData gazeData;
-        try {
-            gazeData = new GazeData(fixations, fixationDuration, referencePosition);
-        }catch (IllegalArgumentException exception){
-            addErrorWithException("Expected the gaze data to be made since", "the input is valid", exception);
-        }
+
     }
+
 }

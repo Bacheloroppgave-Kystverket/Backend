@@ -55,16 +55,12 @@ public class AdaptiveFeedbackTest extends DefaultTest {
 
     ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1", makePositionConfiguration());
     try {
-      adaptiveFeedback = new AdaptiveFeedback(-2, feedbackList, referencePosition.getLocationName());
+      adaptiveFeedback = new AdaptiveFeedback(-2, feedbackList);
       addError(getIllegalPrefix(), "the position time is negative");
     }catch (IllegalArgumentException exception){}
     try {
-      adaptiveFeedback = new AdaptiveFeedback(positionTime, null, referencePosition.getLocationName());
+      adaptiveFeedback = new AdaptiveFeedback(positionTime, null);
       addError(getIllegalPrefix(), "the feedback list is null");
-    }catch (IllegalArgumentException exception){}
-    try {
-      adaptiveFeedback = new AdaptiveFeedback(positionTime, feedbackList, null);
-      addError(getIllegalPrefix(), "the reference position is null");
     }catch (IllegalArgumentException exception){}
   }
 
@@ -78,7 +74,7 @@ public class AdaptiveFeedbackTest extends DefaultTest {
     List<CategoryFeedback> feedbackList = new ArrayList<>();
     ReferencePosition referencePosition = new ReferencePosition(0, "Seat 1", makePositionConfiguration());
     try {
-      AdaptiveFeedback adaptiveFeedback =  new AdaptiveFeedback(positionTime, feedbackList, referencePosition.getLocationName());
+      AdaptiveFeedback adaptiveFeedback =  new AdaptiveFeedback(positionTime, feedbackList);
     }catch (IllegalArgumentException exception){
       addErrorWithException("Expected the adaptive feedback to be made", "since the input is valid", exception);
     }

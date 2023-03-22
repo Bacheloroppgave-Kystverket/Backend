@@ -2,11 +2,11 @@ package no.ntnu.ETIVR.model.position;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.*;
+
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -17,16 +17,26 @@ public class PositionRecord {
 
     @Id
     @GeneratedValue
+    @Column(name = "posDataId")
     private long posDataId;
 
-    //@ManyToOne(targetEntity = ReferencePosition.class)
-    //@JoinColumn(name = "locationId")
-    @Transient
+    @ManyToOne(targetEntity = ReferencePosition.class)
+    @JoinTable(
+            name = "recordPositions",
+            joinColumns = @JoinColumn(name = "posDataId", referencedColumnName = "posDataId"),
+            inverseJoinColumns = @JoinColumn(name = "locationId", referencedColumnName = "locationId")
+    )
     private ReferencePosition referencePosition;
+
     private float positionDuration;
-    //@ElementCollection
-    //@CollectionTable(name = "adaptiveFeedbackForPositions", joinColumns = @JoinColumn(name = "positionLogId"))
-    @Transient
+
+    @OneToMany(cascade = {CascadeType.ALL})
+    @Fetch(FetchMode.SUBSELECT)
+    @JoinTable(
+            name = "positionRecordFeedback",
+            joinColumns = @JoinColumn(name = "posDataId", referencedColumnName = "posDataId"),
+            inverseJoinColumns = @JoinColumn(name = "feedbackId", referencedColumnName = "feedbackId")
+    )
     private List<AdaptiveFeedback> adaptiveFeedbacks;
 
     public List<AdaptiveFeedback> getAdaptiveFeedbacks() {

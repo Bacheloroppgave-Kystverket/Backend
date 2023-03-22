@@ -160,7 +160,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     private List<AdaptiveFeedback> makeAdaptiveFeedback(ReferencePosition referencePosition, List<TrackableObject> trackableObjects){
         List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
         int time = 20;
-        trackableObjects.forEach(trackableObject -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time), referencePosition.getLocationName())));
+        trackableObjects.forEach(trackableObject -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time))));
         return adaptiveFeedbacks;
     }
 

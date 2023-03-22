@@ -1,6 +1,6 @@
 package no.ntnu.ETIVR.model;
 
-import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
+import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.trackable.TrackableType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-public class CalculatedFeedbackTest extends DefaultTest{
+public class CategoryConfigurationTest extends  DefaultTest {
 
     @Override
     @BeforeEach
@@ -25,40 +25,45 @@ public class CalculatedFeedbackTest extends DefaultTest{
         checkIfTestsFailedAndDisplayResult();
     }
 
-
     /**
      * Tests if the constructor works with valid input.
      */
-    @Test
     @DisplayName("Tests if the constructor works with valid input")
+    @Test
     public void testIfConstructorWorksWithValidInput(){
         TrackableType trackableType = TrackableType.WALL;
-        float prosentage = 0f;
-        CategoryFeedback categoryFeedback;
+        float threshold = 1f;
         try{
-            categoryFeedback = new CategoryFeedback(trackableType, prosentage);
+            CategoryConfiguration
+                categoryConfiguration = new CategoryConfiguration(trackableType, threshold);
         }catch (IllegalArgumentException exception){
-            addErrorWithException("Expected the calculated feedback to be made", "since the input is valid", exception);
+            addErrorWithException("Expected the feedback configuration to be made", "since the input is valid", exception);
         }
     }
+
 
     /**
      * Tests if the constructor works with invalid input.
      */
-    @DisplayName("Tests if the constructor works with invalid input")
+    @DisplayName("Tests if the constructor works with invalid input.")
     @Test
     public void testIfConstructorWorksWithInvalidInput(){
         TrackableType trackableType = TrackableType.WALL;
-        float prosentage = 1f;
-        CategoryFeedback categoryFeedback;
-        try {
-            categoryFeedback = new CategoryFeedback(null, prosentage);
-            addError(getIllegalPrefix(), "the trackable type is null");
+        float threshold = 1f;
+        try{
+            CategoryConfiguration categoryConfiguration = new CategoryConfiguration(null, threshold);
+            addError(getIllegalPrefix(),"the input trackable type is null");
         }catch (IllegalArgumentException exception){}
         try{
-            categoryFeedback = new CategoryFeedback(trackableType, -2f);
-            addError(getIllegalPrefix(), "the input prosentage is negative");
+            CategoryConfiguration categoryConfiguration = new CategoryConfiguration(trackableType, -2f);
+            addError(getIllegalPrefix(), "the input threshold is negative");
+        }catch (IllegalArgumentException exception){}
+        try {
+            CategoryConfiguration
+                categoryConfiguration = new CategoryConfiguration(trackableType, 1.2f);
+            addError(getIllegalPrefix(), "the input threshold is above 1");
         }catch (IllegalArgumentException exception){}
     }
+
 
 }

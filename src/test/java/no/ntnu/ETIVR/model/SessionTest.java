@@ -46,6 +46,10 @@ class SessionTest extends DefaultTest{
         return new PositionConfiguration(categoryFeedbacks);
     }
 
+    /**
+     * Makes a default reference position.
+     * @return the reference position.
+     */
     private ReferencePosition makeReferencePosition(){
         return new ReferencePosition(50000, "Seat 1", makePositionConfiguration());
     }
@@ -64,12 +68,18 @@ class SessionTest extends DefaultTest{
      */
     private SimulationSetup makeSimulationSetup(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
-        List<ReferencePosition> referencePositions = new ArrayList<>();
+
         trackableObjects.add(new TrackableObject("Pog", TrackableType.WALL, 5000));
+        List<ReferencePosition> referencePositions = new ArrayList<>();
         referencePositions.add(makeReferencePosition());
         return new SimulationSetup("Hei", trackableObjects, referencePositions);
     }
 
+    /**
+     * Makes trackable records.
+     * @param simulationSetup the simulation setup.
+     * @return the trackable records.
+     */
     private List<TrackableRecord> makeTrackableRecords(SimulationSetup simulationSetup){
         List<GazeData> gazeData = new ArrayList<>();
         gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositions().get(0)));
@@ -97,7 +107,7 @@ class SessionTest extends DefaultTest{
         List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
         List<CategoryFeedback> categoryFeedbacks = new ArrayList<>();
         categoryFeedbacks.add(new CategoryFeedback(TrackableType.OTHER, 1));
-        adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks ,referencePosition.getLocationName()));
+        adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks));
         return adaptiveFeedbacks;
     }
 
@@ -167,4 +177,59 @@ class SessionTest extends DefaultTest{
             addError(getIllegalPrefix(), "the simulation setup is null");
         }catch (IllegalArgumentException exception){}
     }
+
+    /**
+     * Tests if setUser works with invalid input.
+     */
+    @Test
+    @DisplayName("Tests if setUser works with invalid input.")
+    public void testIfSetUserWorksWithInvalidInput(){
+        Session session = makeDefaultSession();
+        try {
+            session.setUser(null);
+            addError(getIllegalPrefix(), "the input user is null");
+        }catch (IllegalArgumentException exception){}
+    }
+
+    /**
+     * Tests if setUser works with valid input.
+     */
+    @Test
+    @DisplayName("Tests if setUser works with valid input.")
+    public void testIfSetUserWorksWithValidInput(){
+        Session session = makeDefaultSession();
+        try {
+            session.setUser(makeUser());
+        }catch (IllegalArgumentException exception){
+            addErrorWithException("Expected the user to be made", "since the input is valid", exception);
+        }
+    }
+
+    /**
+     * Tests if setCurrentDate works with invalid input.
+     */
+    @Test
+    @DisplayName("Tests if setCurrentDate works with invalid input.")
+    public void testIfSetCurrentDateWorksWithInvalidInput(){
+        Session session = makeDefaultSession();
+        try {
+            session.setCurrentDate(null);
+            addError(getIllegalPrefix(), "the input date is null");
+        }catch (IllegalArgumentException exception){}
+    }
+
+    /**
+     * Tests if setCurrentDate works with valid input.
+     */
+    @Test
+    @DisplayName("Tests if setCurrentDate works with valid input.")
+    public void testIfSetCurrentDateWorksWithValidInput(){
+        Session session = makeDefaultSession();
+        try {
+            session.setCurrentDate(LocalDateTime.now());
+        }catch (IllegalArgumentException exception){
+            addErrorWithException("Expected to get a object", "since the input is valid", exception);
+        }
+    }
+
 }

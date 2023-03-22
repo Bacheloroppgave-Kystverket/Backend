@@ -5,6 +5,7 @@ import java.util.List;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSimulationSetupException;
 import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
 import no.ntnu.ETIVR.model.repository.SimulationSetupRepository;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class SimulationSetupService implements SimulationSetupRegister {
      * @param simulationSetupRepository the simulation setup repository
      */
     public SimulationSetupService(SimulationSetupRepository simulationSetupRepository) {
+        checkIfObjectIsNull(simulationSetupRepository, "simulation setup repository");
         this.simulationSetupRepository = simulationSetupRepository;
-
     }
 
     @Override
@@ -36,6 +37,16 @@ public class SimulationSetupService implements SimulationSetupRegister {
             simulationSetupRepository.save(simulationSetup);
         }else{
             throw new CouldNotAddSimulationSetupException("There is already a session with " + simulationSetup.getSimulationSetupId() + " as id in the register.");
+        }
+    }
+
+    @Override
+    public void removeSimulationSetup(SimulationSetup simulationSetup) throws CouldNotRemoveSimulationSetupException {
+        checkIfObjectIsNull(simulationSetup, "simulation setup");
+        if(simulationSetupRepository.existsById(simulationSetup.getSimulationSetupId())){
+            simulationSetupRepository.delete(simulationSetup);
+        }else{
+            throw new CouldNotRemoveSimulationSetupException("The simulation setup with id " + simulationSetup.getSimulationSetupId() + " is not in the register.");
         }
     }
 

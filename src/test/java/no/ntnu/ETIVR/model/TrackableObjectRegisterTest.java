@@ -70,6 +70,19 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
         checkIfTestsFailedAndDisplayResult();
     }
 
+    @Override
+    @AfterAll
+    public void cleanUp() {
+        try{
+            List<TrackableObject> trackableObjectList = trackableObjectRegister.getAllTrackableObjects();
+            for (TrackableObject trackableObject : trackableObjectList){
+                trackableObjectRegister.removeTrackableObject(trackableObject);
+            }
+        }catch (CouldNotRemoveTrackableObjectException | IllegalArgumentException exception){
+            exception.printStackTrace();
+        }
+    }
+
     /**
      * Checks if an object is null.
      * @param object the object you want to check.
@@ -88,19 +101,6 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     private TrackableObject makeDefaultTrackableObject(){
         return new TrackableObject("hei", TrackableType.WALL, 500000);
-    }
-
-    @Override
-    @AfterAll
-    public void cleanUp() {
-        try{
-            List<TrackableObject> trackableObjectList = trackableObjectRegister.getAllTrackableObjects();
-            for (TrackableObject trackableObject : trackableObjectList){
-                trackableObjectRegister.removeTrackableObject(trackableObject);
-            }
-        }catch (CouldNotRemoveTrackableObjectException | IllegalArgumentException exception){
-            exception.printStackTrace();
-        }
     }
 
     /**
