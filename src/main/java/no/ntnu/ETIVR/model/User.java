@@ -124,26 +124,13 @@ public class User {
   }
 
   /**
-   * Checks if an int number is not negative
-   *
-   * @param object int object to be checked
-   * @param error  String
-   */
-  private void checkIfIntNumberNotNegative(int object, String error) {
-    if (object <= 0) {
-      throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
-    }
-  }
-
-
-  /**
    * Check to make sure that integer values cannot be negative.
    *
    * @param object the object to be checked.
    * @param error  exception message to be displayed.
    */
   private void checkIfNumberNotNegative(long object, String error) {
-    if (object <= 0) {
+    if (object < 0) {
       throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
     }
   }

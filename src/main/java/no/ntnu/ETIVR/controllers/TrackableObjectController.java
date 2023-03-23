@@ -32,7 +32,9 @@ public class TrackableObjectController {
      * @return list of trackable objects
      */
     @GetMapping
-    public List<TrackableObject> getAll() {return trackableObjectsService.getAllTrackableObjects();}
+    public List<TrackableObject> getAll() {
+        return trackableObjectsService.getAllTrackableObjects();
+    }
 
 /*    *//**
      * Get a specific trackable object by name
@@ -53,11 +55,11 @@ public class TrackableObjectController {
 
 /*
     */
-/**
+    /**
      * Delete trackable object
      * @param trackableObject trackable object to be deleted
      * @return HTTP response OK if deleted, HTTP response NOT FOUND if not found
-     *//*
+     *
 
     @DeleteMapping
     public ResponseEntity<String> delete(@PathVariable TrackableObject trackableObject) {

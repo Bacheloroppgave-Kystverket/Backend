@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,9 +36,6 @@ public class SimulationSetup implements Serializable{
     @Fetch(FetchMode.SUBSELECT)
     private List<TrackableObject> closeTrackableObjects;
 
-    @OneToOne(targetEntity = PositionConfiguration.class, cascade = CascadeType.ALL)
-    private PositionConfiguration positionConfiguration;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "simulationPositions",
@@ -64,16 +62,15 @@ public class SimulationSetup implements Serializable{
      * @param trackableObjects the trackable objects.
      * @param referencePositions the reference positions.
      */
-    public SimulationSetup(String nameOfSetup,
-                           List<TrackableObject> trackableObjects,
-                           List<ReferencePosition> referencePositions){
+    public SimulationSetup(@JsonProperty("nameOfSetup") String nameOfSetup,
+                           @JsonProperty("trackableObjects") List<TrackableObject> trackableObjects,
+                           @JsonProperty("referencePositions") List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
         this.nameOfSetup = nameOfSetup;
         this.closeTrackableObjects = trackableObjects;
         this.simulationSetupId = 500;
-        this.positionConfiguration = positionConfiguration;
         this.referencePositionList = referencePositions;
     }
 
@@ -85,13 +82,6 @@ public class SimulationSetup implements Serializable{
         return this.referencePositionList;
     }
 
-    /**
-     * Gets the position configuration.
-     * @return the position configuration.
-     */
-    public PositionConfiguration getPositionConfiguration(){
-        return positionConfiguration;
-    }
 
     /**
      * Gets the trackable objects.

@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model.feedback;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
@@ -36,7 +37,7 @@ public class PositionConfiguration {
    * Makes an instance of the PositionConfiguration.
    * @param categoryConfigurations the category configurations.
    */
-  public PositionConfiguration(List<CategoryConfiguration> categoryConfigurations) {
+  public PositionConfiguration(@JsonProperty("categoryConfigurations") List<CategoryConfiguration> categoryConfigurations) {
     checkIfObjectIsNull(categoryConfigurations, "feedback configurations");
     this.categoryConfigurations = categoryConfigurations;
   }

@@ -29,6 +29,8 @@ public class TrackableObject {
     /**
      * Constructor with parameters
      * @param nameOfObject String
+     * @param trackableType the trackable object type
+     * @param trackableObjectID the trackable object id
      */
     public TrackableObject(@JsonProperty("nameOfObject") String nameOfObject,
                            @JsonProperty("trackableType") TrackableType trackableType,
