@@ -53,6 +53,9 @@ public class Session {
     @JoinColumn(name = "simulationSetupId")
     private SimulationSetup simulationSetup;
 
+    /**
+     * Empty constructor
+     */
     public Session() {
 
     }
@@ -94,6 +97,13 @@ public class Session {
         return simulationSetup;
     }
 
+    /**
+     * Get list of trackable records
+     * @return list of trackable records
+     */
+    public List<TrackableRecord> getTrackableRecordList() {
+        return trackableRecordList;
+    }
 
     /**
      * Get session id

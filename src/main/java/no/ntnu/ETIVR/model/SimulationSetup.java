@@ -2,7 +2,6 @@ package no.ntnu.ETIVR.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.*;
 import java.util.List;
 import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
@@ -47,6 +46,10 @@ public class SimulationSetup implements Serializable{
     @Fetch(FetchMode.SUBSELECT)
     private List<ReferencePosition> referencePositionList;
 
+    /**
+     * Get list of trackable object
+     * @return list of trackable objects
+     */
     public List<TrackableObject> getCloseTrackableObjects() {
         return closeTrackableObjects;
     }
@@ -75,6 +78,14 @@ public class SimulationSetup implements Serializable{
         this.simulationSetupId = 500;
         this.positionConfiguration = positionConfiguration;
         this.referencePositionList = referencePositions;
+    }
+
+    /**
+     * Gets the name of the setup.
+     * @return the setup name
+     */
+    public String getNameOfSetup(){
+        return nameOfSetup;
     }
 
     /**

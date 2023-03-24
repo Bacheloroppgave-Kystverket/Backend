@@ -80,7 +80,6 @@ public class User {
    * Sets the userId.
    */
   public void setUserId() {
-    this.userId = userId;
   }
 
   /**
@@ -148,5 +147,12 @@ public class User {
     }
   }
 
+  /**
+   * Get username
+   * @return username
+   */
+  public String getUserName() {
+    return userName;
+  }
 }
 

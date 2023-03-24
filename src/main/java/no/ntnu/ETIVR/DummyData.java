@@ -40,7 +40,7 @@ import java.util.logging.Logger;
 @Profile("!test")
 public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
-    private TrackableObjectsService trackableObjectsService;
+    private final TrackableObjectsService trackableObjectsService;
 
     private final SessionRegister sessionRegister;
 
@@ -114,7 +114,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
                 sessionRegister.addSession(session);
             }
         }catch (CouldNotAddSessionException couldNotAddSessionException) {
-            logger.warning("The defualt session could not be added.");
+            logger.warning("The default session could not be added.");
         }
     }
 
@@ -133,7 +133,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<ReferencePosition> makeReferencePositions(){
         List<ReferencePosition> referencePositions = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 2; i++){
             referencePositions.add(new ReferencePosition(500000, "Seat " + i, makePositionConfiguration()));
         }
         return referencePositions;
@@ -198,10 +198,11 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     /**
      * Makes a default trackable object based on the name.
      * @param nameOfObject the name of the object.
-     * @return the trackable object.
+     * @return the trackable object. !TODO
      */
-    private TrackableObject makeTrackableObject(String nameOfObject){
-        return new TrackableObject(nameOfObject, TrackableType.WALL, 500000);
+    private TrackableObject makeTrackableObject(String nameOfObject, TrackableType trackableType){
+
+        return new TrackableObject(nameOfObject, trackableType, 500000);
     }
 
     /**
@@ -220,8 +221,9 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     public List<TrackableObject> makeDefaultTrackableObjects(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            trackableObjects.add(makeTrackableObject("Pog " + (i + 1)));
+        for (int i = 0; i < 1; i++) {
+            trackableObjects.add(makeTrackableObject("Pog " + (i + 1), TrackableType.WALL));
+            trackableObjects.add(makeTrackableObject("navn" + (i + 1), TrackableType.WINDOW));
         }
         return trackableObjects;
     }

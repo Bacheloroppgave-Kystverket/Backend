@@ -3,6 +3,7 @@ package no.ntnu.ETIVR.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
+import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
 import no.ntnu.ETIVR.model.Session;
 import no.ntnu.ETIVR.model.services.SessionService;
@@ -10,7 +11,6 @@ import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,6 +60,12 @@ public class SessionController {
         sessionRegister.removeSession(session);
     }
 
+    /**
+     * Make session from JSON
+     * @param body String
+     * @return return session from JSON
+     * @throws JsonProcessingException gets thrown if trouble processing exception
+     */
     private Session makeSessionFromJson(String body) throws  JsonProcessingException
     {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -97,5 +103,16 @@ public class SessionController {
         if (object == null){
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }
+    }
+
+    /**
+     * Get session by ID
+     * @param id long
+     * @return session by Id
+     * @throws CouldNotGetSessionException gets thrown if session is not found
+     */
+    @GetMapping("/{id}")
+    public Session getSessionById(@PathVariable("id") long id) throws CouldNotGetSessionException {
+        return sessionRegister.getSessionById(id);
     }
 }
