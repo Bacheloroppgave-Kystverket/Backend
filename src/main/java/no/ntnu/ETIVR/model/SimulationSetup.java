@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.FetchMode;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity
+@Entity(name = "simulationSetup")
 public class SimulationSetup implements Serializable{
 
     @Id
@@ -22,7 +23,7 @@ public class SimulationSetup implements Serializable{
     @Column(name = "simulationSetupId")
     private long simulationSetupId;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "nameOfSetup")
     private String nameOfSetup;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -64,9 +65,9 @@ public class SimulationSetup implements Serializable{
      * @param trackableObjects the trackable objects.
      * @param referencePositions the reference positions.
      */
-    public SimulationSetup(String nameOfSetup,
-                           List<TrackableObject> trackableObjects,
-                           List<ReferencePosition> referencePositions){
+    public SimulationSetup(@JsonProperty("nameOfSetup") String nameOfSetup,
+                           @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
+                           @JsonProperty("referencePositionList") List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
@@ -90,15 +91,6 @@ public class SimulationSetup implements Serializable{
      */
     public List<ReferencePosition> getReferencePositions(){
         return this.referencePositionList;
-    }
-
-
-    /**
-     * Gets the trackable objects.
-     * @return the trackable objects.
-     */
-    public List<TrackableObject> getTrackableObjects(){
-        return closeTrackableObjects.stream().toList();
     }
 
     /**

@@ -39,7 +39,7 @@ public class ReferencePosition {
    * @param locationName the name of the location.
    * @param positionConfiguration the position configuration.
    */
-  public ReferencePosition(@JsonProperty("locationID") long locationId,
+  public ReferencePosition(@JsonProperty("locationId") long locationId,
                            @JsonProperty("locationName") String locationName,
                            @JsonProperty("positionConfiguration") PositionConfiguration positionConfiguration){
     checkFloat(locationId, "location ID");

@@ -206,4 +206,45 @@ public class UserRegisterTest extends DefaultTest implements RegisterTest {
             
         }
     }
+
+    /**
+     * Tests if getUserWithUsername works with invalid input.
+     */
+    @Test
+    @DisplayName("Tests if getUserWithUsername works with invalid input.")
+    public void testIfGetUserWithUsernameWorksWithInvalidInput(){
+        try {
+            userRegister.findUserByUsername("");
+            addError(getIllegalPrefix(), "the input username is empty");
+        }catch (IllegalArgumentException exception){}
+        catch (CouldNotGetUserException exception){
+            addErrorWithException(getIllegalPrefix(), "the input username is empty", exception);
+        }
+        try {
+            userRegister.findUserByUsername(null);
+            addError(getIllegalPrefix(), "the input username is null");
+        }catch (IllegalArgumentException exception){}
+        catch (CouldNotGetUserException exception){
+            addErrorWithException(getIllegalPrefix(), "the input username is null", exception);
+        }
+        try{
+            userRegister.findUserByUsername("Hellloo");
+            addError(getException, "the input user is not in the system");
+        }catch (IllegalArgumentException exception){
+            addErrorWithException(getException, "the input user is not in the system", exception);
+        }catch (CouldNotGetUserException exception){}
+    }
+
+    /**
+     * Tests if getUserWithUsername works with valid input.
+     */
+    @Test
+    @DisplayName("Tests if getUserWithUsername works with valid input.")
+    public void testIfGetUserWithUsernameWorksWithValidInput(){
+        try{
+            userRegister.findUserByUsername(userInRegister.getUserName());
+        }catch (IllegalArgumentException | CouldNotGetUserException exception){
+            addErrorWithException("Expected the user to be found", "since the input is valid", exception);
+        }
+    }
 }

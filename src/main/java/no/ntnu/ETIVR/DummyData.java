@@ -107,9 +107,9 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             SimulationSetup simulationSetup = simulationSetupRegister.getSimulationSetups().get(0);
             User user = userRegister.getAllUsers().get(0);
             for (int i = 0; i < 4; i++){
-                List<TrackableObject> trackableObjects = simulationSetup.getTrackableObjects();
+                List<TrackableObject> trackableObjects = simulationSetup.getCloseTrackableObjects();
                 List<ReferencePosition> referencePositions = simulationSetup.getReferencePositions();
-                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getTrackableObjects()),
+                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getCloseTrackableObjects()),
                     simulationSetup);
                 session.setUser(user);
                 sessionRegister.addSession(session);

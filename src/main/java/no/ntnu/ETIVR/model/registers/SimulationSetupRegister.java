@@ -35,6 +35,14 @@ public interface SimulationSetupRegister {
     SimulationSetup getSimulationSetupById(long simulationSetupId) throws CouldNotGetSimulationSetupException;
 
     /**
+     * Finds a simulation setup by its name.
+     * @param setupName the simulation setup name.
+     * @return the simulation matching that name.
+     * @throws CouldNotGetSimulationSetupException gets thrown if the simulation setup could not be found.
+     */
+    SimulationSetup getSimulationSetupByName(String setupName) throws CouldNotGetSimulationSetupException;
+
+    /**
      * Gets all the simulation setups in the register.
      * @return the simulation setups.
      */
