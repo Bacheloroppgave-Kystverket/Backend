@@ -75,7 +75,7 @@ public class Session {
                    @JsonProperty("trackableRecords") List<TrackableRecord> trackableRecords,
                    @JsonProperty("positionRecords") List<PositionRecord> positionRecords,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
-        checkIfObjectIsNull(currentDate, "current date");
+        //checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
         checkIfObjectIsNull(user, "user");
         this.user = user;
@@ -103,6 +103,14 @@ public class Session {
      */
     public List<TrackableRecord> getTrackableRecordList() {
         return trackableRecordList;
+    }
+
+    /**
+     * Gets the position records.
+     * @return the position records.
+     */
+    public List<PositionRecord> getPositionRecords() {
+        return positionRecords;
     }
 
     /**

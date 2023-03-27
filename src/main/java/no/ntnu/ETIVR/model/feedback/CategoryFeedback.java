@@ -37,6 +37,22 @@ public class CategoryFeedback {
   }
 
   /**
+   * Gets the time of the category feedback.
+   * @return the time of the category feedback.
+   */
+  public float getTime(){
+    return time;
+  }
+
+  /**
+   * Gets the trackable type.
+   * @return the trackable type.
+   */
+  public TrackableType getTrackableType(){
+    return trackableType;
+  }
+
+  /**
    * Checks if a float is above zero.
    * @param numberToCheck the number to check.
    * @param error the error.

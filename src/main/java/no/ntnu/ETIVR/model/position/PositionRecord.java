@@ -67,6 +67,22 @@ public class PositionRecord {
     }
 
     /**
+     * Gets the position duration.
+     * @return the position duration.
+     */
+    public float getPositionDuration(){
+        return positionDuration;
+    }
+
+    /**
+     * Gets the location id.
+     * @return the location id.
+     */
+    public long getLocationId(){
+        return referencePosition.getLocationId();
+    }
+
+    /**
      * Checks if a float is above zero.
      * @param numberToCheck the number to check.
      * @param error the error.

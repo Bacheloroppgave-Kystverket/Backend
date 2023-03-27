@@ -34,9 +34,6 @@ public class SimulationSetup implements Serializable{
     @Fetch(FetchMode.SUBSELECT)
     private List<TrackableObject> closeTrackableObjects;
 
-    @OneToOne(targetEntity = PositionConfiguration.class, cascade = CascadeType.ALL)
-    private PositionConfiguration positionConfiguration;
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
         name = "simulationPositions",
@@ -76,7 +73,6 @@ public class SimulationSetup implements Serializable{
         this.nameOfSetup = nameOfSetup;
         this.closeTrackableObjects = trackableObjects;
         this.simulationSetupId = 500;
-        this.positionConfiguration = positionConfiguration;
         this.referencePositionList = referencePositions;
     }
 
@@ -96,13 +92,6 @@ public class SimulationSetup implements Serializable{
         return this.referencePositionList;
     }
 
-    /**
-     * Gets the position configuration.
-     * @return the position configuration.
-     */
-    public PositionConfiguration getPositionConfiguration(){
-        return positionConfiguration;
-    }
 
     /**
      * Gets the trackable objects.

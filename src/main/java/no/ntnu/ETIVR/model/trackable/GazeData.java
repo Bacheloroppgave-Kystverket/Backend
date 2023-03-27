@@ -6,11 +6,8 @@ import no.ntnu.ETIVR.model.position.ReferencePosition;
 @Embeddable
 public class GazeData {
 
-    @Column(name = "referencePositionId")
-    private long referencePositionId;
-
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "locationId", insertable = false)
+    @JoinColumn(name = "locationId")
     private ReferencePosition referencePosition;
 
     private int fixations;
@@ -52,7 +49,7 @@ public class GazeData {
      * @return location ID
      */
     public long getReferencePositionId() {
-        return referencePositionId;
+        return referencePosition.getLocationId();
     }
 
     /**

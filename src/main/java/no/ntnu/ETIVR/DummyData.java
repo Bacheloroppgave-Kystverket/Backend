@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR;
 
+import java.util.Random;
 import lombok.SneakyThrows;
 import no.ntnu.ETIVR.model.*;
 import no.ntnu.ETIVR.model.SimulationSetup;
@@ -185,10 +186,14 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<TrackableRecord> makeTrackableLog(List<TrackableObject> trackableObjectList, List<ReferencePosition> referencePositions){
         List<TrackableRecord> trackableObjects = new ArrayList<>();
+        Random random = new Random();
         referencePositions.forEach(referencePosition -> {
             trackableObjectList.forEach(trackableObject -> {
                 List<GazeData> gazeDataList = new ArrayList<>();
-                gazeDataList.add(new GazeData(1, 2, referencePosition));
+                int fixations = trackableObject.getTrackableType() == TrackableType.WALL ? 1 : 2;
+                float fixationDuration = trackableObject.getTrackableType() == TrackableType.WALL ? 2 : 1;
+
+                gazeDataList.add(new GazeData(fixations, fixationDuration, referencePosition));
                 trackableObjects.add(new TrackableRecord(gazeDataList, ViewDistance.CLOSE, trackableObject));
             });
         });
@@ -224,6 +229,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         for (int i = 0; i < 1; i++) {
             trackableObjects.add(makeTrackableObject("Pog " + (i + 1), TrackableType.WALL));
             trackableObjects.add(makeTrackableObject("navn" + (i + 1), TrackableType.WINDOW));
+            trackableObjects.add(makeTrackableObject("Hei" + (i + 1), TrackableType.OTHER));
         }
         return trackableObjects;
     }

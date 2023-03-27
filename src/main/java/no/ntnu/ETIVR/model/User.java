@@ -18,7 +18,7 @@ public class User {
   @Column(unique = true)
   private long userId;
 
-  private String userName;
+  private String username;
 
   private String password;
 
@@ -36,16 +36,16 @@ public class User {
    * Constructor with parameters.
    *
    * @param userId
-   * @param userName
+   * @param username
    * @param password
    */
   @JsonCreator
-  public User(@JsonProperty("userId") long userId, @JsonProperty("userName") String userName,
+  public User(@JsonProperty("userId") long userId, @JsonProperty("username") String username,
               @JsonProperty("password") String password) {
     checkIfNumberNotNegative(userId, "UserId");
     this.userId = userId;
-    checkIfObjectIsNull(userName, "UserName");
-    this.userName = userName;
+    checkIfObjectIsNull(username, "UserName");
+    this.username = username;
     checkIfObjectIsNull(password, "Password");
     this.password = password;
   }
@@ -142,7 +142,7 @@ public class User {
    * @param error  exception message to be displayed.
    */
   private void checkIfNumberNotNegative(long object, String error) {
-    if (object <= 0) {
+    if (object < 0) {
       throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
     }
   }
@@ -152,7 +152,7 @@ public class User {
    * @return username
    */
   public String getUserName() {
-    return userName;
+    return username;
   }
 }
 
