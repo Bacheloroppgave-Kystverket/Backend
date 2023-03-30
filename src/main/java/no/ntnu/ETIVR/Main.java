@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 
 @SpringBootApplication
-@EnableJpaRepositories
 public class Main {
 
     public static void main(String[] args) {

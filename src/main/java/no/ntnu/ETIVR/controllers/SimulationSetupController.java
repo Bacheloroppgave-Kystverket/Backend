@@ -3,14 +3,13 @@ package no.ntnu.ETIVR.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import javax.sound.midi.Track;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
 import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
-import no.ntnu.ETIVR.model.repository.SimulationSetupRepository;
-import no.ntnu.ETIVR.model.repository.TrackableObjectRepository;
 import no.ntnu.ETIVR.model.services.SimulationSetupService;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -38,14 +38,14 @@ public class SimulationSetupController {
   /**
    * Makes an instance of the SimulationSetupController class.
    *
-   * @param simulationSetupRepository the simulation setup repository.
-   * @param trackableObjectRepository the trackable object repository.
+   * @param simulationSetupService the simulation setup service.
+   * @param trackableObjectsService the trackable objects service.
    */
-  public SimulationSetupController(SimulationSetupRepository simulationSetupRepository, TrackableObjectRepository trackableObjectRepository) {
-    checkIfObjectIsNull(simulationSetupRepository, "simulation setup repository");
-    checkIfObjectIsNull(trackableObjectRepository, "trackable objects repository");
-    this.simulationSetupRegister = new SimulationSetupService(simulationSetupRepository);
-    this.trackableObjectRegister = new TrackableObjectsService(trackableObjectRepository);
+  public SimulationSetupController(SimulationSetupService simulationSetupService, TrackableObjectsService trackableObjectsService) {
+    checkIfObjectIsNull(simulationSetupService, "simulation setup service");
+    checkIfObjectIsNull(trackableObjectsService, "trackable objects service");
+    this.simulationSetupRegister = simulationSetupService;
+    this.trackableObjectRegister = trackableObjectsService;
   }
 
   /**
@@ -57,38 +57,34 @@ public class SimulationSetupController {
     return simulationSetupRegister.getSimulationSetups();
   }
 
-  @GetMapping("/{setupId}")
-  public SimulationSetup getSimulationSetupById(@PathVariable("setupId") long id)
+  @GetMapping("/{setupName}")
+  public SimulationSetup getSimulationSetupByName(@PathVariable("setupName") String setupName)
       throws CouldNotGetSimulationSetupException {
-    return simulationSetupRegister.getSimulationSetupById(id);
+    return simulationSetupRegister.getSimulationSetupByName(setupName);
   }
 
-
-  /**
-   * Adds a simulation to the register.
-   * @param body the json body.
-   * @throws JsonProcessingException gets thrown if the format of the JSON file is invalid.
-   * @throws CouldNotAddSimulationSetupException gets thrown if the simulation setup is already in the system.
-   */
   @PostMapping
   public void addSimulationSetup(@RequestBody String body)
       throws JsonProcessingException, CouldNotAddSimulationSetupException,
       CouldNotAddTrackableObjectException {
-    SimulationSetup simulationSetup = makeSimulationSetupFromJson(body);
-    for (TrackableObject trackableObject : simulationSetup.getTrackableObjects()){
-      trackableObjectRegister.addTrackableObject(trackableObject);
-    }
+    SimulationSetup simulationSetup = makeSimulationSetup(body);
+    addTrackableObjects(simulationSetup.getCloseTrackableObjects());
     simulationSetupRegister.addSimulationSetup(simulationSetup);
   }
 
   /**
-   * Makes a simulation setup from a JSON file.
-   * @param body the JSON body
-   * @return the simulation setup
-   * @throws JsonProcessingException gets thrown if the JSON is invalid format
+   * Adds the trackable objects.
+   * @param trackableObjects the trackable objects.
+   * @throws CouldNotAddTrackableObjectException gets thrown if the trackable object is already in the register.
    */
-  private SimulationSetup makeSimulationSetupFromJson(String body) throws JsonProcessingException
-  {
+  public void addTrackableObjects(List<TrackableObject> trackableObjects)
+      throws CouldNotAddTrackableObjectException {
+    for(TrackableObject trackableObject : trackableObjects){
+      this.trackableObjectRegister.addTrackableObject(trackableObject);
+    }
+  }
+
+  private SimulationSetup makeSimulationSetup(String body) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     return objectMapper.readValue(body, SimulationSetup.class);
   }

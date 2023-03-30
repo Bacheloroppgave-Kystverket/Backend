@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR;
 
+import java.util.Random;
 import lombok.SneakyThrows;
 import no.ntnu.ETIVR.model.*;
 import no.ntnu.ETIVR.model.SimulationSetup;
@@ -40,7 +41,7 @@ import java.util.logging.Logger;
 @Profile("!test")
 public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
-    private TrackableObjectsService trackableObjectsService;
+    private final TrackableObjectsService trackableObjectsService;
 
     private final SessionRegister sessionRegister;
 
@@ -106,15 +107,15 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             SimulationSetup simulationSetup = simulationSetupRegister.getSimulationSetups().get(0);
             User user = userRegister.getAllUsers().get(0);
             for (int i = 0; i < 4; i++){
-                List<TrackableObject> trackableObjects = simulationSetup.getTrackableObjects();
+                List<TrackableObject> trackableObjects = simulationSetup.getCloseTrackableObjects();
                 List<ReferencePosition> referencePositions = simulationSetup.getReferencePositions();
-                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getTrackableObjects()),
+                Session session = new Session(LocalDateTime.now(), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getCloseTrackableObjects()),
                     simulationSetup);
                 session.setUser(user);
                 sessionRegister.addSession(session);
             }
         }catch (CouldNotAddSessionException couldNotAddSessionException) {
-            logger.warning("The defualt session could not be added.");
+            logger.warning("The default session could not be added.");
         }
     }
 
@@ -133,7 +134,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<ReferencePosition> makeReferencePositions(){
         List<ReferencePosition> referencePositions = new ArrayList<>();
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < 2; i++){
             referencePositions.add(new ReferencePosition(500000, "Seat " + i, makePositionConfiguration()));
         }
         return referencePositions;
@@ -185,10 +186,14 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<TrackableRecord> makeTrackableLog(List<TrackableObject> trackableObjectList, List<ReferencePosition> referencePositions){
         List<TrackableRecord> trackableObjects = new ArrayList<>();
+        Random random = new Random();
         referencePositions.forEach(referencePosition -> {
             trackableObjectList.forEach(trackableObject -> {
                 List<GazeData> gazeDataList = new ArrayList<>();
-                gazeDataList.add(new GazeData(1, 2, referencePosition));
+                int fixations = trackableObject.getTrackableType() == TrackableType.WALL ? 1 : 2;
+                float fixationDuration = trackableObject.getTrackableType() == TrackableType.WALL ? 2 : 1;
+
+                gazeDataList.add(new GazeData(fixations, fixationDuration, referencePosition));
                 trackableObjects.add(new TrackableRecord(gazeDataList, ViewDistance.CLOSE, trackableObject));
             });
         });
@@ -198,10 +203,11 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     /**
      * Makes a default trackable object based on the name.
      * @param nameOfObject the name of the object.
-     * @return the trackable object.
+     * @return the trackable object. !TODO
      */
-    private TrackableObject makeTrackableObject(String nameOfObject){
-        return new TrackableObject(nameOfObject, TrackableType.WALL, 500000);
+    private TrackableObject makeTrackableObject(String nameOfObject, TrackableType trackableType){
+
+        return new TrackableObject(nameOfObject, trackableType, 500000);
     }
 
     /**
@@ -220,8 +226,10 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     public List<TrackableObject> makeDefaultTrackableObjects(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            trackableObjects.add(makeTrackableObject("Pog " + (i + 1)));
+        for (int i = 0; i < 1; i++) {
+            trackableObjects.add(makeTrackableObject("Pog " + (i + 1), TrackableType.WALL));
+            trackableObjects.add(makeTrackableObject("navn" + (i + 1), TrackableType.WINDOW));
+            trackableObjects.add(makeTrackableObject("Hei" + (i + 1), TrackableType.OTHER));
         }
         return trackableObjects;
     }

@@ -53,6 +53,9 @@ public class Session {
     @JoinColumn(name = "simulationSetupId")
     private SimulationSetup simulationSetup;
 
+    /**
+     * Empty constructor
+     */
     public Session() {
 
     }
@@ -72,7 +75,7 @@ public class Session {
                    @JsonProperty("trackableRecords") List<TrackableRecord> trackableRecords,
                    @JsonProperty("positionRecords") List<PositionRecord> positionRecords,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
-        checkIfObjectIsNull(currentDate, "current date");
+        //checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
         checkIfObjectIsNull(user, "user");
         this.user = user;
@@ -94,6 +97,21 @@ public class Session {
         return simulationSetup;
     }
 
+    /**
+     * Get list of trackable records
+     * @return list of trackable records
+     */
+    public List<TrackableRecord> getTrackableRecordList() {
+        return trackableRecordList;
+    }
+
+    /**
+     * Gets the position records.
+     * @return the position records.
+     */
+    public List<PositionRecord> getPositionRecords() {
+        return positionRecords;
+    }
 
     /**
      * Get session id

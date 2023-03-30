@@ -1,5 +1,7 @@
 package no.ntnu.ETIVR.model.trackable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -17,8 +19,9 @@ public class TrackableRecord {
     @GeneratedValue
     private long trackableDataId;
 
-    @ManyToOne
-    @JoinColumn(name = "trackableObjectsForSession")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "trackableObjectId")
+    @JsonIgnore
     private TrackableObject trackableObject;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -27,10 +30,6 @@ public class TrackableRecord {
 
     @Enumerated
     private ViewDistance viewDistance;
-
-    public TrackableObject getTrackableObject() {
-        return trackableObject;
-    }
 
     /**
      * Makes an instance of the TrackableLog class.
@@ -46,6 +45,7 @@ public class TrackableRecord {
         checkIfObjectIsNull(trackableObject, "trackable object");
         this.gazeList = gazeList;
         this.viewDistance = viewDistance;
+        this.trackableObject = trackableObject;
 
     }
 
@@ -59,6 +59,18 @@ public class TrackableRecord {
      */
     public ViewDistance getViewDistance() {
         return viewDistance;
+    }
+
+    /**
+     *  Get trackable object id
+     * @return trackable object id
+     */
+    public long getTrackableObjectId() {
+        return trackableObject.getTrackableObjectID();
+    }
+
+    public long getTrackableDataId(){
+        return trackableDataId;
     }
 
     /**

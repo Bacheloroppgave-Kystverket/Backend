@@ -3,7 +3,6 @@ package no.ntnu.ETIVR.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.*;
 import java.util.List;
 import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
@@ -16,7 +15,7 @@ import org.hibernate.annotations.FetchMode;
  * @author Steinar Hjelle Midthus
  * @version 0.1
  */
-@Entity
+@Entity(name = "simulationSetup")
 public class SimulationSetup implements Serializable{
 
     @Id
@@ -24,7 +23,7 @@ public class SimulationSetup implements Serializable{
     @Column(name = "simulationSetupId")
     private long simulationSetupId;
 
-    @Column(unique = true)
+    @Column(unique = true, name = "nameOfSetup")
     private String nameOfSetup;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
@@ -45,6 +44,10 @@ public class SimulationSetup implements Serializable{
     @Fetch(FetchMode.SUBSELECT)
     private List<ReferencePosition> referencePositionList;
 
+    /**
+     * Get list of trackable object
+     * @return list of trackable objects
+     */
     public List<TrackableObject> getCloseTrackableObjects() {
         return closeTrackableObjects;
     }
@@ -63,8 +66,8 @@ public class SimulationSetup implements Serializable{
      * @param referencePositions the reference positions.
      */
     public SimulationSetup(@JsonProperty("nameOfSetup") String nameOfSetup,
-                           @JsonProperty("trackableObjects") List<TrackableObject> trackableObjects,
-                           @JsonProperty("referencePositions") List<ReferencePosition> referencePositions){
+                           @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
+                           @JsonProperty("referencePositionList") List<ReferencePosition> referencePositions){
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
@@ -75,20 +78,19 @@ public class SimulationSetup implements Serializable{
     }
 
     /**
+     * Gets the name of the setup.
+     * @return the setup name
+     */
+    public String getNameOfSetup(){
+        return nameOfSetup;
+    }
+
+    /**
      * Gets all the reference positions.
      * @return the reference positions.
      */
     public List<ReferencePosition> getReferencePositions(){
         return this.referencePositionList;
-    }
-
-
-    /**
-     * Gets the trackable objects.
-     * @return the trackable objects.
-     */
-    public List<TrackableObject> getTrackableObjects(){
-        return closeTrackableObjects.stream().toList();
     }
 
     /**

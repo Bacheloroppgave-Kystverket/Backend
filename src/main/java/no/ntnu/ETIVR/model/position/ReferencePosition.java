@@ -26,10 +26,6 @@ public class ReferencePosition {
   @JoinColumn(name = "positionConfigId")
   private PositionConfiguration positionConfiguration;
 
-  public PositionConfiguration getPositionConfiguration() {
-    return positionConfiguration;
-  }
-
   /**
    * Makes an instance of the ReferencePosition class.
    */
@@ -62,6 +58,21 @@ public class ReferencePosition {
     return locationName;
   }
 
+  /**
+   * Gets the position configuration.
+   * @return the position configuration.
+   */
+  public PositionConfiguration getPositionConfiguration() {
+    return positionConfiguration;
+  }
+
+  /**
+   * Gets the location id.
+   * @return the location id.
+   */
+  public long getLocationId(){
+    return locationId;
+  }
 
 
   /**

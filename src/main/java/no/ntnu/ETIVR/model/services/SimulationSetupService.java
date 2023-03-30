@@ -61,6 +61,17 @@ public class SimulationSetupService implements SimulationSetupRegister {
     }
 
     @Override
+    public SimulationSetup getSimulationSetupByName(String setupName)
+        throws CouldNotGetSimulationSetupException {
+        checkString(setupName, "setup name");
+        Optional<SimulationSetup> simulationSetup = simulationSetupRepository.findBySetupName(setupName);
+        if(simulationSetup.isEmpty()){
+            throw new CouldNotGetSimulationSetupException("The simulation with that name is not in the register");
+        }
+        return simulationSetup.get();
+    }
+
+    @Override
     public List<SimulationSetup> getSimulationSetups() {
         List<SimulationSetup> simulationSetups = new ArrayList<>();
         simulationSetupRepository.findAll().forEach(simulationSetups::add);
@@ -75,6 +86,19 @@ public class SimulationSetupService implements SimulationSetupRegister {
     public void checkFloat(float numberToCheck, String error){
         if(numberToCheck < 0){
             throw new IllegalArgumentException("The " + error + " cannot be below zero");
+        }
+    }
+
+    /**
+     * Checks if a string is of a valid format or not.
+     *
+     * @param stringToCheck the string you want to check.
+     * @param errorPrefix   the error the exception should have if the string is invalid.
+     */
+    private void checkString(String stringToCheck, String errorPrefix) {
+        checkIfObjectIsNull(stringToCheck, errorPrefix);
+        if (stringToCheck.isEmpty()) {
+            throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
         }
     }
 

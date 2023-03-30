@@ -258,4 +258,46 @@ public class SimulationSetupRegisterTest extends DefaultTest implements Register
             addErrorWithException(getException, "the input simulation id is not in the register", exception);
         }catch (CouldNotGetSimulationSetupException exception){}
     }
+
+    /**
+     * Tests if getSimulationSetupBySetupName works with invalid input.
+     */
+    @Test
+    @DisplayName("ests if getSimulationSetupBySetupName works with invalid input.")
+    public void testIfGetSimulationSetupBySetupNameWorksWithInvalidInput(){
+        try {
+            simulationSetupRegister.getSimulationSetupByName("");
+            addError(getIllegalPrefix(), "the input setup name is empty");
+        }catch (IllegalArgumentException exception){}
+        catch (CouldNotGetSimulationSetupException exception){
+            addErrorWithException(getIllegalPrefix(), "the input setup name is empty", exception);
+        }
+        try{
+            simulationSetupRegister.getSimulationSetupByName(null);
+            addError(getIllegalPrefix(), "the input setup name is null");
+        }catch (IllegalArgumentException exception){
+
+        }catch (CouldNotGetSimulationSetupException exception){
+            addErrorWithException(getIllegalPrefix(), "the input setup name is null", exception);
+        }
+        try {
+            simulationSetupRegister.getSimulationSetupByName("HEllloooo");
+            addError(getException, "the input setup name is not in the register");
+        }catch (IllegalArgumentException exception){
+            addErrorWithException(getException, "the input setup name is not in the register", exception);
+        }catch (CouldNotGetSimulationSetupException exception){}
+    }
+
+    /**
+     * Tests if getSimulationSetupBySetupName works with valid input.
+     */
+    @Test
+    @DisplayName("Tests if getSimulationSetupBySetupName works with valid input.")
+    public void testIfGetSimulationBySetupNameWorksWithValidInput(){
+        try {
+            simulationSetupRegister.getSimulationSetupByName(simulationSetup.getNameOfSetup());
+        }catch (IllegalArgumentException | CouldNotGetSimulationSetupException exception){
+            addErrorWithException("Expected the simulation setup to be made since the input is valid", "", exception);
+        }
+    }
 }

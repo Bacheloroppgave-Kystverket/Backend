@@ -31,6 +31,13 @@ public interface UserRegister {
      */
     User findUserById(long userId) throws CouldNotGetUserException;
 
+    /**
+     * Finds the user based on their username.
+     * @param username the username.
+     * @return the user with that username.
+     * @throws CouldNotGetUserException gets thrown if there is no user with that username.
+     */
+    User findUserByUsername(String username) throws CouldNotGetUserException;
 
 
     /**
@@ -39,7 +46,6 @@ public interface UserRegister {
      * @throws CouldNotRemoveUserException
      */
     void removeUserWithId(long userId) throws CouldNotRemoveUserException;
-
 
 
 

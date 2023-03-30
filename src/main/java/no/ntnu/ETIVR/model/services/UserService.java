@@ -45,11 +45,22 @@ public class UserService implements UserRegister {
         return user.get();
     }
 
+    @Override
+    public User findUserByUsername(String username) throws CouldNotGetUserException {
+        checkString(username, "username");
+        Optional<User> user = userRepository.findUserWithUsername(username);
+        if(user.isEmpty()){
+            throw new CouldNotGetUserException("User is not found");
+        }
+        return user.get();
+    }
+
 
     @Override
     public void addNewUser(User user) throws CouldNotAddUserException {
         checkIfObjectIsNull(user, "user");
-        if(userRepository.findById(user.getUserId()).isEmpty()){
+        if(userRepository.findById(user.getUserId()).isEmpty() &&
+            !userRepository.findUserWithUsername(user.getUserName()).isPresent()){
             userRepository.save(user);
         }else{
             throw new CouldNotAddUserException("There is a user with that id in the system");
@@ -64,7 +75,18 @@ public class UserService implements UserRegister {
 
     }
 
-
+    /**
+     * Checks if a string is of a valid format or not.
+     *
+     * @param stringToCheck the string you want to check.
+     * @param errorPrefix   the error the exception should have if the string is invalid.
+     */
+    private void checkString(String stringToCheck, String errorPrefix) {
+        checkIfObjectIsNull(stringToCheck, errorPrefix);
+        if (stringToCheck.isEmpty()) {
+            throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
+        }
+    }
 
     /**
      * Checks if an object is null.
