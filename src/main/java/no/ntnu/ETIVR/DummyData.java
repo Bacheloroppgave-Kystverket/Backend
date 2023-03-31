@@ -190,8 +190,8 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         referencePositions.forEach(referencePosition -> {
             trackableObjectList.forEach(trackableObject -> {
                 List<GazeData> gazeDataList = new ArrayList<>();
-                int fixations = trackableObject.getTrackableType() == TrackableType.WALL ? 1 : 2;
-                float fixationDuration = trackableObject.getTrackableType() == TrackableType.WALL ? 2 : 1;
+                int fixations = random.nextInt(10,100);
+                float fixationDuration = random.nextInt(10,100);
 
                 gazeDataList.add(new GazeData(fixations, fixationDuration, referencePosition));
                 trackableObjects.add(new TrackableRecord(gazeDataList, ViewDistance.CLOSE, trackableObject));
