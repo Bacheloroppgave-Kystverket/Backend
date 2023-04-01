@@ -1,5 +1,6 @@
 package no.ntnu.ETIVR.model.position;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import javax.persistence.*;
@@ -78,6 +79,7 @@ public class PositionRecord {
      * Gets the location id.
      * @return the location id.
      */
+    @JsonInclude
     public long getLocationId(){
         return referencePosition.getLocationId();
     }

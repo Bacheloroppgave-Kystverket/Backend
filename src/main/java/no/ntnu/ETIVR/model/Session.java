@@ -162,7 +162,7 @@ public class Session {
      * @param error exception message to be displayed.
      */
     private void checkIfNumberNotNegative(long object, String error) {
-        if (object <= 0) {
+        if (object < 0) {
             throw new IllegalArgumentException("The " + error + " Cannot be negative values.");
         }
     }

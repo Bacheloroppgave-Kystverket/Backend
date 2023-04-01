@@ -1,15 +1,18 @@
 package no.ntnu.ETIVR.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class SupportCategory {
+
     @Id
     private long supportCategoryId;
     private String categoryName;
     private String introduction;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "supportItems", joinColumns = @JoinColumn(name = "supportCategoryId"))
     private List<SupportItem> listOfItems;
 
     public SupportCategory() {

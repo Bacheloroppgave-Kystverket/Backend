@@ -1,8 +1,14 @@
 package no.ntnu.ETIVR.model;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class SupportItem {
     private String supportItemName;
     private String explanation;
+
+    public SupportItem() {
+    }
 
     public SupportItem(String supportItemName, String explanation) {
         this.supportItemName = supportItemName;
