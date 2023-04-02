@@ -35,7 +35,6 @@ public class SessionController {
     @GetMapping
     public List<Session> getAllSession() {
         List<Session> sessions = sessionRegister.getAllSessions();
-
         return sessions;
     }
 

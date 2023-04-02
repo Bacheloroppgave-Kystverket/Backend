@@ -11,10 +11,7 @@ import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
 import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.PositionRecord;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
-import no.ntnu.ETIVR.model.registers.SessionRegister;
-import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
-import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
-import no.ntnu.ETIVR.model.registers.UserRegister;
+import no.ntnu.ETIVR.model.registers.*;
 import no.ntnu.ETIVR.model.services.*;
 import no.ntnu.ETIVR.model.trackable.GazeData;
 import no.ntnu.ETIVR.model.trackable.TrackableRecord;
@@ -39,11 +36,15 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     private final SessionRegister sessionRegister;
 
+    private final SupportCategoryRegister supportCategoryRegister;
+
     private final Logger logger = Logger.getLogger("DummyInit");
 
     public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService, SimulationSetupService simulationSetupService, UserService userRegister , SupportCategoryService supportCategoryService){
+
         this.trackableObjectsService = trackableObjectsService;
         this.sessionRegister = sessionService;
+        this.supportCategoryRegister = supportCategoryService;
         try {
             addTrackableObjects(trackableObjectsService);
             addTestSimulationSetup(simulationSetupService, trackableObjectsService);
@@ -130,8 +131,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     }
 
     private List<PositionRecord> makePositionLog(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects){
-        List<PositionRecord> positionData = referencePositions.stream().map(referencePosition -> new PositionRecord(referencePosition, 20, makeAdaptiveFeedback(referencePosition, trackableObjects))).toList();
-        return positionData;
+        return referencePositions.stream().map(referencePosition -> new PositionRecord(referencePosition, 20, makeAdaptiveFeedback(referencePosition, trackableObjects))).toList();
     }
 
     public PositionConfiguration makePositionConfiguration(){
@@ -216,7 +216,6 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      * @return the trackable object. !TODO
      */
     private TrackableObject makeTrackableObject(String nameOfObject, TrackableType trackableType){
-
         return new TrackableObject(nameOfObject, trackableType, 500000);
     }
 
@@ -247,6 +246,8 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
         return trackableObjects;
     }
+
+
 
     /**
      * Checks if an object is null.

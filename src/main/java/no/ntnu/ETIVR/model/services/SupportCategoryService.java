@@ -69,7 +69,7 @@ public class SupportCategoryService  implements SupportCategoryRegister {
             throw new IllegalArgumentException("The " + error + " cannot be below zero");
         }
     }
-    
+
 
     /**
      * Checks if an object is null.
