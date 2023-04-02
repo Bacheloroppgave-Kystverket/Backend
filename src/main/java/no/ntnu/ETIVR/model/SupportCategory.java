@@ -8,6 +8,7 @@ public class SupportCategory {
 
     @Id
     private long supportCategoryId;
+    private int iconNumber;
     private String categoryName;
     private String introduction;
 

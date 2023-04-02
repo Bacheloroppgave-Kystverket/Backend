@@ -4,10 +4,7 @@ import java.util.Random;
 import lombok.SneakyThrows;
 import no.ntnu.ETIVR.model.*;
 import no.ntnu.ETIVR.model.SimulationSetup;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
+import no.ntnu.ETIVR.model.exceptions.*;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
 import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
@@ -18,10 +15,7 @@ import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.registers.SimulationSetupRegister;
 import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.registers.UserRegister;
-import no.ntnu.ETIVR.model.services.SessionService;
-import no.ntnu.ETIVR.model.services.SimulationSetupService;
-import no.ntnu.ETIVR.model.services.TrackableObjectsService;
-import no.ntnu.ETIVR.model.services.UserService;
+import no.ntnu.ETIVR.model.services.*;
 import no.ntnu.ETIVR.model.trackable.GazeData;
 import no.ntnu.ETIVR.model.trackable.TrackableRecord;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
@@ -47,7 +41,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     private final Logger logger = Logger.getLogger("DummyInit");
 
-    public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService, SimulationSetupService simulationSetupService, UserService userRegister){
+    public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService, SimulationSetupService simulationSetupService, UserService userRegister , SupportCategoryService supportCategoryService){
         this.trackableObjectsService = trackableObjectsService;
         this.sessionRegister = sessionService;
         try {
@@ -55,6 +49,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             addTestSimulationSetup(simulationSetupService, trackableObjectsService);
             addDefaultUsers(userRegister);
             addTestSession(simulationSetupService, userRegister);
+            addSupportCategory(supportCategoryService);
 
         } catch (Exception couldNotAddTrackableObjectException){
             System.err.println("Test data could not be added but got an " + couldNotAddTrackableObjectException.getClass().getSimpleName() + ".");
@@ -69,6 +64,21 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             logger.info("Data already exists");
         } else {
             logger.info("importing test data...");
+        }
+    }
+
+    private void addSupportCategory(SupportCategoryService supportCategoryService) throws CouldNotAddSupportCategoryException {
+        if(supportCategoryService.getSupportCategories().isEmpty()){
+            List<SupportItem> suppoortItemsForMetrics = new ArrayList<>();
+            suppoortItemsForMetrics.add(new SupportItem("Fixations", "A fixation is when you foucs on an object for a longer period of time. If you look at something stationary for longer than 50-200ms ++ it can be qualified as a fixation."));
+            suppoortItemsForMetrics.add(new SupportItem("Fixation duration", "The fixation duration is the time that you have spent looking at an area of interest or an point in space."));
+            suppoortItemsForMetrics.add(new SupportItem("Average fixation duration", "Average fixation duration is the average time spent at an area of interest or point in space. It can be found by taking the fixation duration and divide it by the amount of fixations."));
+            SupportCategory supportCategory = new SupportCategory(0, "Eyetracking metrics", "A comprehensive list of all the basic metrics for eyetracking.", suppoortItemsForMetrics);
+
+            List<SupportItem> supportItemsForProfile = new ArrayList<>();
+
+            supportCategoryService.addSupportCategory(supportCategory);
+
         }
     }
 
@@ -224,6 +234,10 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
+    /**
+     * Makes default trackable objects.
+     * @return the list of the trackable objects.
+     */
     public List<TrackableObject> makeDefaultTrackableObjects(){
         List<TrackableObject> trackableObjects = new ArrayList<>();
         for (int i = 0; i < 1; i++) {

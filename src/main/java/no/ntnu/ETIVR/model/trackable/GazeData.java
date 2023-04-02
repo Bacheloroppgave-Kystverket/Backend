@@ -1,6 +1,8 @@
 package no.ntnu.ETIVR.model.trackable;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 
 @Embeddable
@@ -24,7 +26,7 @@ public class GazeData {
      * @param fixationDuration the fixation duration
      * @param referencePosition the reference position.
      */
-    public GazeData(int fixations, float fixationDuration, ReferencePosition referencePosition) {
+    public GazeData(@JsonProperty("fixations") int fixations, @JsonProperty("fixationDuration") float fixationDuration, @JsonProperty("referencePosition") ReferencePosition referencePosition) {
         checkIfObjectIsNull(referencePosition, "reference position");
         checkFloat(fixationDuration, "fixation duration");
         checkFloat(fixations, "fixations");
