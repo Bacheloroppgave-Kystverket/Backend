@@ -13,6 +13,7 @@ import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.services.SimulationSetupService;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,8 +54,14 @@ public class SimulationSetupController {
    * @return the list of simulation setups.
    */
   @GetMapping
-  public List<SimulationSetup> getAllSimulationSetups() {
-    return simulationSetupRegister.getSimulationSetups();
+  public List<SimulationSetup> getAllSimulationSetups(@Param("simulationSetup") String nameOfSetup) {
+    return simulationSetupRegister.getSimulationSetups().stream().filter(simulationSetup -> {
+      boolean valid = false;
+      if (nameOfSetup != null){
+        valid = simulationSetup.getNameOfSetup().equals(nameOfSetup);
+      }
+      return valid;
+    }).toList();
   }
 
   @GetMapping("/{setupName}")

@@ -9,6 +9,7 @@ import no.ntnu.ETIVR.model.Session;
 import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -33,9 +34,15 @@ public class SessionController {
      * @return list of all sessions
      */
     @GetMapping
-    public List<Session> getAllSession() {
-        List<Session> sessions = sessionRegister.getAllSessions();
-        return sessions;
+    public List<Session> getAllSession(@Param("simulationSetupName") String simulationSetupName) {
+        boolean validSimulationSetupName = simulationSetupName != null && !simulationSetupName.isEmpty();
+        return sessionRegister.getAllSessions().stream().filter(session -> {
+            boolean valid = !validSimulationSetupName;
+            if(validSimulationSetupName){
+                valid = session.getSimulationSetup().getNameOfSetup() == simulationSetupName;
+            }
+            return valid;
+        }).toList();
     }
 
     /**

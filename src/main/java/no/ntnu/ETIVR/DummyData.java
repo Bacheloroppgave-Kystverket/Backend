@@ -104,7 +104,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         List<TrackableObject> trackableObjects = trackableObjectRegister.getAllTrackableObjects();
         List<ReferencePosition> referencePositions = makeReferencePositions();
         for (int i = 0; i < 1; i++){
-            simulationSetupService.addSimulationSetup(new SimulationSetup("Tugboat " + i,trackableObjects ,referencePositions ));
+            simulationSetupService.addSimulationSetup(new SimulationSetup("Tugboat",trackableObjects ,referencePositions ));
         }
     }
 
@@ -124,6 +124,9 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
                     simulationSetup);
                 session.setUser(user);
                 sessionRegister.addSession(session);
+                if(i == 1){
+                    user = userRegister.getAllUsers().get(1);
+                }
             }
         }catch (CouldNotAddSessionException couldNotAddSessionException) {
             logger.warning("The default session could not be added.");
