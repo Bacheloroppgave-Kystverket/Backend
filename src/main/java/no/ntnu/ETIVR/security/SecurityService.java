@@ -50,8 +50,8 @@ public class SecurityService implements UserDetailsService {
   }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      UserDetails userDetails;
+    public LoggedInUser loadUserByUsername(String username) throws UsernameNotFoundException {
+      LoggedInUser userDetails;
       try {
 
            userDetails = new LoggedInUser(userService.findUserByUsername(username));

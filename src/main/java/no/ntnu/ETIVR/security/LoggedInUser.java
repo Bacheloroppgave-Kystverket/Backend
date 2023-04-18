@@ -21,7 +21,7 @@ public class LoggedInUser implements UserDetails {
   public LoggedInUser(User user) {
     checkIfObjectIsNull(user, "user");
     this.user = user;
-    authorities.add(new SimpleGrantedAuthority("User"));
+    authorities.add(new SimpleGrantedAuthority("USER"));
   }
 
   /**
@@ -31,6 +31,15 @@ public class LoggedInUser implements UserDetails {
   public void setUser(User user){
     checkIfObjectIsNull(user, "user");
     this.user = user;
+  }
+
+  /**
+   * Checks if the passwords match.
+   * @param inputPass the current password.
+   * @return <code>true</code> if the passwords match. False otherwise.
+   */
+  public boolean checkPassword(String inputPass){
+    return user.passwordsMatch(inputPass);
   }
 
   /**
@@ -48,7 +57,7 @@ public class LoggedInUser implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+    return authorities;
   }
 
   @Override

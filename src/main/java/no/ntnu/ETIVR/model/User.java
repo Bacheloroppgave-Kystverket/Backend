@@ -3,6 +3,7 @@ package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -47,7 +48,7 @@ public class User {
     checkIfObjectIsNull(username, "UserName");
     this.username = username;
     checkIfObjectIsNull(password, "Password");
-    this.password = password;
+    this.password = new BCryptPasswordEncoder().encode(password);
   }
 
   /**
@@ -140,6 +141,16 @@ public class User {
    */
   public String getUserName() {
     return username;
+  }
+
+  /**
+   * Checks if the passwords match.
+   * @param currentPassword the current password.
+   * @return <code>true</code> if the passwords match. False otherwise.
+   */
+  public boolean passwordsMatch(String currentPassword){
+    BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    return bCryptPasswordEncoder.matches(currentPassword, password);
   }
 }
 

@@ -1,15 +1,20 @@
 package no.ntnu.ETIVR.security;
 
+import no.ntnu.ETIVR.security.extra.TokenEndpointEntry;
+import no.ntnu.ETIVR.security.extra.JsonTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author Steinar Hjelle Midthus
@@ -22,26 +27,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private UserDetailsService userDetailsService;
 
+    private TokenEndpointEntry tokenEndpointEntry;
+
+    private JsonTokenFilter jsonTokenFilter;
+
   /**
    * Makes an instance of the SecurityConfig class.
    * @param securityService the security service.
    */
-  public SecurityConfig(SecurityService securityService) {
+  public SecurityConfig(SecurityService securityService, JsonTokenFilter jsonTokenFilter, TokenEndpointEntry tokenEndpointEntry) {
       checkIfObjectIsNull(securityService, "security service");
       this.userDetailsService = securityService;
-  }
-
-  /**
-   * Checks if an object is null.
-   *
-   * @param object the object you want to check.
-   * @param error  the error message the exception should have.
-   * @throws IllegalArgumentException gets thrown if the object is null.
-   */
-  private void checkIfObjectIsNull(Object object, String error) {
-    if (object == null) {
-      throw new IllegalArgumentException("The " + error + " cannot be null.");
-    }
+      this.tokenEndpointEntry = tokenEndpointEntry;
+      this.jsonTokenFilter = jsonTokenFilter;
   }
 
     /**
@@ -56,6 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
 
     /**
      * Configure the authorization rules
@@ -65,16 +69,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // Set up the authorization requests, starting from most restrictive at the top, to least restrictive on bottom
-        http.csrf().disable()
-            .formLogin()
-            .loginPage("/login")
-            .defaultSuccessUrl("/profile")
-            .failureUrl("/login?error=true")
-            .and()
-            .logout()
-            .logoutSuccessUrl("/")
-            .deleteCookies("JSESSIONID")
-            .invalidateHttpSession(true);
+        http.csrf().disable().cors().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/authenticate").permitAll().anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(tokenEndpointEntry).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .addFilterBefore(jsonTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
@@ -85,5 +85,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     ///Todo: fix this later
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * Checks if an object is null.
+     *
+     * @param object the object you want to check.
+     * @param error  the error message the exception should have.
+     * @throws IllegalArgumentException gets thrown if the object is null.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
     }
 }
