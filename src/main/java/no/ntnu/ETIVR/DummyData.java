@@ -77,8 +77,20 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             SupportCategory supportCategory = new SupportCategory(0, "Eyetracking metrics", "A comprehensive list of all the basic metrics for eyetracking.", suppoortItemsForMetrics);
 
             List<SupportItem> supportItemsForProfile = new ArrayList<>();
+            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
+            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
+            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
+            SupportCategory supportCategory1 = new SupportCategory(1, "Profile", "Information about your profile", supportItemsForProfile);
+
+            List<SupportItem> supportItemsForGraphs = new ArrayList<>();
+            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
+            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
+            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
+            SupportCategory supportCategory2 = new SupportCategory(2, "Graph", "Example of bar graphs", supportItemsForGraphs);
 
             supportCategoryService.addSupportCategory(supportCategory);
+            supportCategoryService.addSupportCategory(supportCategory1);
+            supportCategoryService.addSupportCategory(supportCategory2);
 
         }
     }
