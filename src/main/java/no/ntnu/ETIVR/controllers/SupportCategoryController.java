@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/support-category")
+@RequestMapping("/supportCategory")
 public class SupportCategoryController {
     private SupportCategoryRegister supportCategoryRegister;
 
