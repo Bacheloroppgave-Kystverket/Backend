@@ -89,7 +89,7 @@ public class SimulationSetup implements Serializable{
      * Gets all the reference positions.
      * @return the reference positions.
      */
-    public List<ReferencePosition> getReferencePositions(){
+    public List<ReferencePosition> getReferencePositionList(){
         return this.referencePositionList;
     }
 

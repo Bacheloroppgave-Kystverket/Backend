@@ -10,15 +10,18 @@ import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/session")
+@CrossOrigin
 public class SessionController {
+
     private final SessionRegister sessionRegister;
 
     /**
@@ -34,7 +37,8 @@ public class SessionController {
      * @return list of all sessions
      */
     @GetMapping
-    public List<Session> getAllSession(@Param("simulationSetupName") String simulationSetupName) {
+    @PreAuthorize("hasRole('USER')")
+    public List<Session> getAllSession(@Param("simulationSetupName") String simulationSetupName, Authentication authentication) {
         boolean validSimulationSetupName = simulationSetupName != null && !simulationSetupName.isEmpty();
         return sessionRegister.getAllSessions().stream().filter(session -> {
             boolean valid = !validSimulationSetupName;

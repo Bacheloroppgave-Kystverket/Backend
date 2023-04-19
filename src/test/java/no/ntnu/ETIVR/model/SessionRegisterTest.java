@@ -3,8 +3,6 @@ package no.ntnu.ETIVR.model;
 import static org.junit.jupiter.api.Assertions.fail;
 
 
-import java.lang.ref.Reference;
-import javax.swing.text.Position;
 import no.ntnu.ETIVR.Main;
 import no.ntnu.ETIVR.model.exceptions.*;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
@@ -168,7 +166,7 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
    */
   private List<TrackableRecord> makeTrackableRecords(SimulationSetup simulationSetup){
     List<GazeData> gazeData = new ArrayList<>();
-    gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositions().get(0)));
+    gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositionList().get(0)));
     return simulationSetup.getCloseTrackableObjects().stream().map(trackableObject -> new TrackableRecord(gazeData, ViewDistance.CLOSE, trackableObject)).toList();
   }
 
@@ -180,7 +178,7 @@ public class SessionRegisterTest extends DefaultTest implements RegisterTest{
   private List<PositionRecord> makePositionRecords(SimulationSetup simulationSetup){
     List<PositionRecord> positionRecords = new ArrayList<>();
     List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
-    ReferencePosition referencePosition = simulationSetup.getReferencePositions().get(0);
+    ReferencePosition referencePosition = simulationSetup.getReferencePositionList().get(0);
     List<CategoryFeedback> categoryFeedbacks = new ArrayList<>();
     categoryFeedbacks.add(new CategoryFeedback(TrackableType.OTHER, 1));
     adaptiveFeedbacks.add(new AdaptiveFeedback(1, categoryFeedbacks));

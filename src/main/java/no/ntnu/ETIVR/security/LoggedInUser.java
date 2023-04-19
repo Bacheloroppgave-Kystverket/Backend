@@ -25,6 +25,14 @@ public class LoggedInUser implements UserDetails {
   }
 
   /**
+   * Gets the user.
+   * @return the user.
+   */
+  public User getUser(){
+    return user;
+  }
+
+  /**
    * Sets the user.
    * @param user the user.
    */

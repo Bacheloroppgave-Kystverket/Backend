@@ -53,7 +53,8 @@ public class TokenController {
 
         if(userDetails.checkPassword(authenticationRequest.getPassword())){
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-            return ResponseEntity.ok(new JsonToken(generateTokenForUser(userDetails.getUsername())));
+            ResponseEntity<JsonToken> resp = ResponseEntity.status(HttpStatus.OK).body(new JsonToken(generateTokenForUser(userDetails.getUsername())));
+            return resp;
         }else{
             throw new CouldNotGetUserException("The passwords does not match");
         }

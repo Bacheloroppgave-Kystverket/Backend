@@ -1,6 +1,5 @@
 package no.ntnu.ETIVR.model;
 
-import javax.swing.text.Position;
 import no.ntnu.ETIVR.model.feedback.AdaptiveFeedback;
 import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 import no.ntnu.ETIVR.model.feedback.CategoryFeedback;
@@ -82,7 +81,7 @@ class SessionTest extends DefaultTest{
      */
     private List<TrackableRecord> makeTrackableRecords(SimulationSetup simulationSetup){
         List<GazeData> gazeData = new ArrayList<>();
-        gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositions().get(0)));
+        gazeData.add(new GazeData(1,1,simulationSetup.getReferencePositionList().get(0)));
         return simulationSetup.getCloseTrackableObjects().stream().map(trackableObject -> new TrackableRecord(gazeData, ViewDistance.CLOSE, trackableObject)).toList();
     }
 
@@ -92,7 +91,7 @@ class SessionTest extends DefaultTest{
      * @return the list of the simulation setups.
      */
     private List<PositionRecord> makePositionRecords(SimulationSetup simulationSetup){
-        ReferencePosition referencePosition = simulationSetup.getReferencePositions().get(0);
+        ReferencePosition referencePosition = simulationSetup.getReferencePositionList().get(0);
         List<PositionRecord> positionRecords = new ArrayList<>();
         positionRecords.add(new PositionRecord(referencePosition,1,  makeAdaptiveFeedback(referencePosition)));
         return positionRecords;

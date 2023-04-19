@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 0.1
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/simulationSetup")
+@CrossOrigin
 public class SimulationSetupController {
 
   private SimulationSetupRegister simulationSetupRegister;

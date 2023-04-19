@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/supportCategory")
+@CrossOrigin
 public class SupportCategoryController {
     private SupportCategoryRegister supportCategoryRegister;
 
@@ -24,6 +24,7 @@ public class SupportCategoryController {
     }
 
     @GetMapping
+    @CrossOrigin
     public List<SupportCategory> getAllSupportCategories() {
         return supportCategoryRegister.getSupportCategories();
     }

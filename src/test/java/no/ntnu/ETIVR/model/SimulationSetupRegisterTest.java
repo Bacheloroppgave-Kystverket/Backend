@@ -110,7 +110,7 @@ public class SimulationSetupRegisterTest extends DefaultTest implements Register
      * @return the list of the simulation setups.
      */
     private List<PositionRecord> makePositionRecords(SimulationSetup simulationSetup){
-        ReferencePosition referencePosition = simulationSetup.getReferencePositions().get(0);
+        ReferencePosition referencePosition = simulationSetup.getReferencePositionList().get(0);
         List<PositionRecord> positionRecords = new ArrayList<>();
         positionRecords.add(new PositionRecord(referencePosition,1,  makeAdaptiveFeedback(referencePosition)));
         return positionRecords;
