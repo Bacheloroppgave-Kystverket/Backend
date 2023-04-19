@@ -22,6 +22,7 @@ public interface SupportCategoryRegister {
      */
     void removeSupportCategory(SupportCategory supportCategory) throws CouldNotRemoveSupportCategoryException;
 
+
     /**
      * Gets support category by id
      * @param supportCategoryId the id of the support category

@@ -59,15 +59,7 @@ public class SecurityConfig {
                 .addFilterBefore(jsonTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-    /**
-     * http.cors().and().csrf().disable()
-     *                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-     *                 .authorizeRequests().antMatchers("/authenticate").permitAll().antMatchers("/user/register").permitAll()
-     *                 .anyRequest().authenticated().and()
-     *
-     *                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-     *                 .addFilterBefore(jsonTokenFilter, UsernamePasswordAuthenticationFilter.class);
-     */
+
     /**
      * This method is called to decide what encryption to use for password checking
      * @return The password encryptor
