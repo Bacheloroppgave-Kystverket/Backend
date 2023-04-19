@@ -6,12 +6,15 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
 
-
+@RestController
+@RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -25,15 +28,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-
-    /**
-     * Gets the users from the list.
-     * @return returns all users
-     */
-    public List<User> getUser() {
-        return userService.getAllUsers();
-    }
 
     /**
      * Gets one User by id.

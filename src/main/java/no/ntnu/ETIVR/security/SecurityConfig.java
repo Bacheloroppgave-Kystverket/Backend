@@ -66,9 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // Set up the authorization requests, starting from most restrictive at the top, to least restrictive on bottom
         http.csrf().disable()
-            .formLogin()
-            .loginPage("/login")
-            .defaultSuccessUrl("/profile")
+                .formLogin()
+                .loginProcessingUrl("http://localhost:3000/login")
+            .defaultSuccessUrl("http://localhost:3000/")
             .failureUrl("/login?error=true")
             .and()
             .logout()
