@@ -56,6 +56,7 @@ public class SimulationSetupController {
    * @return the list of simulation setups.
    */
   @GetMapping
+  @PreAuthorize("hasRole('USER')")
   public List<SimulationSetup> getAllSimulationSetups(@Param("simulationSetup") String nameOfSetup, Authentication authentication) {
     return simulationSetupRegister.getSimulationSetups().stream().filter(simulationSetup -> {
       boolean valid = false;
@@ -67,12 +68,14 @@ public class SimulationSetupController {
   }
 
   @GetMapping("/{setupName}")
+  @PreAuthorize("hasRole('USER')")
   public SimulationSetup getSimulationSetupByName(@PathVariable("setupName") String setupName)
       throws CouldNotGetSimulationSetupException {
     return simulationSetupRegister.getSimulationSetupByName(setupName);
   }
 
   @PostMapping
+  @PreAuthorize("hasRole('USER')")
   public void addSimulationSetup(@RequestBody String body)
       throws JsonProcessingException, CouldNotAddSimulationSetupException,
       CouldNotAddTrackableObjectException {
@@ -86,13 +89,19 @@ public class SimulationSetupController {
    * @param trackableObjects the trackable objects.
    * @throws CouldNotAddTrackableObjectException gets thrown if the trackable object is already in the register.
    */
-  public void addTrackableObjects(List<TrackableObject> trackableObjects)
+  private void addTrackableObjects(List<TrackableObject> trackableObjects)
       throws CouldNotAddTrackableObjectException {
     for(TrackableObject trackableObject : trackableObjects){
       this.trackableObjectRegister.addTrackableObject(trackableObject);
     }
   }
 
+  /**
+   * Makes a simulation setup from a json string.
+   * @param body the json string.
+   * @return the simulation setup.
+   * @throws JsonProcessingException gets thrown if the format is invalid.
+   */
   private SimulationSetup makeSimulationSetup(String body) throws JsonProcessingException {
     ObjectMapper objectMapper = new ObjectMapper();
     return objectMapper.readValue(body, SimulationSetup.class);

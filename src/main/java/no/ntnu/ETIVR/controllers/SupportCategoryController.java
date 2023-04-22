@@ -8,6 +8,7 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotAddSupportCategoryException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSupportCategoryException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSupportCategoryException;
 import no.ntnu.ETIVR.model.registers.SupportCategoryRegister;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,12 +25,13 @@ public class SupportCategoryController {
     }
 
     @GetMapping
-    @CrossOrigin
+    @PreAuthorize("hasRole('USER')")
     public List<SupportCategory> getAllSupportCategories() {
         return supportCategoryRegister.getSupportCategories();
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public void addSupportCategory(@RequestBody String body)
             throws JsonProcessingException, CouldNotAddSupportCategoryException {
         SupportCategory supportCategory = makeSupportCategory(body);
@@ -37,6 +39,7 @@ public class SupportCategoryController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public SupportCategory getSupportCategoryById(@PathVariable("id") long id) throws CouldNotGetSupportCategoryException {
         return supportCategoryRegister.getSupportCategoryById(id);
     }
@@ -46,6 +49,12 @@ public class SupportCategoryController {
         supportCategoryRegister.removeSupportCategory(supportCategory);
     }
 
+    /**
+     * Makes a support category from a json string.
+     * @param body the json string.
+     * @return the support category.
+     * @throws JsonProcessingException gets thrown if the support category is invalid format.
+     */
     private SupportCategory makeSupportCategory(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(body, SupportCategory.class);

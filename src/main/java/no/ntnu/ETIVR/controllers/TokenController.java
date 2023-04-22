@@ -24,6 +24,7 @@ import java.util.HashMap;
  * @version 0.1
  */
 @RestController
+@RequestMapping("/authenticate")
 @CrossOrigin
 public class TokenController {
 
@@ -43,7 +44,7 @@ public class TokenController {
         this.userDetailsService = securityService;
     }
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody String body) throws CouldNotGetUserException, JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();

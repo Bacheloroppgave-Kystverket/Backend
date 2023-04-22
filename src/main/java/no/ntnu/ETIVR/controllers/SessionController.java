@@ -54,6 +54,7 @@ public class SessionController {
      * @param body String
      */
     @PostMapping
+    @PreAuthorize("hasRole('USER')")
     public void add(@RequestBody String body) throws CouldNotAddSessionException, JsonProcessingException {
         System.out.println(body);
         Session session = makeSessionFromJson(body);
@@ -83,28 +84,6 @@ public class SessionController {
     }
 
     /**
-     * Checks if session is taken
-     * @param sessionToCheck session to check String
-     * @return whether the session is taken
-     */
-    public boolean getIfSessionIsTaken(@RequestParam(value= "sessionToCheck") String sessionToCheck) {
-        checkString(sessionToCheck);
-        return sessionRegister.CheckIfRegisterHasSession();
-    }
-
-    /**
-     * Checks if a string is of a valid format or not.
-     * @param stringToCheck the string you want to check.
-     *
-     */
-    private void checkString(String stringToCheck){
-        checkIfObjectIsNull(stringToCheck, "session");
-        if (stringToCheck.isEmpty()){
-            throw new IllegalArgumentException("The " + "session" + " cannot be empty.");
-        }
-    }
-
-    /**
      * Checks if an object is null.
      * @param object the object you want to check.
      * @param error the error message the exception should have.
@@ -122,6 +101,7 @@ public class SessionController {
      * @throws CouldNotGetSessionException gets thrown if session is not found
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
     public Session getSessionById(@PathVariable("id") long id) throws CouldNotGetSessionException {
         return sessionRegister.getSessionById(id);
     }
