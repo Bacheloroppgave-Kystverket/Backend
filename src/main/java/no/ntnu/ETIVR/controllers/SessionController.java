@@ -43,7 +43,7 @@ public class SessionController {
         return sessionRegister.getAllSessions().stream().filter(session -> {
             boolean valid = !validSimulationSetupName;
             if(validSimulationSetupName){
-                valid = session.getSimulationSetup().getNameOfSetup() == simulationSetupName;
+                valid = session.getSimulationSetup().getNameOfSetup().equals(simulationSetupName);
             }
             return valid;
         }).toList();

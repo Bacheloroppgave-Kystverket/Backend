@@ -16,6 +16,7 @@ import java.util.Optional;
 public class SupportCategoryService  implements SupportCategoryRegister {
     private final SupportCategoryRepository supportCategoryRepository;
 
+
     public SupportCategoryService(SupportCategoryRepository supportCategoryRepository) {
         checkIfObjectIsNull(supportCategoryRepository, "support category repository");
         this.supportCategoryRepository = supportCategoryRepository;

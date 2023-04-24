@@ -7,6 +7,7 @@ import java.util.List;
 public class SupportCategory {
 
     @Id
+    @GeneratedValue
     private long supportCategoryId;
     private int iconNumber;
     private String categoryName;
