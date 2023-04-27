@@ -101,7 +101,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private void addDefaultUsers(UserRegister userRegister) throws CouldNotAddUserException {
         for (int i = 0; i < 5; i++){
-            User user = new User(5000, "Hei " + i, "pass");
+            User user = new User(5000, "Hei" + i, "pass");
             userRegister.addNewUser(user);
         }
     }

@@ -57,14 +57,8 @@ public class SimulationSetupController {
    */
   @GetMapping
   @PreAuthorize("hasRole('USER')")
-  public List<SimulationSetup> getAllSimulationSetups(@Param("simulationSetup") String nameOfSetup, Authentication authentication) {
-    return simulationSetupRegister.getSimulationSetups().stream().filter(simulationSetup -> {
-      boolean valid = false;
-      if (nameOfSetup != null){
-        valid = simulationSetup.getNameOfSetup().equals(nameOfSetup);
-      }
-      return valid;
-    }).toList();
+  public List<SimulationSetup> getAllSimulationSetups() {
+    return simulationSetupRegister.getSimulationSetups();
   }
 
   @GetMapping("/{setupName}")

@@ -39,8 +39,10 @@ public class UserController {
      * Gets the users from the list.
      * @return returns all users
      */
-    public List<User> getUser() {
-        return userService.getAllUsers();
+    @GetMapping
+    @PreAuthorize("hasRole('USER')")
+    public List<String> getUsers() {
+        return userService.getAllUsers().stream().map(user -> user.getUserName()).toList();
     }
 
 

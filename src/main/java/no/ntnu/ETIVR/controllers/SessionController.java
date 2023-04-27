@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,15 +40,29 @@ public class SessionController {
      */
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public List<Session> getAllSession(@Param("simulationSetupName") String simulationSetupName, Authentication authentication) {
-        boolean validSimulationSetupName = simulationSetupName != null && !simulationSetupName.isEmpty();
+    public List<Session> getAllSession(@RequestParam(value = "simulationSetupName", required = false) ArrayList<String> simulationSetupNames,
+                                       @RequestParam(value = "username", required = false) ArrayList<String> usernames) {
+        boolean validSimulationSetupName = simulationSetupNames!= null && !simulationSetupNames.isEmpty();
+        boolean validUsername = usernames != null && !usernames.isEmpty();
         return sessionRegister.getAllSessions().stream().filter(session -> {
             boolean valid = !validSimulationSetupName;
             if(validSimulationSetupName){
-                valid = session.getSimulationSetup().getNameOfSetup().equals(simulationSetupName);
+                valid = simulationSetupNames.stream().anyMatch(name -> name.equals(session.getSimulationSetup().getNameOfSetup()) );
+            }
+            return valid;
+        }).filter(session -> {
+            boolean valid = !validUsername;
+            if (validUsername) {
+                valid = usernames.stream().anyMatch(username -> username.equals(session.getUser().getUserName()));
             }
             return valid;
         }).toList();
+    }
+
+    ///Todo: delete me
+    @GetMapping("/date")
+    public Date getDate(){
+        return new Date();
     }
 
     /**
