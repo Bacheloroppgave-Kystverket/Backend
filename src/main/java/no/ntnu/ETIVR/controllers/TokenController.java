@@ -67,12 +67,12 @@ public class TokenController {
      * @param exception the exception.
      * @return the response to the matching exceptions.
      */
-    @ExceptionHandler
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleExceptions(Exception exception){
         ResponseEntity<String> responseEntity;
         if(exception instanceof IllegalArgumentException || exception instanceof JsonProcessingException){
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Json file is invalid format");
-        }else {
+        }else{
             responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("Username or password is invalid.");
         }
         return responseEntity;

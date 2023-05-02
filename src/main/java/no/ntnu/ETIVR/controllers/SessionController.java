@@ -2,6 +2,10 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.logging.Logger;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
@@ -9,6 +13,7 @@ import no.ntnu.ETIVR.model.Session;
 import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -40,8 +45,12 @@ public class SessionController {
      */
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public List<Session> getAllSession(@RequestParam(value = "simulationSetupName", required = false) ArrayList<String> simulationSetupNames,
-                                       @RequestParam(value = "username", required = false) ArrayList<String> usernames) {
+    public List<Session> getAllPersistedSessions(@RequestParam(value = "simulationSetupName", required = false) ArrayList<String> simulationSetupNames,
+                                                 @RequestParam(value = "username", required = false) ArrayList<String> usernames,
+                                                 @RequestParam(value = "startDate", required = false) String startDate,
+                                                 @RequestParam(value = "endDate", required = false) String endDate){
+        LocalDate start = startDate != null && !startDate.isBlank() ? makeDate(startDate) : null;
+        LocalDate stop = endDate != null && !endDate.isBlank() ? makeDate(endDate) : null;
         boolean validSimulationSetupName = simulationSetupNames!= null && !simulationSetupNames.isEmpty();
         boolean validUsername = usernames != null && !usernames.isEmpty();
         return sessionRegister.getAllSessions().stream().filter(session -> {
@@ -56,13 +65,36 @@ public class SessionController {
                 valid = usernames.stream().anyMatch(username -> username.equals(session.getUser().getUserName()));
             }
             return valid;
+        }).filter(session -> {
+            boolean valid = start != null;
+            if(valid){
+                valid = session.getCurrentDate().toLocalDate().isEqual(start) || session.getCurrentDate().toLocalDate().isAfter(start);
+            }else{
+                valid = true;
+            }
+            return valid;
+        }).filter(session -> {
+            boolean valid = stop == null;
+            if(!valid){
+                valid = session.getCurrentDate().toLocalDate().isEqual(stop) || session.getCurrentDate().toLocalDate().isBefore(stop);
+            }else{
+                valid = true;
+            }
+            return valid;
         }).toList();
     }
 
-    ///Todo: delete me
-    @GetMapping("/date")
-    public Date getDate(){
-        return new Date();
+    /**
+     * Makes the string into a local date.
+     * @param dateAsString the date as string.
+     * @return the local date.
+     */
+    private LocalDate makeDate(String dateAsString){
+        List<Integer> dateAsArray = Arrays.stream(dateAsString.split("-")).map(numberAsString -> Integer.parseInt(numberAsString)).toList();
+        if(dateAsArray.size() > 3 || dateAsArray.size() < 3){
+            throw new IllegalArgumentException("Invalid format on date.");
+        }
+        return LocalDate.of(dateAsArray.get(2), dateAsArray.get(1), dateAsArray.get(0));
     }
 
     /**
@@ -72,7 +104,6 @@ public class SessionController {
     @PostMapping
     @PreAuthorize("hasRole('USER')")
     public void add(@RequestBody String body) throws CouldNotAddSessionException, JsonProcessingException {
-        System.out.println(body);
         Session session = makeSessionFromJson(body);
         session.setCurrentDate(LocalDateTime.now());
         sessionRegister.addSession(session);
