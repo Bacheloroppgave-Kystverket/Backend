@@ -20,7 +20,7 @@ public class SupportCategory {
     public SupportCategory() {
     }
 
-    public SupportCategory(long supportCategoryId, String categoryName, String introduction, List<SupportItem> listOfItems) {
+    public SupportCategory(long supportCategoryId, String categoryName, String introduction, List<SupportItem> listOfItems, int iconNumber) {
         checkIfNumberNotNegative(supportCategoryId, "support category id");
         this.supportCategoryId = supportCategoryId;
         checkIfObjectIsNull(categoryName, "category name");
@@ -29,6 +29,16 @@ public class SupportCategory {
         this.introduction = introduction;
         checkIfObjectIsNull(listOfItems, "list of items");
         this.listOfItems = listOfItems;
+        checkIfNumberNotNegative(iconNumber, "icon number");
+        this.iconNumber = iconNumber;
+    }
+
+    /**
+     * Gets the icon number.
+     * @return the icon number.
+     */
+    public int getIconNumber(){
+        return iconNumber;
     }
 
     /**

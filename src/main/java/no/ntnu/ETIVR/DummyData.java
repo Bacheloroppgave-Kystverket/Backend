@@ -74,19 +74,23 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             suppoortItemsForMetrics.add(new SupportItem("Fixations", "A fixation is when you foucs on an object for a longer period of time. If you look at something stationary for longer than 50-200ms ++ it can be qualified as a fixation."));
             suppoortItemsForMetrics.add(new SupportItem("Fixation duration", "The fixation duration is the time that you have spent looking at an area of interest or an point in space."));
             suppoortItemsForMetrics.add(new SupportItem("Average fixation duration", "Average fixation duration is the average time spent at an area of interest or point in space. It can be found by taking the fixation duration and divide it by the amount of fixations."));
-            SupportCategory supportCategory = new SupportCategory(0, "Eyetracking metrics", "A comprehensive list of all the basic metrics for eyetracking.", suppoortItemsForMetrics);
+            SupportCategory supportCategory = new SupportCategory(0, "Eyetracking metrics", "Introduction to eyetracking.", suppoortItemsForMetrics, 2);
 
             List<SupportItem> supportItemsForProfile = new ArrayList<>();
             supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
             supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
             supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
-            SupportCategory supportCategory1 = new SupportCategory(1, "Profile", "Information about your profile", supportItemsForProfile);
+            SupportCategory supportCategory1 = new SupportCategory(1, "Profile", "Information about your profile", supportItemsForProfile, 1);
 
             List<SupportItem> supportItemsForGraphs = new ArrayList<>();
             supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
             supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
             supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
-            SupportCategory supportCategory2 = new SupportCategory(2, "Graph", "Example of bar graphs", supportItemsForGraphs);
+            SupportCategory supportCategory2 = new SupportCategory(2, "Graph", "Example of bar graphs", supportItemsForGraphs, 3);
+
+            List<SupportItem> supportItemsForFilterCard = new ArrayList<>();
+            supportItemsForGraphs.add(new SupportItem("User", "Filter by users"));
+            SupportCategory supportCategory3 = new SupportCategory(3, "Filter card", "How to filter sessions", supportItemsForFilterCard, 4);
 
             supportCategoryService.addSupportCategory(supportCategory);
             supportCategoryService.addSupportCategory(supportCategory1);
@@ -101,7 +105,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private void addDefaultUsers(UserRegister userRegister) throws CouldNotAddUserException {
         for (int i = 0; i < 5; i++){
-            User user = new User(5000, "Hei" + i, "pass");
+            User user = new User(5000, "HeiHeiHei" + i, "Password1");
             userRegister.addNewUser(user);
         }
     }
@@ -228,7 +232,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
     /**
      * Makes a default trackable object based on the name.
      * @param nameOfObject the name of the object.
-     * @return the trackable object. !TODO
+     * @return the trackable object.
      */
     private TrackableObject makeTrackableObject(String nameOfObject, TrackableType trackableType){
         return new TrackableObject(nameOfObject, trackableType, 500000);

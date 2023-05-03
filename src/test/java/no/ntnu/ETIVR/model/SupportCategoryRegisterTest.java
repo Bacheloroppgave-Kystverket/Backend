@@ -179,7 +179,7 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         List<SupportItem> supportItemList = new ArrayList<>();
         supportItemList.add(new SupportItem("Fixations", "explanation"));
         supportItemList.add(new SupportItem("Fixation duration", "explanation"));
-        return new SupportCategory(id, "category name", "introduction", supportItemList);
+        return new SupportCategory(id, "category name", "introduction", supportItemList, 1);
     }
     /**
      * Checks if an object is null.
