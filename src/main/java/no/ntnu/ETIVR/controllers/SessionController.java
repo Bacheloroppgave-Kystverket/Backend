@@ -49,8 +49,8 @@ public class SessionController {
                                                  @RequestParam(value = "username", required = false) ArrayList<String> usernames,
                                                  @RequestParam(value = "startDate", required = false) String startDate,
                                                  @RequestParam(value = "endDate", required = false) String endDate){
-        LocalDate start = startDate != null && !startDate.isBlank() ? makeDate(startDate) : null;
-        LocalDate stop = endDate != null && !endDate.isBlank() ? makeDate(endDate) : null;
+        LocalDate startDateObject = startDate != null && !startDate.isBlank() ? makeDate(startDate) : null;
+        LocalDate stopDateObject = endDate != null && !endDate.isBlank() ? makeDate(endDate) : null;
         boolean validSimulationSetupName = simulationSetupNames!= null && !simulationSetupNames.isEmpty();
         boolean validUsername = usernames != null && !usernames.isEmpty();
         return sessionRegister.getAllSessions().stream().filter(session -> {
@@ -66,17 +66,17 @@ public class SessionController {
             }
             return valid;
         }).filter(session -> {
-            boolean valid = start != null;
+            boolean valid = startDateObject != null;
             if(valid){
-                valid = session.getCurrentDate().toLocalDate().isEqual(start) || session.getCurrentDate().toLocalDate().isAfter(start);
+                valid = session.getCurrentDate().toLocalDate().isEqual(startDateObject) || session.getCurrentDate().toLocalDate().isAfter(startDateObject);
             }else{
                 valid = true;
             }
             return valid;
         }).filter(session -> {
-            boolean valid = stop == null;
+            boolean valid = stopDateObject == null;
             if(!valid){
-                valid = session.getCurrentDate().toLocalDate().isEqual(stop) || session.getCurrentDate().toLocalDate().isBefore(stop);
+                valid = session.getCurrentDate().toLocalDate().isEqual(stopDateObject) || session.getCurrentDate().toLocalDate().isBefore(stopDateObject);
             }else{
                 valid = true;
             }

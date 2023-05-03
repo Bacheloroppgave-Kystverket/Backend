@@ -59,20 +59,22 @@ public class UserController {
      * @return
      */
     @PostMapping("/register")
-    public ResponseEntity<String> registerNewUser(@RequestBody String body) throws JsonProcessingException {
+    public ResponseEntity<String> registerNewUser(@RequestBody String body) throws JsonProcessingException, CouldNotAddUserException {
         ResponseEntity<String> response;
         User user = new ObjectMapper().readValue(body, User.class);
-        try {
-            userService.addNewUser(user);
-            response = new ResponseEntity<>(HttpStatus.OK);
-        }catch (CouldNotAddUserException exception){
-            response = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        userService.addNewUser(user);
+        response = new ResponseEntity<>(HttpStatus.OK);
         return response;
     }
 
-
-
-
+    /**
+     * Handles the exceptions that can occur in this controller.
+     * @param exception the exception.
+     * @return the response to the matching exceptions.
+     */
+    @ExceptionHandler(CouldNotAddUserException.class)
+    public ResponseEntity<String> handleExceptions(CouldNotAddUserException exception){
+        return ResponseEntity.status(HttpStatus.IM_USED).body("User with that username is already in the system");
+    }
 }
 
