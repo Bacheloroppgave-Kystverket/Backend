@@ -133,24 +133,32 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         try {
             SimulationSetup simulationSetup = simulationSetupRegister.getSimulationSetups().get(0);
             User user = userRegister.getAllUsers().get(0);
+            int amount = 0;
             for (int i = 0; i < 4; i++){
                 List<TrackableObject> trackableObjects = simulationSetup.getCloseTrackableObjects();
                 List<ReferencePosition> referencePositions = simulationSetup.getReferencePositionList();
-                Session session = new Session(LocalDateTime.now().minusDays(i % 2 == 0 ? 3 : 0), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getCloseTrackableObjects()),
+                Session session = new Session(LocalDateTime.now().minusDays(i % 2 == 0 ? 3 : 0), user, 500000 , makeTrackableLog(trackableObjects, referencePositions), makePositionLog(referencePositions, simulationSetup.getCloseTrackableObjects(), amount),
                     simulationSetup);
                 session.setUser(user);
                 sessionRegister.addSession(session);
                 if(i == 1){
                     user = userRegister.getAllUsers().get(1);
                 }
+                amount++;
             }
         }catch (CouldNotAddSessionException couldNotAddSessionException) {
             logger.warning("The default session could not be added.");
         }
     }
 
-    private List<PositionRecord> makePositionLog(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects){
-        return referencePositions.stream().map(referencePosition -> new PositionRecord(referencePosition, 20, makeAdaptiveFeedback(referencePosition, trackableObjects))).toList();
+    private List<PositionRecord> makePositionLog(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects, int amount){
+        List<PositionRecord> positionRecords = new ArrayList<>();
+
+        for(ReferencePosition referencePosition : referencePositions){
+            positionRecords.add(new PositionRecord(referencePosition, 20, makeAdaptiveFeedback(referencePosition, trackableObjects, amount)));
+
+        }
+        return positionRecords;
     }
 
     public PositionConfiguration makePositionConfiguration(){
@@ -187,10 +195,16 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      * @param trackableObjects the trackable objects.
      * @return the adaptive feedback.
      */
-    private List<AdaptiveFeedback> makeAdaptiveFeedback(ReferencePosition referencePosition, List<TrackableObject> trackableObjects){
+    private List<AdaptiveFeedback> makeAdaptiveFeedback(ReferencePosition referencePosition, List<TrackableObject> trackableObjects, int amount){
         List<AdaptiveFeedback> adaptiveFeedbacks = new ArrayList<>();
-        int time = 20;
-        trackableObjects.forEach(trackableObject -> adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time))));
+        int time = 40;
+        for (int i = amount; i < trackableObjects.size(); i++){
+            if(amount >= 2 && i < 4){
+                adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time)));
+            }else if(amount < 2){
+                adaptiveFeedbacks.add(new AdaptiveFeedback(time, makeCategoryFeedback(time)));
+            }
+        }
         return adaptiveFeedbacks;
     }
 
@@ -201,10 +215,18 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
      */
     private List<CategoryFeedback> makeCategoryFeedback(int time){
         List<CategoryFeedback> categoryFeedbacks = new ArrayList<>();
-        int amount = TrackableType.values().length - 1;
-        int dividedTime = time/amount;
+        int currentValue = 0;
+        int newValue = 0;
+        int valueToSet = 0;
+        boolean invalidNumber = false;
         for (TrackableType trackableType : TrackableType.values()){
-            categoryFeedbacks.add(new CategoryFeedback(trackableType, dividedTime));
+            newValue = new Random().nextInt(0, time/4);
+            valueToSet = newValue;
+            currentValue += newValue;
+            if(currentValue > time){
+                valueToSet = time - currentValue;
+            }
+            categoryFeedbacks.add(new CategoryFeedback(trackableType, valueToSet));
         }
         return categoryFeedbacks;
     }

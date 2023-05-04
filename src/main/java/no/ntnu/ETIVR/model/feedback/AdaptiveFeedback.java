@@ -44,6 +44,30 @@ public class AdaptiveFeedback {
   }
 
   /**
+   * Gets the feedback id.
+   * @return the id.
+   */
+  public int getFeedbackId(){
+    return feedbackId;
+  }
+
+  /**
+   * Gets the time of the position.
+   * @return the time for the position.
+   */
+  public float getPositionTime(){
+    return positionTime;
+  }
+
+  /**
+   * Gets the feedback list.
+   * @return the feedback list.
+   */
+  public List<CategoryFeedback> getFeedbackList(){
+    return feedbackList;
+  }
+
+  /**
    * Checks if a float is above zero.
    * @param numberToCheck the number to check.
    * @param error the error.
