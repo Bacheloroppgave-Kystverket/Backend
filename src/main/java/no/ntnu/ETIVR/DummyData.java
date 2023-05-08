@@ -224,7 +224,7 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             valueToSet = newValue;
             currentValue += newValue;
             if(currentValue > time){
-                valueToSet = time - currentValue;
+                valueToSet = 0;
             }
             categoryFeedbacks.add(new CategoryFeedback(trackableType, valueToSet));
         }
