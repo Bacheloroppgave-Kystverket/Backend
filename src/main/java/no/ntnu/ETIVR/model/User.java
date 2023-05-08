@@ -41,7 +41,7 @@ public class User {
    * @param password
    */
   @JsonCreator
-  public User(@JsonProperty("userId") long userId, @JsonProperty("username") String username,
+  public User(@JsonProperty("userId") long userId, @JsonProperty("userName") String username,
               @JsonProperty("password") String password) {
     checkIfNumberNotNegative(userId, "UserId");
     this.userId = userId;

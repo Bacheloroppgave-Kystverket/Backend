@@ -53,7 +53,8 @@ public class SessionController {
         LocalDate stopDateObject = endDate != null && !endDate.isBlank() ? makeDate(endDate) : null;
         boolean validSimulationSetupName = simulationSetupNames!= null && !simulationSetupNames.isEmpty();
         boolean validUsername = usernames != null && !usernames.isEmpty();
-        return sessionRegister.getAllSessions().stream().filter(session -> {
+        List<Session> sessions = sessionRegister.getAllSessions();
+        return sessions.stream().filter(session -> {
             boolean valid = !validSimulationSetupName;
             if(validSimulationSetupName){
                 valid = simulationSetupNames.stream().anyMatch(name -> name.equals(session.getSimulationSetup().getNameOfSetup()) );
