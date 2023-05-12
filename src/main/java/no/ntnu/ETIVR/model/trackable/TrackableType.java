@@ -39,9 +39,9 @@ public enum TrackableType {
     OFFICEROVERLAY,
 
     /**
-     * Represents the control panel
+     * Represents the captain overlay
      */
-    CAPTIANOVERLAY,
+    CAPTAINOVERLAY,
 
     /**
      * Represents other observable objects
