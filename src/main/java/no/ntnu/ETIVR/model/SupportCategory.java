@@ -17,9 +17,20 @@ public class SupportCategory {
     @CollectionTable(name = "supportItems", joinColumns = @JoinColumn(name = "supportCategoryId"))
     private List<SupportItem> listOfItems;
 
+    /**
+     * Makes an empty instance of the support category class
+     */
     public SupportCategory() {
     }
 
+    /**
+     * Makes an instance of support category
+     * @param supportCategoryId long
+     * @param categoryName String
+     * @param introduction String
+     * @param listOfItems list of support items
+     * @param iconNumber int
+     */
     public SupportCategory(long supportCategoryId, String categoryName, String introduction, List<SupportItem> listOfItems, int iconNumber) {
         checkIfNumberNotNegative(supportCategoryId, "support category id");
         this.supportCategoryId = supportCategoryId;

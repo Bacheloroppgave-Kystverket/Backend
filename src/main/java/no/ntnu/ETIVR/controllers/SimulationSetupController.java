@@ -3,7 +3,6 @@ package no.ntnu.ETIVR.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import javax.sound.midi.Track;
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
@@ -13,16 +12,13 @@ import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.services.SimulationSetupService;
 import no.ntnu.ETIVR.model.services.TrackableObjectsService;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -61,6 +57,12 @@ public class SimulationSetupController {
     return simulationSetupRegister.getSimulationSetups();
   }
 
+  /**
+   * Get simulation setup name
+   * @param setupName String
+   * @return simulation setup name
+   * @throws CouldNotGetSimulationSetupException gets thrown if simulation setup is not found
+   */
   @GetMapping("/{setupName}")
   @PreAuthorize("hasRole('USER')")
   public SimulationSetup getSimulationSetupByName(@PathVariable("setupName") String setupName)
@@ -68,6 +70,13 @@ public class SimulationSetupController {
     return simulationSetupRegister.getSimulationSetupByName(setupName);
   }
 
+  /**
+   * Adds simulation setup
+   * @param body String
+   * @throws JsonProcessingException gets thrown if JSON could not be processed
+   * @throws CouldNotAddSimulationSetupException gets thrown if simulation could not be added
+   * @throws CouldNotAddTrackableObjectException gets thrown if trackable object could not be added
+   */
   @PostMapping
   @PreAuthorize("hasRole('USER')")
   public void addSimulationSetup(@RequestBody String body)

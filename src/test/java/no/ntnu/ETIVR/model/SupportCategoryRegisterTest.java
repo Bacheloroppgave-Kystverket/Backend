@@ -78,6 +78,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
 
     }
 
+    /**
+     * Tests if add support category works with invalid input
+     */
     @Test
     @DisplayName("Tests if add support category works with invalid input")
     public void testIfAddSupportCategoryWorksWithInvalidInput() {
@@ -100,6 +103,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
 
     }
 
+    /**
+     * Tests if add support category works with valid input
+     */
     @Test
     @DisplayName("Tests if addSupportCategory works with valid input")
     public void testIfAddSupportCategoryWorksWithValidInput() {
@@ -110,6 +116,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         }
     }
 
+    /**
+     * Tests if remove support category works with invalid input
+     */
     @Test
     @DisplayName("Tests is removeSupportCategory works with invalid input")
     public void testIfRemoveSupportCategoryWorksWithInvalidInput() {
@@ -130,6 +139,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         }
     }
 
+    /**
+     * Tests if remove support category works with valid input
+     */
     @Test
     @DisplayName("Tests if removeSupportCategory works with valid input")
     public void testIfRemoveSupportCategoryWorksWithValidInput() {
@@ -140,6 +152,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         }
     }
 
+    /**
+     * Tests if get support category by id works with invalid input
+     */
     @Test
     @DisplayName("Tests if getSupportCategoryById works with invalid input")
     public void testIfGetSupportCategoryByIdWorksWithInvalidInput() {
@@ -165,6 +180,9 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         }
     }
 
+    /**
+     * Tests if get support category by ID works with valid input
+     */
     @Test
     @DisplayName("Tests if getSupportCategoryById works with valid input")
     public void testtIfGetSupportCategoryByIdWorksWithValidInput() {
@@ -175,6 +193,11 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         }
     }
 
+    /**
+     * Makes default support category
+     * @param id long
+     * @return list of support categories
+     */
     private SupportCategory makeDefaultSupportCategory(long id) {
         List<SupportItem> supportItemList = new ArrayList<>();
         supportItemList.add(new SupportItem("Fixations", "explanation"));

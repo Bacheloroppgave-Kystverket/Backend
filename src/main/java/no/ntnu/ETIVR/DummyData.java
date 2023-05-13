@@ -36,15 +36,20 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
 
     private final SessionRegister sessionRegister;
 
-    private final SupportCategoryRegister supportCategoryRegister;
-
     private final Logger logger = Logger.getLogger("DummyInit");
 
+    /**
+     * Makes an instance of dummy data
+     * @param trackableObjectsService trackable object service
+     * @param sessionService session service
+     * @param simulationSetupService simulation setup service
+     * @param userRegister user register
+     * @param supportCategoryService support category service
+     */
     public DummyData(TrackableObjectsService trackableObjectsService, SessionService sessionService, SimulationSetupService simulationSetupService, UserService userRegister , SupportCategoryService supportCategoryService){
 
         this.trackableObjectsService = trackableObjectsService;
         this.sessionRegister = sessionService;
-        this.supportCategoryRegister = supportCategoryService;
         try {
             addTrackableObjects(trackableObjectsService);
             addTestSimulationSetup(simulationSetupService, trackableObjectsService);
@@ -68,6 +73,11 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
+    /**
+     * Adds support category dummy data
+     * @param supportCategoryService SupportCategoryService
+     * @throws CouldNotAddSupportCategoryException gets thrown if support category could not be added
+     */
     private void addSupportCategory(SupportCategoryService supportCategoryService) throws CouldNotAddSupportCategoryException {
         if(supportCategoryService.getSupportCategories().isEmpty()){
             List<SupportItem> suppoortItemsForMetrics = new ArrayList<>();
@@ -151,6 +161,13 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         }
     }
 
+    /**
+     * Makes position log
+     * @param referencePositions list of reference positions
+     * @param trackableObjects list of trackable objects
+     * @param amount int
+     * @return list of position records
+     */
     private List<PositionRecord> makePositionLog(List<ReferencePosition> referencePositions, List<TrackableObject> trackableObjects, int amount){
         List<PositionRecord> positionRecords = new ArrayList<>();
 
@@ -161,6 +178,10 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
         return positionRecords;
     }
 
+    /**
+     * Makes position configuration
+     * @return position configuration
+     */
     public PositionConfiguration makePositionConfiguration(){
         return new PositionConfiguration(makeCategoryFeedback());
     }

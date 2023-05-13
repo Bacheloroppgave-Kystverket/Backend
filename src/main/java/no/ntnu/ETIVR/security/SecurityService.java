@@ -49,6 +49,12 @@ public class SecurityService implements UserDetailsService {
     }
   }
 
+  /**
+   * !TODO documentation on this
+   * @param username
+   * @return
+   * @throws UsernameNotFoundException
+   */
     @Override
     public LoggedInUser loadUserByUsername(String username) throws UsernameNotFoundException {
       LoggedInUser userDetails;

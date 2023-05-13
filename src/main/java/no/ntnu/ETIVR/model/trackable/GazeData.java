@@ -16,7 +16,9 @@ public class GazeData {
 
     private float fixationDuration;
 
-
+    /**
+     * Makes an empty instance of the gaze data class
+     */
     public GazeData() {
     }
 

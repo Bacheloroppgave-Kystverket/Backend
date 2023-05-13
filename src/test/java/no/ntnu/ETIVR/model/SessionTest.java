@@ -119,6 +119,9 @@ class SessionTest extends DefaultTest{
         return new Session(LocalDateTime.now(), makeUser() ,500000, makeTrackableRecords(simulationSetup), makePositionRecords(simulationSetup),simulationSetup);
     }
 
+    /**
+     * Tests if the constructor works with valid input
+     */
     @Test
     @DisplayName("Tests if the constructor works with valid input")
     public void testConstructorValidInput() {
@@ -137,7 +140,9 @@ class SessionTest extends DefaultTest{
     }
 
 
-
+    /**
+     * Tests if the constructor works with invalid input
+     */
     @Test
     @DisplayName("Tests if the constructor works with invalid input")
     public void testConstructorInvalidInput() {

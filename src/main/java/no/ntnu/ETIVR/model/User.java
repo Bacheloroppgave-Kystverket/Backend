@@ -27,18 +27,18 @@ public class User {
 
 
   /**
-   *
+   * Makes an empty instance of the user class
    */
   public User() {
 
   }
 
   /**
-   * Constructor with parameters.
+   * Makes an instance of the user class
    *
-   * @param userId
-   * @param username
-   * @param password
+   * @param userId long
+   * @param username String
+   * @param password String
    */
   @JsonCreator
   public User(@JsonProperty("userId") long userId, @JsonProperty("userName") String username,

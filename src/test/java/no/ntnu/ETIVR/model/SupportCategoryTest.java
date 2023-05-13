@@ -24,6 +24,9 @@ public class SupportCategoryTest extends DefaultTest {
 
     }
 
+    /**
+     * Tests constructor with valid input
+     */
     @Test
     @DisplayName("Tests constructor with valid input")
     void testConstructorValidInput() {
@@ -40,6 +43,9 @@ public class SupportCategoryTest extends DefaultTest {
     }
 
 
+    /**
+     * Tests constructor with invalid input
+     */
     @Test
     @DisplayName("Tests constructor with invalid input")
     void testConstructorInvalidInput() {

@@ -35,6 +35,14 @@ public class JsonTokenFilter extends OncePerRequestFilter {
         this.detailsService = securityService;
     }
 
+    /**
+     * !TODO documentation on this
+     * @param request
+     * @param response
+     * @param chain
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {

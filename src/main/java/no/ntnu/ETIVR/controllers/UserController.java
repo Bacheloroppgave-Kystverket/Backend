@@ -2,10 +2,8 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.Headers;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.services.UserService;
 import no.ntnu.ETIVR.security.LoggedInUser;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import org.springframework.security.core.Authentication;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -28,7 +25,7 @@ public class UserController {
 
     /**
      * The constructor of the class.
-     * @param userService
+     * @param userService User Service
      */
     public UserController(UserService userService) {
         this.userService = userService;
@@ -46,7 +43,11 @@ public class UserController {
     }
 
 
-
+    /**
+     * Gets logged in user
+     * @param authentication Authentication
+     * @return logged in user
+     */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public User getLoggedInUser(Authentication authentication){
@@ -55,8 +56,8 @@ public class UserController {
     }
     /**
      * Registers new customer
-     * @param user
-     * @return
+     * @param body user to be registered
+     * @return response OK if used registered
      */
     @PostMapping("/register")
     public ResponseEntity<String> registerNewUser(@RequestBody String body) throws JsonProcessingException, CouldNotAddUserException {

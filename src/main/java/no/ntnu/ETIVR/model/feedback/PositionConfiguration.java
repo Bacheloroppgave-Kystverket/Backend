@@ -9,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import no.ntnu.ETIVR.model.feedback.CategoryConfiguration;
 
 /**
  * @author Steinar Hjelle Midthus

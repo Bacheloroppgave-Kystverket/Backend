@@ -26,6 +26,11 @@ public class SessionService implements SessionRegister {
         this.sessionRepository = sessionRepository;
     }
 
+    /**
+     * Adds session
+     * @param session Session
+     * @throws CouldNotAddSessionException gets thrown if session could not be added
+     */
     @Override
     public void addSession(Session session) throws CouldNotAddSessionException {
         checkIfSessionIsValid(session);
@@ -35,6 +40,7 @@ public class SessionService implements SessionRegister {
             throw new CouldNotAddSessionException("Session with id " + session.getSessionId() + " is already in the system.");
         }
     }
+
 
     @Override
     public void removeSession(Session session) throws CouldNotRemoveSessionException {

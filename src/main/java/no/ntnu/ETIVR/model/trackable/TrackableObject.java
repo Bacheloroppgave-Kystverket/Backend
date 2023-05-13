@@ -22,6 +22,9 @@ public class TrackableObject {
     private TrackableType trackableType;
 
 
+    /**
+     * Makes an empty instance of the trackable object class
+     */
     public TrackableObject() {
 
     }

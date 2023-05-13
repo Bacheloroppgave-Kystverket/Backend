@@ -37,6 +37,11 @@ public class TokenController {
     @Value("${jwt.secret}")
     private String secret;
 
+    /**
+     * Makes an instance of the token controller class
+     * @param authenticationManager AuthenticationManager
+     * @param securityService SecurityService
+     */
     public TokenController(AuthenticationManager authenticationManager, SecurityService securityService){
         checkIfObjectIsNull(authenticationManager, "authentication manager");
         checkIfObjectIsNull(securityService, "security service");
@@ -44,6 +49,13 @@ public class TokenController {
         this.userDetailsService = securityService;
     }
 
+    /**
+     * Creates authentication token
+     * @param body String
+     * @return !TODO what does this return?
+     * @throws CouldNotGetUserException gets thrown if user could not be found
+     * @throws JsonProcessingException gets thrown if Json could not be processed
+     */
     @PostMapping
     public ResponseEntity<?> createAuthenticationToken(@RequestBody String body) throws CouldNotGetUserException, JsonProcessingException {
 
