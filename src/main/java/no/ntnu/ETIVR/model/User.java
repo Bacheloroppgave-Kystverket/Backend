@@ -10,7 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 
-
+/**
+ * Represents a user.
+ */
 @Entity(name = "user")
 public class User {
 

@@ -8,8 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 /**
  * Repository for simulation setup
- * @author Steinar Hjelle Midthus
- * @version 0.1
  */
 public interface SimulationSetupRepository extends JpaRepository<SimulationSetup, Long> {
 
