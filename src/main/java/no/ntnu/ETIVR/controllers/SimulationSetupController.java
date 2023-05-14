@@ -61,6 +61,7 @@ public class SimulationSetupController {
     return simulationSetupRegister.getSimulationSetups();
   }
 
+
   @GetMapping("/{setupName}")
   @PreAuthorize("hasRole('USER')")
   public SimulationSetup getSimulationSetupByName(@PathVariable("setupName") String setupName)

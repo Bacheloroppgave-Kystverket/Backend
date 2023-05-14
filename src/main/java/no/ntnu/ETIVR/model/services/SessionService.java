@@ -32,7 +32,8 @@ public class SessionService implements SessionRegister {
         if (!sessionRepository.existsById(session.getSessionId())) {
             sessionRepository.save(session);
         } else {
-            throw new CouldNotAddSessionException("Session with id " + session.getSessionId() + " is already in the system.");
+            throw new CouldNotAddSessionException("Session with id " +
+                    session.getSessionId() + " is already in the system.");
         }
     }
 

@@ -66,6 +66,16 @@ public abstract class DefaultTest {
     }
   }
 
+  /**
+   * Adds a new error to the string builder.
+   * @param errorPrefix what it should say before the error.
+   * @param error the error to append.
+   */
+  protected void addError(String errorPrefix, String error){
+    stringBuilder.append("\n").append(errorPrefix).append(" ").append(error);
+    errors++;
+  }
+
 
   /**
    * Adds an error with an exception in the title.
@@ -83,18 +93,8 @@ public abstract class DefaultTest {
    * @param exceptionName the name of the exception.
    * @return the full exception string.
    */
-  protected String makeExceptionString(String exceptionName){
-    return "Expected to get a " +  exceptionName + " since";
-  }
-
-  /**
-   * Adds a new error to the string builder.
-   * @param errorPrefix what it should say before the error.
-   * @param error the error to append.
-   */
-  protected void addError(String errorPrefix, String error){
-    stringBuilder.append("\n").append(errorPrefix).append(" ").append(error);
-    errors++;
+  protected String makeExceptionString(String exceptionName) {
+    return "Expected to get a " + exceptionName + " since";
   }
 
   /**

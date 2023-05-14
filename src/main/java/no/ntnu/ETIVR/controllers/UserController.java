@@ -2,10 +2,8 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.net.httpserver.Headers;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.services.UserService;
 import no.ntnu.ETIVR.security.LoggedInUser;
 import org.springframework.http.HttpStatus;
@@ -15,7 +13,6 @@ import org.springframework.security.core.Authentication;
 
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -42,29 +39,46 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public List<String> getUsers() {
-        return userService.getAllUsers().stream().map(user -> user.getUserName()).toList();
+        return userService.getAllUsers().stream().map(User::getUserName).toList();
     }
 
 
-
+    /**
+     * Gets the currently logged user.
+     * @param authentication the authentication.
+     * @return the current user.
+     */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
     public User getLoggedInUser(Authentication authentication){
         LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
         return loggedInUser.getUser();
     }
+
     /**
-     * Registers new customer
-     * @param user
-     * @return
+     * Makes it possible for a new user to register a user.
+     * @param body the json body.
+     * @return the response entity. Ok if the new user is added.
      */
     @PostMapping("/register")
-    public ResponseEntity<String> registerNewUser(@RequestBody String body) throws JsonProcessingException, CouldNotAddUserException {
+    public ResponseEntity<String> registerNewUser(@RequestBody String body)
+            throws JsonProcessingException, CouldNotAddUserException {
         ResponseEntity<String> response;
-        User user = new ObjectMapper().readValue(body, User.class);
-        userService.addNewUser(user);
+
+        userService.addNewUser(makeUserFromJson(body));
         response = new ResponseEntity<>(HttpStatus.OK);
         return response;
+    }
+
+    /**
+     * Makes a user from a JSON body.
+     * @param body the json body.
+     * @throws JsonProcessingException gets thrown if the json format is invalid.
+     * @return the user.
+     */
+    private User makeUserFromJson(String body) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(body, User.class);
     }
 
     /**

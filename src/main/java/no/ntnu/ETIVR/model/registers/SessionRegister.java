@@ -11,17 +11,12 @@ import java.util.List;
  * Represents a session register.
  */
 public interface SessionRegister {
-    /**
-     * Gets all sessions
-     * @return list of sessions
-     */
-    List<Session> getAllSessions();
-
 
     /**
      * Adds session to list
      * @param session Session
-     * @throws CouldNotAddSessionException gets thrown when session does not get added
+     * @throws CouldNotAddSessionException gets
+     *         thrown when session does not get added
      */
     void addSession(Session session) throws CouldNotAddSessionException;
 
@@ -48,6 +43,12 @@ public interface SessionRegister {
      * @throws CouldNotGetSessionException gets thrown if session could not be found
      */
     Session getSessionById(long sessionID) throws CouldNotGetSessionException;
+
+    /**
+     * Gets all sessions
+     * @return list of sessions
+     */
+    List<Session> getAllSessions();
 
     /**
      * Checks if register has session

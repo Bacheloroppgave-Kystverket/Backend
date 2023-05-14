@@ -2,11 +2,9 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.SupportCategory;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSupportCategoryException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSupportCategoryException;
-import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSupportCategoryException;
 import no.ntnu.ETIVR.model.registers.SupportCategoryRegister;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +30,7 @@ public class SupportCategoryController {
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public void addSupportCategory(@RequestBody String body)
-            throws JsonProcessingException, CouldNotAddSupportCategoryException {
+    public void addSupportCategory(@RequestBody String body) throws JsonProcessingException, CouldNotAddSupportCategoryException {
         SupportCategory supportCategory = makeSupportCategory(body);
         supportCategoryRegister.addSupportCategory(supportCategory);
     }
@@ -42,11 +39,6 @@ public class SupportCategoryController {
     @PreAuthorize("hasRole('USER')")
     public SupportCategory getSupportCategoryById(@PathVariable("id") long id) throws CouldNotGetSupportCategoryException {
         return supportCategoryRegister.getSupportCategoryById(id);
-    }
-
-    public void deleteSupportCategory(@RequestParam(value = "support-category") SupportCategory supportCategory)
-            throws CouldNotRemoveSupportCategoryException {
-        supportCategoryRegister.removeSupportCategory(supportCategory);
     }
 
     /**

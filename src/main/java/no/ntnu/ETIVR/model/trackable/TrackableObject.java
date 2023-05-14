@@ -21,11 +21,6 @@ public class TrackableObject {
     @Enumerated
     private TrackableType trackableType;
 
-
-    public TrackableObject() {
-
-    }
-
     /**
      * Constructor with parameters
      * @param nameOfObject String
@@ -41,6 +36,13 @@ public class TrackableObject {
         this.trackableType = trackableType;
         checkIfNumberNotNegative(trackableObjectID, "trackable object ID");
         this.trackableObjectID = trackableObjectID;
+    }
+
+    /**
+     * Empty constructor for the JPA library.
+     */
+    public TrackableObject() {
+
     }
 
     /**

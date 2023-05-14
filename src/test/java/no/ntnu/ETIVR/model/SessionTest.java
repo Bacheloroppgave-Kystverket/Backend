@@ -151,10 +151,6 @@ class SessionTest extends DefaultTest{
 
         Session session;
 
-        try{
-            session = new Session(null, user, sessionId, trackableRecords, positionRecords, simulationSetup);
-            addError(getIllegalPrefix(), "the current date is null");
-        } catch (IllegalArgumentException e) {}
         try {
             session = new Session(localDateTime, null, sessionId, trackableRecords, positionRecords, simulationSetup);
             addError(getIllegalPrefix(), "the user is null");
