@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Represents the user controller that handles requests for users.
+ */
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
@@ -39,33 +42,46 @@ public class UserController {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public List<String> getUsers() {
-        return userService.getAllUsers().stream().map(user -> user.getUserName()).toList();
+        return userService.getAllUsers().stream().map(User::getUserName).toList();
     }
 
 
     /**
-     * Gets logged in user
-     * @param authentication Authentication
-     * @return logged in user
+     * Gets the currently logged user.
+     * @param authentication the authentication.
+     * @return the current user.
      */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
-    public User getLoggedInUser(Authentication authentication){
+    public User getLoggedInUser(Authentication authentication) {
         LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
         return loggedInUser.getUser();
     }
+
     /**
-     * Registers new customer
-     * @param body user to be registered
-     * @return response OK if used registered
+     * Makes it possible for a new user to register a user.
+     * @param body the json body.
+     * @return the response entity. Ok if the new user is added.
      */
     @PostMapping("/register")
-    public ResponseEntity<String> registerNewUser(@RequestBody String body) throws JsonProcessingException, CouldNotAddUserException {
+    public ResponseEntity<String> registerNewUser(@RequestBody String body)
+            throws JsonProcessingException, CouldNotAddUserException {
         ResponseEntity<String> response;
-        User user = new ObjectMapper().readValue(body, User.class);
-        userService.addNewUser(user);
+
+        userService.addNewUser(makeUserFromJson(body));
         response = new ResponseEntity<>(HttpStatus.OK);
         return response;
+    }
+
+    /**
+     * Makes a user from a JSON body.
+     * @param body the json body.
+     * @return the user.
+     * @throws JsonProcessingException gets thrown if the json format is invalid.
+     */
+    private User makeUserFromJson(String body) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(body, User.class);
     }
 
     /**
@@ -74,7 +90,7 @@ public class UserController {
      * @return the response to the matching exceptions.
      */
     @ExceptionHandler(CouldNotAddUserException.class)
-    public ResponseEntity<String> handleExceptions(CouldNotAddUserException exception){
+    public ResponseEntity<String> handleExceptions(CouldNotAddUserException exception) {
         return ResponseEntity.status(HttpStatus.IM_USED).body("User with that username is already in the system");
     }
 }

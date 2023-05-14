@@ -8,10 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the category configuration class.
  */
-public class CategoryConfigurationTest extends  DefaultTest {
+public class CategoryConfigurationTest extends DefaultTest {
 
     @Override
     @BeforeEach
@@ -30,13 +29,13 @@ public class CategoryConfigurationTest extends  DefaultTest {
      */
     @DisplayName("Tests if the constructor works with valid input")
     @Test
-    public void testIfConstructorWorksWithValidInput(){
+    public void testIfConstructorWorksWithValidInput() {
         TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
-        try{
+        try {
             CategoryConfiguration
-                categoryConfiguration = new CategoryConfiguration(trackableType, threshold);
-        }catch (IllegalArgumentException exception){
+                    categoryConfiguration = new CategoryConfiguration(trackableType, threshold);
+        } catch (IllegalArgumentException exception) {
             addErrorWithException("Expected the feedback configuration to be made", "since the input is valid", exception);
         }
     }
@@ -47,22 +46,25 @@ public class CategoryConfigurationTest extends  DefaultTest {
      */
     @DisplayName("Tests if the constructor works with invalid input.")
     @Test
-    public void testIfConstructorWorksWithInvalidInput(){
+    public void testIfConstructorWorksWithInvalidInput() {
         TrackableType trackableType = TrackableType.WALL;
         float threshold = 1f;
-        try{
+        try {
             CategoryConfiguration categoryConfiguration = new CategoryConfiguration(null, threshold);
-            addError(getIllegalPrefix(),"the input trackable type is null");
-        }catch (IllegalArgumentException exception){}
-        try{
+            addError(getIllegalPrefix(), "the input trackable type is null");
+        } catch (IllegalArgumentException exception) {
+        }
+        try {
             CategoryConfiguration categoryConfiguration = new CategoryConfiguration(trackableType, -2f);
             addError(getIllegalPrefix(), "the input threshold is negative");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
         try {
             CategoryConfiguration
-                categoryConfiguration = new CategoryConfiguration(trackableType, 1.2f);
+                    categoryConfiguration = new CategoryConfiguration(trackableType, 1.2f);
             addError(getIllegalPrefix(), "the input threshold is above 1");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
     }
 
 

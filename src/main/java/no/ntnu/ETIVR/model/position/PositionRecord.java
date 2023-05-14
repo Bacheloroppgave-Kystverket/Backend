@@ -2,6 +2,7 @@ package no.ntnu.ETIVR.model.position;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import javax.persistence.*;
 
@@ -10,8 +11,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents a record of the time and feedback spent at a designed possition.
  */
 @Entity
 public class PositionRecord {
@@ -58,7 +58,7 @@ public class PositionRecord {
      */
     public PositionRecord(@JsonProperty("referencePosition") ReferencePosition referencePosition,
                           @JsonProperty("positionDuration") float positionDuration,
-                          @JsonProperty("adaptiveFeedbacks") List<AdaptiveFeedback> adaptiveFeedbacks){
+                          @JsonProperty("adaptiveFeedbacks") List<AdaptiveFeedback> adaptiveFeedbacks) {
         checkFloat(positionDuration, "position duration");
         checkIfObjectIsNull(referencePosition, "reference position");
         checkIfObjectIsNull(adaptiveFeedbacks, "adaptive feedbacks");
@@ -71,7 +71,7 @@ public class PositionRecord {
      * Gets the position duration.
      * @return the position duration.
      */
-    public float getPositionDuration(){
+    public float getPositionDuration() {
         return positionDuration;
     }
 
@@ -80,7 +80,7 @@ public class PositionRecord {
      * @return the location id.
      */
     @JsonInclude
-    public long getLocationId(){
+    public long getLocationId() {
         return referencePosition.getLocationId();
     }
 
@@ -89,17 +89,16 @@ public class PositionRecord {
      * @param numberToCheck the number to check.
      * @param error the error.
      */
-    public void checkFloat(float numberToCheck, String error){
-        if(numberToCheck < 0){
+    public void checkFloat(float numberToCheck, String error) {
+        if (numberToCheck < 0) {
             throw new IllegalArgumentException("The " + error + " cannot be below zero");
         }
     }
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {

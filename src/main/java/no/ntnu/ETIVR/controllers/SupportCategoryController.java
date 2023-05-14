@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Represents support category that handles requests for support category.
+ */
 @RestController
 @RequestMapping("/supportCategory")
 @CrossOrigin
@@ -45,8 +48,7 @@ public class SupportCategoryController {
      */
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public void addSupportCategory(@RequestBody String body)
-            throws JsonProcessingException, CouldNotAddSupportCategoryException {
+    public void addSupportCategory(@RequestBody String body) throws JsonProcessingException, CouldNotAddSupportCategoryException {
         SupportCategory supportCategory = makeSupportCategory(body);
         supportCategoryRegister.addSupportCategory(supportCategory);
     }
@@ -62,6 +64,7 @@ public class SupportCategoryController {
     public SupportCategory getSupportCategoryById(@PathVariable("id") long id) throws CouldNotGetSupportCategoryException {
         return supportCategoryRegister.getSupportCategoryById(id);
     }
+
 
     /**
      * Deletes support category
@@ -86,9 +89,8 @@ public class SupportCategoryController {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {

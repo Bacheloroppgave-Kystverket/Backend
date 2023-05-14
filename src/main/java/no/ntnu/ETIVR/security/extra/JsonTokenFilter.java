@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -30,28 +31,20 @@ public class JsonTokenFilter extends OncePerRequestFilter {
      * Makes an instance of the json token filter.
      * @param securityService the security service.
      */
-    public JsonTokenFilter(SecurityService securityService){
+    public JsonTokenFilter(SecurityService securityService) {
         checkIfObjectIsNull(securityService, "security service");
         this.detailsService = securityService;
     }
 
-    /**
-     * !TODO documentation on this
-     * @param request
-     * @param response
-     * @param chain
-     * @throws ServletException
-     * @throws IOException
-     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
         try {
             RequestHeaderToken requestHeaderToken = new RequestHeaderToken(request.getHeader("Authorization"), secret);
             setAuthentication(requestHeaderToken, request);
-        }catch (IllegalArgumentException exception) {
+        } catch (IllegalArgumentException exception) {
 
-        }finally {
+        } finally {
             chain.doFilter(request, response);
         }
     }
@@ -59,9 +52,9 @@ public class JsonTokenFilter extends OncePerRequestFilter {
     /**
      * Sets the authentication of the user.
      * @param requestHeaderToken the request header token.
-     * @param request the http request serverlet itself.
+     * @param request the http request servlet itself.
      */
-    private void setAuthentication(RequestHeaderToken requestHeaderToken, HttpServletRequest request){
+    private void setAuthentication(RequestHeaderToken requestHeaderToken, HttpServletRequest request) {
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = detailsService.loadUserByUsername(requestHeaderToken.getUsername());
             if (requestHeaderToken.checkIfUsernameMatches(userDetails) && !requestHeaderToken.isTokenExpired()) {
@@ -76,9 +69,8 @@ public class JsonTokenFilter extends OncePerRequestFilter {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {

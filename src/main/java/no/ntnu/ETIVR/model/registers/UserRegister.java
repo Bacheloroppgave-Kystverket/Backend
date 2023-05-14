@@ -1,13 +1,17 @@
 package no.ntnu.ETIVR.model.registers;
 
 import java.util.List;
+
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveUserException;
 
+/**
+ * Represents a user register.
+ */
 public interface UserRegister {
-    
+
     /**
      * Gets all users.
      * @return returns all users
@@ -45,7 +49,6 @@ public interface UserRegister {
      * @throws CouldNotRemoveUserException
      */
     void removeUserWithId(long userId) throws CouldNotRemoveUserException;
-
 
 
 }

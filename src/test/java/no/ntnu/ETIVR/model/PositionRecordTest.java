@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the position record class.
  */
 public class PositionRecordTest extends DefaultTest {
 
@@ -34,7 +33,7 @@ public class PositionRecordTest extends DefaultTest {
      * Makes reference position.
      * @return the reference position.
      */
-    private ReferencePosition makeReferencePosition(){
+    private ReferencePosition makeReferencePosition() {
         return new ReferencePosition(1, "hei", makePositionConfiguration());
     }
 
@@ -42,7 +41,7 @@ public class PositionRecordTest extends DefaultTest {
      * Makes a new default position configuration.
      * @return the position configuration.
      */
-    private PositionConfiguration makePositionConfiguration(){
+    private PositionConfiguration makePositionConfiguration() {
         List<CategoryConfiguration> categoryFeedbacks = new ArrayList<>();
         categoryFeedbacks.add(new CategoryConfiguration(TrackableType.OTHER, 0.5f));
         return new PositionConfiguration(categoryFeedbacks);
@@ -53,7 +52,7 @@ public class PositionRecordTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with invalid input.")
-    public void testIfConstructorWorksWithInvalidInput(){
+    public void testIfConstructorWorksWithInvalidInput() {
 
     }
 
@@ -62,7 +61,7 @@ public class PositionRecordTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with valid input.")
-    public void testIfConstructorWorksWithValidInput(){
+    public void testIfConstructorWorksWithValidInput() {
 
     }
 

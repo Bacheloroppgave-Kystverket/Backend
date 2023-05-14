@@ -20,8 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents the authentication controller that handles authentication of the users.
  */
 @RestController
 @RequestMapping("/authenticate")
@@ -42,7 +41,7 @@ public class TokenController {
      * @param authenticationManager AuthenticationManager
      * @param securityService SecurityService
      */
-    public TokenController(AuthenticationManager authenticationManager, SecurityService securityService){
+    public TokenController(AuthenticationManager authenticationManager, SecurityService securityService) {
         checkIfObjectIsNull(authenticationManager, "authentication manager");
         checkIfObjectIsNull(securityService, "security service");
         this.authenticationManager = authenticationManager;
@@ -64,11 +63,11 @@ public class TokenController {
 
         LoggedInUser userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
-        if(userDetails.checkPassword(authenticationRequest.getPassword())){
+        if (userDetails.checkPassword(authenticationRequest.getPassword())) {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword()));
-            ResponseEntity<JsonToken> resp = ResponseEntity.status(HttpStatus.OK).body(new JsonToken(generateTokenForUser(userDetails.getUsername())));
-            return resp;
-        }else{
+            ResponseEntity<JsonToken> response = ResponseEntity.status(HttpStatus.OK).body(new JsonToken(generateTokenForUser(userDetails.getUsername())));
+            return response;
+        } else {
             throw new CouldNotGetUserException("The passwords does not match");
         }
 
@@ -80,11 +79,11 @@ public class TokenController {
      * @return the response to the matching exceptions.
      */
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleExceptions(Exception exception){
+    public ResponseEntity<String> handleExceptions(Exception exception) {
         ResponseEntity<String> responseEntity;
-        if(exception instanceof IllegalArgumentException || exception instanceof JsonProcessingException){
+        if (exception instanceof IllegalArgumentException || exception instanceof JsonProcessingException) {
             responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Json file is invalid format");
-        }else{
+        } else {
             responseEntity = ResponseEntity.status(HttpStatus.CONFLICT).body("Username or password is invalid.");
         }
         return responseEntity;
@@ -105,9 +104,8 @@ public class TokenController {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

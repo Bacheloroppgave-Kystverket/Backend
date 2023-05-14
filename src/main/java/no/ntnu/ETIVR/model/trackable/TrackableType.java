@@ -1,6 +1,9 @@
 package no.ntnu.ETIVR.model.trackable;
 
-
+/**
+ * Represents a trackable type for a object. Is a general category that makes finding key categories and their prosentage
+ * easier.
+ */
 public enum TrackableType {
 
     /**

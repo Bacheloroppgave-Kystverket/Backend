@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tests the support category class.
+ */
 public class SupportCategoryTest extends DefaultTest {
 
     @Override
@@ -57,20 +60,27 @@ public class SupportCategoryTest extends DefaultTest {
         try {
             supportCategory = new SupportCategory(-1, categoryName, introduction, supportItems, iconNumber);
             addError(getIllegalPrefix(), "the id of support category cannot be negative");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
         try {
             supportCategory = new SupportCategory(-1, "", introduction, supportItems, iconNumber);
             addError(getIllegalPrefix(), "the name of support category cannot be empty");
-        } catch (IllegalArgumentException e) {}try {
+        } catch (IllegalArgumentException e) {
+        }
+        try {
             supportCategory = new SupportCategory(-1, categoryName, "", supportItems, iconNumber);
             addError(getIllegalPrefix(), "the introduction of support category cannot be negative");
-        } catch (IllegalArgumentException e) {}try {
+        } catch (IllegalArgumentException e) {
+        }
+        try {
             supportCategory = new SupportCategory(-1, categoryName, introduction, null, iconNumber);
             addError(getIllegalPrefix(), "the list of support categories cannot be null");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
         try {
             supportCategory = new SupportCategory(-1, categoryName, introduction, null, -2);
             addError(getIllegalPrefix(), "the icon number is negative");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
     }
 }

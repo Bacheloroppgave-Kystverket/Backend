@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 
 /**
  * Repository for user
- * @author Steinar Hjelle Midthus
- * @version 0.1
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

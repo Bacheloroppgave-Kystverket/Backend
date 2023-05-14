@@ -18,6 +18,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
+/**
+ * Tests the support category register class.
+ */
 @SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -87,18 +90,17 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         try {
             this.supportCategoryRegister.addSupportCategory(null);
             addError(getIllegalPrefix(), "the input support category is null");
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
 
-        }
-        catch (CouldNotAddSupportCategoryException e) {
+        } catch (CouldNotAddSupportCategoryException e) {
             addErrorWithException(getIllegalPrefix(), "the input support category is null", e);
         }
         try {
             this.supportCategoryRegister.addSupportCategory(supportCategory);
             addError(addException, "the input support category is null");
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             addErrorWithException(addException, "the input support category is already in the register", e);
-        }catch (CouldNotAddSupportCategoryException e) {
+        } catch (CouldNotAddSupportCategoryException e) {
         }
 
     }
@@ -125,8 +127,8 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         try {
             this.supportCategoryRegister.removeSupportCategory(null);
             addError(getIllegalPrefix(), "the input is null");
-        } catch (IllegalArgumentException e) {}
-        catch (CouldNotRemoveSupportCategoryException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (CouldNotRemoveSupportCategoryException e) {
             addErrorWithException(getIllegalPrefix(), "the input is null", e);
         }
         try {
@@ -134,8 +136,7 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
             addError(removeException, "the input support category is not in the register");
         } catch (IllegalArgumentException e) {
             addErrorWithException(removeException, "the input support category is not in the register", e);
-        }
-        catch (CouldNotRemoveSupportCategoryException e) {
+        } catch (CouldNotRemoveSupportCategoryException e) {
         }
     }
 
@@ -162,21 +163,19 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
             supportCategoryRegister.getSupportCategoryById(0);
         } catch (IllegalArgumentException e) {
             addErrorWithException(getIllegalPrefix(), "the input id is empty", e);
-        }
-        catch (CouldNotGetSupportCategoryException e) {
+        } catch (CouldNotGetSupportCategoryException e) {
         }
         try {
             supportCategoryRegister.getSupportCategoryById(-1);
-        } catch (IllegalArgumentException e) {}
-        catch (CouldNotGetSupportCategoryException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (CouldNotGetSupportCategoryException e) {
             addErrorWithException(getIllegalPrefix(), "the input id is negative", e);
         }
         try {
             supportCategoryRegister.getSupportCategoryById(110000);
         } catch (IllegalArgumentException e) {
             addErrorWithException(getIllegalPrefix(), "the input support category is not in the register", e);
-        }
-        catch (CouldNotGetSupportCategoryException e) {
+        } catch (CouldNotGetSupportCategoryException e) {
         }
     }
 
@@ -204,10 +203,11 @@ public class SupportCategoryRegisterTest extends DefaultTest implements Register
         supportItemList.add(new SupportItem("Fixation duration", "explanation"));
         return new SupportCategory(id, "category name", "introduction", supportItemList, 1);
     }
+
     /**
      * Checks if an object is null.
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {

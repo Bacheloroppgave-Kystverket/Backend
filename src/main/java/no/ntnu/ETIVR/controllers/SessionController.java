@@ -2,8 +2,10 @@ package no.ntnu.ETIVR.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 import java.util.Arrays;
+
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
@@ -18,6 +20,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a session controller that handles requests about session.
+ */
 @RestController
 @RequestMapping("/session")
 @CrossOrigin
@@ -43,16 +48,16 @@ public class SessionController {
     public List<Session> getAllPersistedSessions(@RequestParam(value = "simulationSetupName", required = false) ArrayList<String> simulationSetupNames,
                                                  @RequestParam(value = "username", required = false) ArrayList<String> usernames,
                                                  @RequestParam(value = "startDate", required = false) String startDate,
-                                                 @RequestParam(value = "endDate", required = false) String endDate){
+                                                 @RequestParam(value = "endDate", required = false) String endDate) {
         LocalDate startDateObject = startDate != null && !startDate.isBlank() ? makeDate(startDate) : null;
         LocalDate stopDateObject = endDate != null && !endDate.isBlank() ? makeDate(endDate) : null;
-        boolean validSimulationSetupName = simulationSetupNames!= null && !simulationSetupNames.isEmpty();
+        boolean validSimulationSetupName = simulationSetupNames != null && !simulationSetupNames.isEmpty();
         boolean validUsername = usernames != null && !usernames.isEmpty();
         List<Session> sessions = sessionRegister.getAllSessions();
         return sessions.stream().filter(session -> {
             boolean valid = !validSimulationSetupName;
-            if(validSimulationSetupName){
-                valid = simulationSetupNames.stream().anyMatch(name -> name.equals(session.getSimulationSetup().getNameOfSetup()) );
+            if (validSimulationSetupName) {
+                valid = simulationSetupNames.stream().anyMatch(name -> name.equals(session.getSimulationSetup().getNameOfSetup()));
             }
             return valid;
         }).filter(session -> {
@@ -63,17 +68,17 @@ public class SessionController {
             return valid;
         }).filter(session -> {
             boolean valid = startDateObject != null;
-            if(valid){
+            if (valid) {
                 valid = session.getCurrentDate().toLocalDate().isEqual(startDateObject) || session.getCurrentDate().toLocalDate().isAfter(startDateObject);
-            }else{
+            } else {
                 valid = true;
             }
             return valid;
         }).filter(session -> {
             boolean valid = stopDateObject == null;
-            if(!valid){
+            if (!valid) {
                 valid = session.getCurrentDate().toLocalDate().isEqual(stopDateObject) || session.getCurrentDate().toLocalDate().isBefore(stopDateObject);
-            }else{
+            } else {
                 valid = true;
             }
             return valid;
@@ -85,9 +90,9 @@ public class SessionController {
      * @param dateAsString the date as string.
      * @return the local date.
      */
-    private LocalDate makeDate(String dateAsString){
+    private LocalDate makeDate(String dateAsString) {
         List<Integer> dateAsArray = Arrays.stream(dateAsString.split("-")).map(numberAsString -> Integer.parseInt(numberAsString)).toList();
-        if(dateAsArray.size() > 3 || dateAsArray.size() < 3){
+        if (dateAsArray.size() > 3 || dateAsArray.size() < 3) {
             throw new IllegalArgumentException("Invalid format on date.");
         }
         return LocalDate.of(dateAsArray.get(2), dateAsArray.get(1), dateAsArray.get(0));
@@ -110,7 +115,7 @@ public class SessionController {
      * @param session Session
      * @return HTTP status ok, or bad request if not added
      */
-    public void delete(@RequestParam(value = "session") Session session) throws CouldNotRemoveSessionException  {
+    public void delete(@RequestParam(value = "session") Session session) throws CouldNotRemoveSessionException {
         sessionRegister.removeSession(session);
     }
 
@@ -120,8 +125,7 @@ public class SessionController {
      * @return return session from JSON
      * @throws JsonProcessingException gets thrown if trouble processing exception
      */
-    private Session makeSessionFromJson(String body) throws  JsonProcessingException
-    {
+    private Session makeSessionFromJson(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(body, Session.class);
     }
@@ -131,8 +135,8 @@ public class SessionController {
      * @param object the object you want to check.
      * @param error the error message the exception should have.
      */
-    private void checkIfObjectIsNull(Object object, String error){
-        if (object == null){
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
             throw new IllegalArgumentException("The " + error + " cannot be null.");
         }
     }

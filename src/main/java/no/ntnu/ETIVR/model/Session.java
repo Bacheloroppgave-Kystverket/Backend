@@ -7,11 +7,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.*;
 import java.time.chrono.ChronoLocalDate;
+
 import no.ntnu.ETIVR.model.position.PositionRecord;
 import no.ntnu.ETIVR.model.trackable.TrackableRecord;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
+/**
+ * Represents a session that can be done by a user. Holds all the data of the session.
+ */
 @Entity
 public class Session {
 
@@ -24,18 +28,18 @@ public class Session {
 
     @ManyToOne(targetEntity = User.class)
     @JoinTable(
-        name = "sessionsOfUser",
-        joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
-        inverseJoinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId")
+            name = "sessionsOfUser",
+            joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
+            inverseJoinColumns = @JoinColumn(name = "userId", referencedColumnName = "userId")
     )
     private User user;
 
     @OneToMany(cascade = {CascadeType.ALL})
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
-        name = "trackableRecords",
-        joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
-        inverseJoinColumns = @JoinColumn(name = "trackableDataId", referencedColumnName = "trackableDataId")
+            name = "trackableRecords",
+            joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
+            inverseJoinColumns = @JoinColumn(name = "trackableDataId", referencedColumnName = "trackableDataId")
     )
     private List<TrackableRecord> trackableRecordList;
 
@@ -43,9 +47,9 @@ public class Session {
     @OneToMany(cascade = {CascadeType.ALL})
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(
-        name = "positionRecords",
-        joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
-        inverseJoinColumns = @JoinColumn(name = "posDataId", referencedColumnName = "posDataId")
+            name = "positionRecords",
+            joinColumns = @JoinColumn(name = "sessionId", referencedColumnName = "sessionId"),
+            inverseJoinColumns = @JoinColumn(name = "posDataId", referencedColumnName = "posDataId")
     )
     private List<PositionRecord> positionRecords;
 
@@ -169,9 +173,8 @@ public class Session {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

@@ -13,6 +13,11 @@ import org.springframework.data.repository.query.Param;
  */
 public interface SimulationSetupRepository extends JpaRepository<SimulationSetup, Long> {
 
+  /**
+   * Gets a simulation setup based on its name.
+   * @param nameOfSetup the name of the setup.
+   * @return the setup matching that name.
+   */
   @Query(value = "SELECT * FROM simulationSetup WHERE nameOfSetup = :nameOfSetup", nativeQuery = true)
   Optional<SimulationSetup> findBySetupName(@Param("nameOfSetup") String nameOfSetup);
 }

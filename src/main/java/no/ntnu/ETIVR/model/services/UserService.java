@@ -2,7 +2,6 @@ package no.ntnu.ETIVR.model.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
@@ -11,6 +10,9 @@ import no.ntnu.ETIVR.model.registers.UserRegister;
 import no.ntnu.ETIVR.model.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Represents the user service that handles JPA interactions.
+ */
 @Service
 public class UserService implements UserRegister {
 
@@ -71,7 +73,7 @@ public class UserService implements UserRegister {
     @Override
     public void removeUserWithId(long userId) {
         Optional<User> user = userRepository.findById(userId);
-        user.ifPresent(value -> userRepository.delete(value));
+        user.ifPresent(userRepository::delete);
 
     }
 
