@@ -6,10 +6,13 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import lombok.Builder;
+import java.io.Serializable;
 
+/**
+ * Represents a trackable object in the VR demo. This object is predefined by developers.
+ */
 @Entity
-public class TrackableObject {
+public class TrackableObject implements Serializable {
 
     @Id
     @GeneratedValue
@@ -22,7 +25,14 @@ public class TrackableObject {
     private TrackableType trackableType;
 
     /**
-     * Constructor with parameters
+     * Makes an empty instance of the trackable object class
+     */
+    public TrackableObject() {
+
+    }
+
+    /**
+     * Makes an instance of the TrackableObject class.
      * @param nameOfObject String
      * @param trackableType the trackable object type
      * @param trackableObjectID the trackable object id
@@ -36,13 +46,6 @@ public class TrackableObject {
         this.trackableType = trackableType;
         checkIfNumberNotNegative(trackableObjectID, "trackable object ID");
         this.trackableObjectID = trackableObjectID;
-    }
-
-    /**
-     * Empty constructor for the JPA library.
-     */
-    public TrackableObject() {
-
     }
 
     /**

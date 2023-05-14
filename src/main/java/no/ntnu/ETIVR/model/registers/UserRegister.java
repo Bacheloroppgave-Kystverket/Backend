@@ -1,7 +1,6 @@
 package no.ntnu.ETIVR.model.registers;
 
 import java.util.List;
-import java.util.Optional;
 import no.ntnu.ETIVR.model.User;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddUserException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetUserException;

@@ -22,6 +22,9 @@ class TrackableObjectTest extends DefaultTest{
         checkIfTestsFailedAndDisplayResult();
     }
 
+    /**
+     * Tests constructor with invalid input
+     */
     @Test
     @DisplayName("Tests constructor with invalid input")
     void testConstructorInvalidInput() {
@@ -47,6 +50,9 @@ class TrackableObjectTest extends DefaultTest{
     }
 
 
+    /**
+     * Tests constructor with valid input
+     */
     @Test
     @DisplayName("Tests constructor with valid input")
     void testConstructorValidInput() {

@@ -49,6 +49,9 @@ public class TrackableRecord {
 
     }
 
+    /**
+     * Makes an instance of the trackable record class
+     */
     public TrackableRecord(){
         this.gazeList = new ArrayList<>();
     }

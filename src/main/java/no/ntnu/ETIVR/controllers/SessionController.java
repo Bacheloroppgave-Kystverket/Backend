@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.logging.Logger;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSessionException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSessionException;
@@ -13,15 +11,11 @@ import no.ntnu.ETIVR.model.Session;
 import no.ntnu.ETIVR.model.services.SessionService;
 import no.ntnu.ETIVR.model.registers.SessionRegister;
 import no.ntnu.ETIVR.model.repository.SessionRepository;
-import org.apache.tomcat.jni.Local;
-import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -36,6 +30,7 @@ public class SessionController {
      * @param sessionRepository session repository
      */
     public SessionController(SessionRepository sessionRepository) {
+        checkIfObjectIsNull(sessionRepository, "session repository");
         sessionRegister = new SessionService(sessionRepository);
     }
 

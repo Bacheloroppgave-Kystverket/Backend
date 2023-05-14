@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Represents the user controller that handles requests for users.
+ */
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
@@ -25,7 +28,7 @@ public class UserController {
 
     /**
      * The constructor of the class.
-     * @param userService
+     * @param userService User Service
      */
     public UserController(UserService userService) {
         this.userService = userService;
@@ -50,7 +53,7 @@ public class UserController {
      */
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER')")
-    public User getLoggedInUser(Authentication authentication){
+    public User getLoggedInUser(Authentication authentication) {
         LoggedInUser loggedInUser = (LoggedInUser) authentication.getPrincipal();
         return loggedInUser.getUser();
     }
@@ -73,8 +76,8 @@ public class UserController {
     /**
      * Makes a user from a JSON body.
      * @param body the json body.
-     * @throws JsonProcessingException gets thrown if the json format is invalid.
      * @return the user.
+     * @throws JsonProcessingException gets thrown if the json format is invalid.
      */
     private User makeUserFromJson(String body) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -87,7 +90,7 @@ public class UserController {
      * @return the response to the matching exceptions.
      */
     @ExceptionHandler(CouldNotAddUserException.class)
-    public ResponseEntity<String> handleExceptions(CouldNotAddUserException exception){
+    public ResponseEntity<String> handleExceptions(CouldNotAddUserException exception) {
         return ResponseEntity.status(HttpStatus.IM_USED).body("User with that username is already in the system");
     }
 }

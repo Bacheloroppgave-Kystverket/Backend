@@ -20,6 +20,9 @@ public class UserTest extends DefaultTest{
 
     }
 
+    /**
+     * Tests if the constructor works with valid input
+     */
     @Test
     @DisplayName("Tests if the constructor works with valid input")
     void testConstructorValidInput(){
@@ -30,6 +33,9 @@ public class UserTest extends DefaultTest{
         }
     }
 
+    /**
+     * Tests if the constructor works with invalid input
+     */
     @Test
     @DisplayName("Test if the constructor works with invalid input")
     void testConstructorInvalidInput(){

@@ -75,7 +75,6 @@ public class Session {
                    @JsonProperty("trackableRecords") List<TrackableRecord> trackableRecords,
                    @JsonProperty("positionRecords") List<PositionRecord> positionRecords,
                    @JsonProperty("simulationSetup") SimulationSetup simulationSetup) {
-        //checkIfObjectIsNull(currentDate, "current date");
         this.currentDate = currentDate;
         checkIfObjectIsNull(user, "user");
         this.user = user;
@@ -167,16 +166,6 @@ public class Session {
         }
     }
 
-    /**
-     * Checks if an input date is before or equal to today's date.
-     * @param localDateTime the date to check.
-     */
-    private void checkIfDateIsBeforeOrEqualToCurrentDate(LocalDateTime localDateTime){
-        checkIfObjectIsNull(localDateTime, "date");
-        if (LocalDate.now().isBefore(ChronoLocalDate.from(localDateTime))){
-            throw new IllegalArgumentException("The set date is after current date.");
-        }
-    }
 
     /**
      * Checks if an object is null.
