@@ -32,6 +32,7 @@ public interface TrackableObjectRegister {
      * @throws CouldNotRemoveTrackableObjectException gets thrown if it is not in the system
      */
     void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException;
+
     /**
      * Get trackable object by ID
      * @param trackableObjectID long

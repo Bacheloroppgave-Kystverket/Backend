@@ -3,6 +3,7 @@ package no.ntnu.ETIVR.model.services;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddTrackableObjectException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetTrackableObjectException;
@@ -11,6 +12,9 @@ import no.ntnu.ETIVR.model.registers.TrackableObjectRegister;
 import no.ntnu.ETIVR.model.repository.TrackableObjectRepository;
 import org.springframework.stereotype.Service;
 
+/**
+ * Represents the trackable objects service that handles JPA interactions.
+ */
 @Service
 public class TrackableObjectsService implements TrackableObjectRegister {
 
@@ -38,10 +42,9 @@ public class TrackableObjectsService implements TrackableObjectRegister {
     @Override
     public void removeTrackableObject(TrackableObject trackableObject) throws CouldNotRemoveTrackableObjectException {
         checkIfTrackableObjectIsValid(trackableObject);
-        if(trackableObjectRepository.existsById(trackableObject.getTrackableObjectID())) {
+        if (trackableObjectRepository.existsById(trackableObject.getTrackableObjectID())) {
             trackableObjectRepository.deleteById(trackableObject.getTrackableObjectID());
-        }
-        else {
+        } else {
             throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObject.getTrackableObjectID() + " is not in the system");
         }
     }
@@ -49,10 +52,9 @@ public class TrackableObjectsService implements TrackableObjectRegister {
     @Override
     public void removeTrackableObjectWithID(long trackableObjectID) throws CouldNotRemoveTrackableObjectException {
         checkIfNumberIsAboveZero(trackableObjectID);
-        if(trackableObjectRepository.existsById(trackableObjectID)) {
+        if (trackableObjectRepository.existsById(trackableObjectID)) {
             trackableObjectRepository.deleteById(trackableObjectID);
-        }
-        else {
+        } else {
             throw new CouldNotRemoveTrackableObjectException("The trackable object with ID " + trackableObjectID + " is not in the system");
         }
     }
@@ -95,7 +97,7 @@ public class TrackableObjectsService implements TrackableObjectRegister {
     /**
      * Checks if an object is null.
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {
@@ -108,8 +110,8 @@ public class TrackableObjectsService implements TrackableObjectRegister {
      * Checks if the input number is above zero.
      * @param numberToCheck the number to check.
      */
-    private void checkIfNumberIsAboveZero(long numberToCheck){
-        if (numberToCheck <= 0){
+    private void checkIfNumberIsAboveZero(long numberToCheck) {
+        if (numberToCheck <= 0) {
             throw new IllegalArgumentException("The " + "trackable object" + " must be larger than zero.");
         }
     }

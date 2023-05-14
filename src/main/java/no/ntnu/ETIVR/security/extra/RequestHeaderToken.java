@@ -2,14 +2,12 @@ package no.ntnu.ETIVR.security.extra;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import no.ntnu.ETIVR.model.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Date;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents a request and its token and claims.
  */
 public class RequestHeaderToken {
 
@@ -18,16 +16,16 @@ public class RequestHeaderToken {
     private Claims claims;
 
     /**
-     * Makes an instance of the JwtToken class.
+     * Makes an instance of the RequestHeaderToken class.
      */
     public RequestHeaderToken(String requestHeader, String secret) {
         checkString(requestHeader, "request header");
         String[] splitHeader = requestHeader.split(" ");
-        if(splitHeader[0].equalsIgnoreCase("bearer")){
+        if (splitHeader[0].equalsIgnoreCase("bearer")) {
             this.token = splitHeader[1];
             checkString(token, "token");
             this.claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        }else{
+        } else {
             throw new IllegalArgumentException("The format of the token is invalid");
         }
     }
@@ -36,7 +34,7 @@ public class RequestHeaderToken {
      * Gets the username of this token.
      * @return the username.
      */
-    public String getUsername(){
+    public String getUsername() {
         return claims.getSubject();
     }
 
@@ -44,7 +42,7 @@ public class RequestHeaderToken {
      * Checks if the current token is expired.
      * @return <code>true</code> if the token is expired. <code>False</code> otherwise.
      */
-    public boolean isTokenExpired(){
+    public boolean isTokenExpired() {
         return claims.getExpiration().before(new Date());
     }
 
@@ -53,14 +51,14 @@ public class RequestHeaderToken {
      * @param userDetails the user details.
      * @return <code>true</code> if the usernames matches. False otherwise.
      */
-    public boolean checkIfUsernameMatches(UserDetails userDetails){
+    public boolean checkIfUsernameMatches(UserDetails userDetails) {
         return userDetails.getUsername().equals(this.getUsername());
     }
 
     /**
      * Checks if a string is of a valid format or not.
      * @param stringToCheck the string you want to check.
-     * @param errorPrefix   the error the exception should have if the string is invalid.
+     * @param errorPrefix the error the exception should have if the string is invalid.
      */
     private void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
@@ -72,7 +70,7 @@ public class RequestHeaderToken {
     /**
      * Checks if an object is null.
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

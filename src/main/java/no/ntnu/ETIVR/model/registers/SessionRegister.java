@@ -15,8 +15,7 @@ public interface SessionRegister {
     /**
      * Adds session to list
      * @param session Session
-     * @throws CouldNotAddSessionException gets
-     *         thrown when session does not get added
+     * @throws CouldNotAddSessionException gets thrown when session does not get added
      */
     void addSession(Session session) throws CouldNotAddSessionException;
 
@@ -33,7 +32,6 @@ public interface SessionRegister {
      * @throws CouldNotRemoveSessionException gets thrown if session is not in system
      */
     void removeSessionByID(long sessionID) throws CouldNotRemoveSessionException;
-
 
 
     /**

@@ -5,6 +5,9 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 
+/**
+ * Represents one seats observation of the object.
+ */
 @Embeddable
 public class GazeData {
 
@@ -42,8 +45,8 @@ public class GazeData {
      * @param numberToCheck the number to check.
      * @param error the error.
      */
-    private void checkFloat(float numberToCheck, String error){
-        if(numberToCheck < 0){
+    private void checkFloat(float numberToCheck, String error) {
+        if (numberToCheck < 0) {
             throw new IllegalArgumentException("The " + error + " cannot be below zero");
         }
     }
@@ -74,9 +77,8 @@ public class GazeData {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

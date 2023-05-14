@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the position configuration class.
  */
 public class PositionConfigurationTest extends DefaultTest {
 
@@ -31,11 +30,12 @@ public class PositionConfigurationTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with invalid input.")
-    public void testIfConstructorWorksWithInvalidInput(){
+    public void testIfConstructorWorksWithInvalidInput() {
         try {
             PositionConfiguration positionConfiguration = new PositionConfiguration(null);
-            addError(getIllegalPrefix(),"the input categories is null");
-        }catch (IllegalArgumentException exception){}
+            addError(getIllegalPrefix(), "the input categories is null");
+        } catch (IllegalArgumentException exception) {
+        }
     }
 
     /**
@@ -43,10 +43,10 @@ public class PositionConfigurationTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with valid input.")
-    public void testIfConstructorWorksWithValidInput(){
+    public void testIfConstructorWorksWithValidInput() {
         try {
             PositionConfiguration positionConfiguration = new PositionConfiguration(new ArrayList<>());
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException("Expected the position configuration to be made", "since the input is valid", exception);
         }
     }

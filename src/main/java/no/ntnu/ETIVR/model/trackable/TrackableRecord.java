@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents an observation record of a trackable object. Holds all the different positions gazes.
  */
 @Entity
 public class TrackableRecord {
@@ -52,7 +51,7 @@ public class TrackableRecord {
     /**
      * Makes an instance of the trackable record class
      */
-    public TrackableRecord(){
+    public TrackableRecord() {
         this.gazeList = new ArrayList<>();
     }
 
@@ -65,14 +64,14 @@ public class TrackableRecord {
     }
 
     /**
-     *  Get trackable object id
+     * Get trackable object id
      * @return trackable object id
      */
     public long getTrackableObjectId() {
         return trackableObject.getTrackableObjectID();
     }
 
-    public long getTrackableDataId(){
+    public long getTrackableDataId() {
         return trackableDataId;
     }
 
@@ -94,9 +93,8 @@ public class TrackableRecord {
 
     /**
      * Checks if a string is of a valid format or not.
-     *
      * @param stringToCheck the string you want to check.
-     * @param errorPrefix   the error the exception should have if the string is invalid.
+     * @param errorPrefix the error the exception should have if the string is invalid.
      */
     private void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
@@ -107,9 +105,8 @@ public class TrackableRecord {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

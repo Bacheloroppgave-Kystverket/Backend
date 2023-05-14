@@ -5,8 +5,8 @@ package no.ntnu.ETIVR.model;
  */
 public interface RegisterTest {
 
-  /***
-   * Cleans up the test area.
-   */
-  void cleanUp();
+    /***
+     * Cleans up the test area.
+     */
+    void cleanUp();
 }

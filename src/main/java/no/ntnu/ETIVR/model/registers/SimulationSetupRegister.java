@@ -1,14 +1,14 @@
 package no.ntnu.ETIVR.model.registers;
 
 import java.util.List;
+
 import no.ntnu.ETIVR.model.SimulationSetup;
 import no.ntnu.ETIVR.model.exceptions.CouldNotAddSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotGetSimulationSetupException;
 import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSimulationSetupException;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents a simulation setup register.
  */
 public interface SimulationSetupRegister {
 

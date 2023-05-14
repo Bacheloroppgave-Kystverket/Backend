@@ -12,11 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Represents a support category service that handles JPA interaction.
+ */
 @Service
-public class SupportCategoryService  implements SupportCategoryRegister {
+public class SupportCategoryService implements SupportCategoryRegister {
     private final SupportCategoryRepository supportCategoryRepository;
 
-
+    /**
+     * Makes an instance of the support category service class.
+     * @param supportCategoryRepository the support category repository.
+     */
     public SupportCategoryService(SupportCategoryRepository supportCategoryRepository) {
         checkIfObjectIsNull(supportCategoryRepository, "support category repository");
         this.supportCategoryRepository = supportCategoryRepository;
@@ -24,7 +30,7 @@ public class SupportCategoryService  implements SupportCategoryRegister {
 
     @Override
     public void addSupportCategory(SupportCategory supportCategory) throws CouldNotAddSupportCategoryException {
-        checkIfObjectIsNull(supportCategory, "support category");
+        checkSupportCategory(supportCategory);
         if (!supportCategoryRepository.existsById(supportCategory.getSupportCategoryId())) {
             supportCategoryRepository.save(supportCategory);
         } else {
@@ -35,18 +41,18 @@ public class SupportCategoryService  implements SupportCategoryRegister {
 
     @Override
     public void removeSupportCategory(SupportCategory supportCategory) throws CouldNotRemoveSupportCategoryException {
-        checkIfObjectIsNull(supportCategory, "support category");
+        checkSupportCategory(supportCategory);
         if (supportCategoryRepository.existsById(supportCategory.getSupportCategoryId())) {
             supportCategoryRepository.delete(supportCategory);
         } else {
-            throw  new CouldNotRemoveSupportCategoryException("The support category with id " + supportCategory.getSupportCategoryId() + " is not in the register.");
+            throw new CouldNotRemoveSupportCategoryException("The support category with id " + supportCategory.getSupportCategoryId() + " is not in the register.");
         }
 
     }
 
     @Override
     public SupportCategory getSupportCategoryById(long supportCategoryId) throws CouldNotGetSupportCategoryException {
-        checkFloat(supportCategoryId, "support category");
+        checkFloat(supportCategoryId, "support category id");
         Optional<SupportCategory> optionalSupportCategory = supportCategoryRepository.findById(supportCategoryId);
         if (optionalSupportCategory.isEmpty()) {
             throw new CouldNotGetSupportCategoryException("The support category with the id " + supportCategoryId + " is not in the register");
@@ -61,12 +67,20 @@ public class SupportCategoryService  implements SupportCategoryRegister {
     }
 
     /**
+     * Checks if the support category is null.
+     * @param supportCategory the support category
+     */
+    public void checkSupportCategory(SupportCategory supportCategory) {
+        checkIfObjectIsNull(supportCategory, "support category");
+    }
+
+    /**
      * Checks if a float is above zero.
      * @param numberToCheck the number to check.
      * @param error the error.
      */
-    public void checkFloat(float numberToCheck, String error){
-        if(numberToCheck < 0){
+    public void checkFloat(float numberToCheck, String error) {
+        if (numberToCheck < 0) {
             throw new IllegalArgumentException("The " + error + " cannot be below zero");
         }
     }
@@ -74,9 +88,8 @@ public class SupportCategoryService  implements SupportCategoryRegister {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

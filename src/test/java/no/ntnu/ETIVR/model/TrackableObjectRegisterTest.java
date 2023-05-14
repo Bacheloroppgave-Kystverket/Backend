@@ -24,7 +24,7 @@ import java.util.List;
 @SpringBootTest(classes = Main.class)
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class TrackableObjectRegisterTest extends DefaultTest implements RegisterTest{
+public class TrackableObjectRegisterTest extends DefaultTest implements RegisterTest {
 
     private TrackableObjectRegister trackableObjectRegister;
 
@@ -41,7 +41,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      * @param trackableObjectsService the trackable objects register.
      */
     @Autowired
-    public TrackableObjectRegisterTest(TrackableObjectsService trackableObjectsService){
+    public TrackableObjectRegisterTest(TrackableObjectsService trackableObjectsService) {
         super();
         this.trackableObjectRegister = trackableObjectsService;
         checkIfObjectIsNull(trackableObjectsService, "Trackable objects regeister");
@@ -53,12 +53,12 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
     public void SetupTestData() {
         setUpStringBuilder();
         try {
-            for(TrackableObject trackableObject : trackableObjectRegister.getAllTrackableObjects()){
+            for (TrackableObject trackableObject : trackableObjectRegister.getAllTrackableObjects()) {
                 trackableObjectRegister.removeTrackableObjectWithID(trackableObject.getTrackableObjectID());
             }
             trackableObjectRegister.addTrackableObject(makeDefaultTrackableObject());
             trackableObjectInRegister = trackableObjectRegister.getAllTrackableObjects().get(0);
-        }catch (IllegalArgumentException | CouldNotRemoveTrackableObjectException | CouldNotAddTrackableObjectException exception){
+        } catch (IllegalArgumentException | CouldNotRemoveTrackableObjectException | CouldNotAddTrackableObjectException exception) {
             fail(makeCouldNotGetDefaultString("test data"));
             exception.printStackTrace();
         }
@@ -73,12 +73,12 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
     @Override
     @AfterAll
     public void cleanUp() {
-        try{
+        try {
             List<TrackableObject> trackableObjectList = trackableObjectRegister.getAllTrackableObjects();
-            for (TrackableObject trackableObject : trackableObjectList){
+            for (TrackableObject trackableObject : trackableObjectList) {
                 trackableObjectRegister.removeTrackableObject(trackableObject);
             }
-        }catch (CouldNotRemoveTrackableObjectException | IllegalArgumentException exception){
+        } catch (CouldNotRemoveTrackableObjectException | IllegalArgumentException exception) {
             exception.printStackTrace();
         }
     }
@@ -86,7 +86,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
     /**
      * Checks if an object is null.
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      * @throws IllegalArgumentException gets thrown if the object is null.
      */
     private void checkIfObjectIsNull(Object object, String error) {
@@ -99,7 +99,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      * Makes a default trackable object.
      * @return the default trackable object.
      */
-    private TrackableObject makeDefaultTrackableObject(){
+    private TrackableObject makeDefaultTrackableObject() {
         return new TrackableObject("hei", TrackableType.WALL, 500000);
     }
 
@@ -108,10 +108,10 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @DisplayName("Tests if add trackable object works with valid input.")
     @Test
-    public void testIfAddTrackableObjectWorksWithValidInput(){
-        try{
+    public void testIfAddTrackableObjectWorksWithValidInput() {
+        try {
             trackableObjectRegister.addTrackableObject(makeDefaultTrackableObject());
-        }catch (IllegalArgumentException | CouldNotAddTrackableObjectException exception){
+        } catch (IllegalArgumentException | CouldNotAddTrackableObjectException exception) {
             addErrorWithException("Expected the trackable object to be added", "since the input is valid", exception);
         }
     }
@@ -121,20 +121,20 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @DisplayName("Tests if a remove trackable object works with invalid input")
     @Test
-    public void testIfAddTrackableObjectWorksWithInValidInput(){
+    public void testIfAddTrackableObjectWorksWithInValidInput() {
         try {
             trackableObjectRegister.addTrackableObject(null);
             addError(getIllegalPrefix(), "the input is null");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
 
-        }catch (CouldNotAddTrackableObjectException exception){
+        } catch (CouldNotAddTrackableObjectException exception) {
             addErrorWithException(getIllegalPrefix(), "the input is null", exception);
         }
-        try{
+        try {
             trackableObjectRegister.addTrackableObject(trackableObjectInRegister);
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException(addException, "input is already in the register", exception);
-        }catch (CouldNotAddTrackableObjectException exception){
+        } catch (CouldNotAddTrackableObjectException exception) {
         }
     }
 
@@ -143,7 +143,7 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if remove trackable object works with valid input.")
-    public void testIfRemoveTrackableObjectWorksWithValidInput(){
+    public void testIfRemoveTrackableObjectWorksWithValidInput() {
         try {
             trackableObjectRegister.removeTrackableObject(trackableObjectInRegister);
         } catch (CouldNotRemoveTrackableObjectException | IllegalArgumentException e) {
@@ -156,20 +156,21 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if remove trackable objecct works with invalid input")
-    public void testIfRemoveTrackableObjectWorksWithInvalidInput(){
+    public void testIfRemoveTrackableObjectWorksWithInvalidInput() {
         try {
             trackableObjectRegister.removeTrackableObject(null);
             addError(getIllegalPrefix(), "the input is null");
-        }catch (IllegalArgumentException exception){}
-        catch (CouldNotRemoveTrackableObjectException exception){
+        } catch (IllegalArgumentException exception) {
+        } catch (CouldNotRemoveTrackableObjectException exception) {
             addErrorWithException(getIllegalPrefix(), "the input is null", exception);
         }
         try {
             trackableObjectRegister.removeTrackableObject(makeDefaultTrackableObject());
             addError(getIllegalPrefix(), "the input object is not in the register");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException(removeException, "the input object is not in the register", exception);
-        }catch (CouldNotRemoveTrackableObjectException exception){}
+        } catch (CouldNotRemoveTrackableObjectException exception) {
+        }
     }
 
     /**
@@ -177,10 +178,10 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if remove trackable object with ID works with valid input.")
-    public void testIfRemoveTrackableObjectWithIdWorksWithValidInput(){
+    public void testIfRemoveTrackableObjectWithIdWorksWithValidInput() {
         try {
             trackableObjectRegister.removeTrackableObjectWithID(trackableObjectInRegister.getTrackableObjectID());
-        }catch (IllegalArgumentException | CouldNotRemoveTrackableObjectException exception ){
+        } catch (IllegalArgumentException | CouldNotRemoveTrackableObjectException exception) {
             addErrorWithException("Expected the object to be removed", "since its in the register", exception);
         }
     }
@@ -190,21 +191,22 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if remove trackable object with ID works with invalid input.")
-    public void testIfRemoveTrackableObjectWithIDWorksWithInvalidInput(){
+    public void testIfRemoveTrackableObjectWithIDWorksWithInvalidInput() {
         try {
             trackableObjectRegister.removeTrackableObjectWithID(-2);
             addError(getIllegalPrefix(), "the input is negative");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
 
-        }catch (CouldNotRemoveTrackableObjectException exception){
+        } catch (CouldNotRemoveTrackableObjectException exception) {
             addErrorWithException(getIllegalPrefix(), "the input is negative", exception);
         }
         try {
             trackableObjectRegister.removeTrackableObjectWithID(60000);
             addError(removeException, "the input id is not in the register");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException(removeException, "the input id is not in the register", exception);
-        }catch (CouldNotRemoveTrackableObjectException exception){}
+        } catch (CouldNotRemoveTrackableObjectException exception) {
+        }
     }
 
     /**
@@ -212,10 +214,10 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if get trackable object with id works with valid input.")
-    public void testIfGetTrackableObjectByIDWorksWithValidInput(){
+    public void testIfGetTrackableObjectByIDWorksWithValidInput() {
         try {
             trackableObjectRegister.getTrackableObjectById(trackableObjectInRegister.getTrackableObjectID());
-        }catch (IllegalArgumentException | CouldNotGetTrackableObjectException exception){
+        } catch (IllegalArgumentException | CouldNotGetTrackableObjectException exception) {
             addErrorWithException("Expected the trackable object to be received since", "the input is valid", exception);
         }
     }
@@ -225,27 +227,24 @@ public class TrackableObjectRegisterTest extends DefaultTest implements Register
      */
     @Test
     @DisplayName("Tests if get trackable object works with invalid input.")
-    public void testIfGetTrackableObjectWorksWithInvalidInput(){
+    public void testIfGetTrackableObjectWorksWithInvalidInput() {
         try {
             trackableObjectRegister.getTrackableObjectById(-2);
             addError(getIllegalPrefix(), "the input is negative");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
 
-        }catch (CouldNotGetTrackableObjectException exception){
+        } catch (CouldNotGetTrackableObjectException exception) {
             addErrorWithException(getIllegalPrefix(), "the input is negative", exception);
         }
         try {
             trackableObjectRegister.getTrackableObjectById(50000);
             addError(getException, "the input is not in the register");
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException(getException, "the input is not in the register", exception);
-        }catch (CouldNotGetTrackableObjectException exception){
+        } catch (CouldNotGetTrackableObjectException exception) {
 
         }
     }
-
-
-
 
 
 }

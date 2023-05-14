@@ -8,6 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * Represents a security service that can get the user based on their username.
+ */
 @Service
 public class SecurityService implements UserDetailsService {
 
@@ -20,20 +23,6 @@ public class SecurityService implements UserDetailsService {
   public SecurityService(UserService userService) {
       checkIfObjectIsNull(userService, "user service");
       this.userService = userService;
-  }
-
-  /**
-   * Checks if a string is of a valid format or not.
-   *
-   * @param stringToCheck the string you want to check.
-   * @param errorPrefix   the error the exception should have if the string is invalid.
-   * @throws IllegalArgumentException gets thrown if the string to check is empty or null.
-   */
-  private void checkString(String stringToCheck, String errorPrefix) {
-    checkIfObjectIsNull(stringToCheck, errorPrefix);
-    if (stringToCheck.isEmpty()) {
-      throw new IllegalArgumentException("The " + errorPrefix + " cannot be empty.");
-    }
   }
 
   /**
@@ -50,10 +39,10 @@ public class SecurityService implements UserDetailsService {
   }
 
   /**
-   * !TODO documentation on this
-   * @param username
-   * @return
-   * @throws UsernameNotFoundException
+   * Loads a user based on their username.
+   * @param username the username.
+   * @return the user matching that username.
+   * @throws UsernameNotFoundException gets thrown if the username does not match a user in the register.
    */
     @Override
     public LoggedInUser loadUserByUsername(String username) throws UsernameNotFoundException {

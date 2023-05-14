@@ -8,8 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the category feedback class.
  */
 public class CategoryFeedbackTest extends DefaultTest{
 

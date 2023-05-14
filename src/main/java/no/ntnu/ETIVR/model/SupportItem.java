@@ -2,6 +2,9 @@ package no.ntnu.ETIVR.model;
 
 import javax.persistence.Embeddable;
 
+/**
+ * Represents a sub-category of a support category.
+ */
 @Embeddable
 public class SupportItem {
     private String supportItemName;

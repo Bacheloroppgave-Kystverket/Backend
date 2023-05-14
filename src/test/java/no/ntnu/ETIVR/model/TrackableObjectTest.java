@@ -8,7 +8,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class TrackableObjectTest extends DefaultTest{
+/**
+ * Tests the trackable object class.
+ */
+class TrackableObjectTest extends DefaultTest {
 
     @Override
     @BeforeEach
@@ -38,15 +41,18 @@ class TrackableObjectTest extends DefaultTest{
         try {
             trackableObject = new TrackableObject("", trackableType, trackableObjectId);
             addError(getIllegalPrefix(), "the name of the object cannot be empty");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
         try {
             trackableObject = new TrackableObject(nameOfObject, null, trackableObjectId);
             addError(getIllegalPrefix(), "the trackable type of the object cannot be null");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
         try {
             trackableObject = new TrackableObject(nameOfObject, trackableType, -1L);
             addError(getIllegalPrefix(), "the trackable object id of the object cannot be 0");
-        } catch (IllegalArgumentException e) {}
+        } catch (IllegalArgumentException e) {
+        }
     }
 
 

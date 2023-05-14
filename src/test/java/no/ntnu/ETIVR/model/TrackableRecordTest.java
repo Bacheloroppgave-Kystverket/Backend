@@ -13,10 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the trackable record class.
  */
-public class TrackableRecordTest extends  DefaultTest{
+public class TrackableRecordTest extends DefaultTest {
 
 
     @Override
@@ -35,7 +34,7 @@ public class TrackableRecordTest extends  DefaultTest{
      * Makes a default reference position.
      * @return the reference position.
      */
-    private ReferencePosition makeReferencePosition(){
+    private ReferencePosition makeReferencePosition() {
         return new ReferencePosition(50000, "Seat 1", makePositionConfiguration());
     }
 
@@ -43,7 +42,7 @@ public class TrackableRecordTest extends  DefaultTest{
      * Makes a new default position configuration.
      * @return the position configuration.
      */
-    private PositionConfiguration makePositionConfiguration(){
+    private PositionConfiguration makePositionConfiguration() {
         List<CategoryConfiguration> categoryFeedbacks = new ArrayList<>();
         categoryFeedbacks.add(new CategoryConfiguration(TrackableType.OTHER, 0.5f));
         return new PositionConfiguration(categoryFeedbacks);
@@ -54,9 +53,9 @@ public class TrackableRecordTest extends  DefaultTest{
      * @param referencePosition the reference position
      * @return the gaze data.
      */
-    private List<GazeData> makeGazeData(ReferencePosition referencePosition){
+    private List<GazeData> makeGazeData(ReferencePosition referencePosition) {
         List<GazeData> gazeData = new ArrayList<>();
-        gazeData.add(new GazeData(1,1,referencePosition));
+        gazeData.add(new GazeData(1, 1, referencePosition));
         return gazeData;
     }
 
@@ -64,7 +63,7 @@ public class TrackableRecordTest extends  DefaultTest{
      * Makes a default trackable object
      * @return the trackable object
      */
-    private TrackableObject makeTrackableObject(){
+    private TrackableObject makeTrackableObject() {
         return new TrackableObject("Pog", TrackableType.WALL, 5000);
     }
 
@@ -73,25 +72,28 @@ public class TrackableRecordTest extends  DefaultTest{
      */
     @Test
     @DisplayName("Tests if the constructor works with invalid input.")
-    public void testIfConstructorWorksWithInvalidInput(){
+    public void testIfConstructorWorksWithInvalidInput() {
         ReferencePosition referencePosition = makeReferencePosition();
         List<GazeData> gazeData = makeGazeData(referencePosition);
         TrackableObject trackableObject = makeTrackableObject();
         ViewDistance viewDistance = ViewDistance.CLOSE;
 
         TrackableRecord trackableRecord;
-        try{
+        try {
             trackableRecord = new TrackableRecord(null, viewDistance, trackableObject);
             addError(getIllegalPrefix(), "the input gaze list is null");
-        }catch (IllegalArgumentException exception){}
-        try{
-            trackableRecord =  new TrackableRecord(gazeData, null, trackableObject);
-            addError(getIllegalPrefix(), "the input view distance is null");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
         try {
-            trackableRecord = new TrackableRecord(gazeData, viewDistance,null);
+            trackableRecord = new TrackableRecord(gazeData, null, trackableObject);
+            addError(getIllegalPrefix(), "the input view distance is null");
+        } catch (IllegalArgumentException exception) {
+        }
+        try {
+            trackableRecord = new TrackableRecord(gazeData, viewDistance, null);
             addError(getIllegalPrefix(), "the input trackable object is null");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
     }
 
     /**
@@ -99,7 +101,7 @@ public class TrackableRecordTest extends  DefaultTest{
      */
     @Test
     @DisplayName("Tests if the constructor works with valid input.")
-    public void testIfConstructorWorksWithValidInput(){
+    public void testIfConstructorWorksWithValidInput() {
         ReferencePosition referencePosition = makeReferencePosition();
         List<GazeData> gazeData = makeGazeData(referencePosition);
         TrackableObject trackableObject = makeTrackableObject();
@@ -108,7 +110,7 @@ public class TrackableRecordTest extends  DefaultTest{
         TrackableRecord trackableRecord;
         try {
             trackableRecord = new TrackableRecord(gazeData, viewDistance, trackableObject);
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException("Expected the trackable record to be made since", "the input is valid", exception);
         }
     }

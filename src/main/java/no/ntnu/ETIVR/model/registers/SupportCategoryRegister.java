@@ -7,6 +7,9 @@ import no.ntnu.ETIVR.model.exceptions.CouldNotRemoveSupportCategoryException;
 
 import java.util.List;
 
+/**
+ * Represents a support category register.
+ */
 public interface SupportCategoryRegister {
     /**
      * Adds a support category to the register
@@ -21,7 +24,6 @@ public interface SupportCategoryRegister {
      * @throws CouldNotRemoveSupportCategoryException gets thrown if support category does not exist.
      */
     void removeSupportCategory(SupportCategory supportCategory) throws CouldNotRemoveSupportCategoryException;
-
 
     /**
      * Gets support category by id

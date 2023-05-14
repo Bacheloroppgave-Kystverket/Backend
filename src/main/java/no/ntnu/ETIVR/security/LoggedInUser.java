@@ -4,97 +4,100 @@ package no.ntnu.ETIVR.security;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+
 import no.ntnu.ETIVR.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Represents a user that has been logged in and has roles.
+ */
 public class LoggedInUser implements UserDetails {
 
-  private User user;
+    private User user;
 
-  private final List<GrantedAuthority> authorities = new LinkedList<>();
+    private final List<GrantedAuthority> authorities = new LinkedList<>();
 
-  /**
-   * Makes an instance of the LoginUse class.
-   */
-  public LoggedInUser(User user) {
-    checkIfObjectIsNull(user, "user");
-    this.user = user;
-    authorities.add(new SimpleGrantedAuthority("USER"));
-  }
-
-  /**
-   * Gets the user.
-   * @return the user.
-   */
-  public User getUser(){
-    return user;
-  }
-
-  /**
-   * Sets the user.
-   * @param user the user.
-   */
-  public void setUser(User user){
-    checkIfObjectIsNull(user, "user");
-    this.user = user;
-  }
-
-  /**
-   * Checks if the passwords match.
-   * @param inputPass the current password.
-   * @return <code>true</code> if the passwords match. False otherwise.
-   */
-  public boolean checkPassword(String inputPass){
-    return user.passwordsMatch(inputPass);
-  }
-
-  /**
-   * Checks if an object is null.
-   *
-   * @param object the object you want to check.
-   * @param error  the error message the exception should have.
-   * @throws IllegalArgumentException gets thrown if the object is null.
-   */
-  private void checkIfObjectIsNull(Object object, String error) {
-    if (object == null) {
-      throw new IllegalArgumentException("The " + error + " cannot be null.");
+    /**
+     * Makes an instance of the LoginUse class.
+     */
+    public LoggedInUser(User user) {
+        checkIfObjectIsNull(user, "user");
+        this.user = user;
+        authorities.add(new SimpleGrantedAuthority("USER"));
     }
-  }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authorities;
-  }
+    /**
+     * Gets the user.
+     * @return the user.
+     */
+    public User getUser() {
+        return user;
+    }
 
-  @Override
-  public String getPassword() {
-    return user.getPassword();
-  }
+    /**
+     * Sets the user.
+     * @param user the user.
+     */
+    public void setUser(User user) {
+        checkIfObjectIsNull(user, "user");
+        this.user = user;
+    }
 
-  @Override
-  public String getUsername() {
-    return user.getUserName();
-  }
+    /**
+     * Checks if the passwords match.
+     * @param inputPass the current password.
+     * @return <code>true</code> if the passwords match. False otherwise.
+     */
+    public boolean checkPassword(String inputPass) {
+        return user.passwordsMatch(inputPass);
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return user.isActive();
-  }
+    /**
+     * Checks if an object is null.
+     * @param object the object you want to check.
+     * @param error the error message the exception should have.
+     * @throws IllegalArgumentException gets thrown if the object is null.
+     */
+    private void checkIfObjectIsNull(Object object, String error) {
+        if (object == null) {
+            throw new IllegalArgumentException("The " + error + " cannot be null.");
+        }
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return user.isActive();
-  }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return user.isActive();
-  }
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return user.isActive();
-  }
+    @Override
+    public String getUsername() {
+        return user.getUserName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return user.isActive();
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return user.isActive();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return user.isActive();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.isActive();
+    }
 }

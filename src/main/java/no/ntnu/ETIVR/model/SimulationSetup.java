@@ -1,10 +1,12 @@
 package no.ntnu.ETIVR.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.persistence.*;
 import java.util.List;
+
 import no.ntnu.ETIVR.model.feedback.PositionConfiguration;
 import no.ntnu.ETIVR.model.position.ReferencePosition;
 import no.ntnu.ETIVR.model.trackable.TrackableObject;
@@ -12,11 +14,10 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Represents the setup of the session that a user can do.
  */
 @Entity(name = "simulationSetup")
-public class SimulationSetup implements Serializable{
+public class SimulationSetup implements Serializable {
 
     @Id
     @GeneratedValue
@@ -28,18 +29,18 @@ public class SimulationSetup implements Serializable{
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(
-        name = "closeTrackableObjects",
-        joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
-        inverseJoinColumns = @JoinColumn(name = "trackableObjectID", referencedColumnName = "trackableObjectID")
+            name = "closeTrackableObjects",
+            joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
+            inverseJoinColumns = @JoinColumn(name = "trackableObjectID", referencedColumnName = "trackableObjectID")
     )
     @Fetch(FetchMode.SUBSELECT)
     private List<TrackableObject> closeTrackableObjects;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-        name = "simulationPositions",
-        joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
-        inverseJoinColumns = @JoinColumn(name = "locationId", referencedColumnName = "locationId")
+            name = "simulationPositions",
+            joinColumns = @JoinColumn(name = "simulationSetupId", referencedColumnName = "simulationSetupId"),
+            inverseJoinColumns = @JoinColumn(name = "locationId", referencedColumnName = "locationId")
     )
     @Fetch(FetchMode.SUBSELECT)
     private List<ReferencePosition> referencePositionList;
@@ -56,7 +57,7 @@ public class SimulationSetup implements Serializable{
      * Makes an instance of the SimulationSetup class.
      */
     public SimulationSetup() {
-        closeTrackableObjects =  new ArrayList<>();
+        closeTrackableObjects = new ArrayList<>();
     }
 
     /**
@@ -67,7 +68,7 @@ public class SimulationSetup implements Serializable{
      */
     public SimulationSetup(@JsonProperty("nameOfSetup") String nameOfSetup,
                            @JsonProperty("closeTrackableObjects") List<TrackableObject> trackableObjects,
-                           @JsonProperty("referencePositionList") List<ReferencePosition> referencePositions){
+                           @JsonProperty("referencePositionList") List<ReferencePosition> referencePositions) {
         checkIfObjectIsNull(trackableObjects, "trackable objects");
         checkIfObjectIsNull(referencePositions, "reference positions");
         checkString(nameOfSetup, "name of setup");
@@ -81,7 +82,7 @@ public class SimulationSetup implements Serializable{
      * Gets the name of the setup.
      * @return the setup name
      */
-    public String getNameOfSetup(){
+    public String getNameOfSetup() {
         return nameOfSetup;
     }
 
@@ -89,7 +90,7 @@ public class SimulationSetup implements Serializable{
      * Gets all the reference positions.
      * @return the reference positions.
      */
-    public List<ReferencePosition> getReferencePositionList(){
+    public List<ReferencePosition> getReferencePositionList() {
         return this.referencePositionList;
     }
 
@@ -97,15 +98,14 @@ public class SimulationSetup implements Serializable{
      * Gets the simulation setup id.
      * @return the id.
      */
-    public long getSimulationSetupId(){
+    public long getSimulationSetupId() {
         return simulationSetupId;
     }
 
     /**
      * Checks if a string is of a valid format or not.
-     *
      * @param stringToCheck the string you want to check.
-     * @param errorPrefix   the error the exception should have if the string is invalid.
+     * @param errorPrefix the error the exception should have if the string is invalid.
      */
     private void checkString(String stringToCheck, String errorPrefix) {
         checkIfObjectIsNull(stringToCheck, errorPrefix);
@@ -116,9 +116,8 @@ public class SimulationSetup implements Serializable{
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {

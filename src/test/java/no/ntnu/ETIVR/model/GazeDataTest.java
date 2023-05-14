@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Steinar Hjelle Midthus
- * @version 0.1
+ * Tests the gaze data class.
  */
 public class GazeDataTest extends DefaultTest {
 
@@ -35,7 +34,7 @@ public class GazeDataTest extends DefaultTest {
      * Makes reference position.
      * @return the reference position.
      */
-    private ReferencePosition makeReferencePosition(){
+    private ReferencePosition makeReferencePosition() {
         return new ReferencePosition(1, "hei", makePositionConfiguration());
     }
 
@@ -43,7 +42,7 @@ public class GazeDataTest extends DefaultTest {
      * Makes a new default position configuration.
      * @return the position configuration.
      */
-    private PositionConfiguration makePositionConfiguration(){
+    private PositionConfiguration makePositionConfiguration() {
         List<CategoryConfiguration> categoryFeedbacks = new ArrayList<>();
         categoryFeedbacks.add(new CategoryConfiguration(TrackableType.OTHER, 0.5f));
         return new PositionConfiguration(categoryFeedbacks);
@@ -54,7 +53,7 @@ public class GazeDataTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with invalid input.")
-    public void testIfConstructorWorksWithInvalidInput(){
+    public void testIfConstructorWorksWithInvalidInput() {
         int fixations = 10;
         float fixationDuration = 10f;
         ReferencePosition referencePosition = makeReferencePosition();
@@ -62,15 +61,18 @@ public class GazeDataTest extends DefaultTest {
         try {
             gazeData = new GazeData(-2, fixationDuration, referencePosition);
             addError(getIllegalPrefix(), "the input fixations is negative");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
         try {
-            gazeData =  new GazeData(fixations, -2, referencePosition);
+            gazeData = new GazeData(fixations, -2, referencePosition);
             addError(getIllegalPrefix(), "the fixation duration is negative");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
         try {
             gazeData = new GazeData(fixations, fixationDuration, null);
             addError(getIllegalPrefix(), "the reference position is null");
-        }catch (IllegalArgumentException exception){}
+        } catch (IllegalArgumentException exception) {
+        }
     }
 
     /**
@@ -78,14 +80,14 @@ public class GazeDataTest extends DefaultTest {
      */
     @Test
     @DisplayName("Tests if the constructor works with valid input.")
-    public void testIfConstructorWorksWithValidInput(){
+    public void testIfConstructorWorksWithValidInput() {
         int fixations = 10;
         float fixationDuration = 10f;
         ReferencePosition referencePosition = makeReferencePosition();
         GazeData gazeData;
         try {
             gazeData = new GazeData(fixations, fixationDuration, referencePosition);
-        }catch (IllegalArgumentException exception){
+        } catch (IllegalArgumentException exception) {
             addErrorWithException("Expected the gaze data to be made since", "the input is valid", exception);
         }
     }

@@ -3,6 +3,9 @@ package no.ntnu.ETIVR.model;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Represents a support category on the webpage.
+ */
 @Entity
 public class SupportCategory {
 
@@ -48,7 +51,7 @@ public class SupportCategory {
      * Gets the icon number.
      * @return the icon number.
      */
-    public int getIconNumber(){
+    public int getIconNumber() {
         return iconNumber;
     }
 
@@ -118,9 +121,8 @@ public class SupportCategory {
 
     /**
      * Checks if an object is null.
-     *
      * @param object the object you want to check.
-     * @param error  the error message the exception should have.
+     * @param error the error message the exception should have.
      */
     private void checkIfObjectIsNull(Object object, String error) {
         if (object == null) {
@@ -130,9 +132,8 @@ public class SupportCategory {
 
     /**
      * Check to make sure that integer values cannot be negative.
-     *
      * @param object the object to be checked.
-     * @param error  exception message to be displayed.
+     * @param error exception message to be displayed.
      */
     private void checkIfNumberNotNegative(long object, String error) {
         if (object < 0) {
