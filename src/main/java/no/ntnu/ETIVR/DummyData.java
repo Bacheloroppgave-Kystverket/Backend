@@ -83,23 +83,29 @@ public class DummyData implements ApplicationListener<ApplicationReadyEvent> {
             List<SupportItem> suppoortItemsForMetrics = new ArrayList<>();
             suppoortItemsForMetrics.add(new SupportItem("Fixations", "A fixation is when you foucs on an object for a longer period of time. If you look at something stationary for longer than 50-200ms ++ it can be qualified as a fixation."));
             suppoortItemsForMetrics.add(new SupportItem("Fixation duration", "The fixation duration is the time that you have spent looking at an area of interest or an point in space."));
-            suppoortItemsForMetrics.add(new SupportItem("Average fixation duration", "Average fixation duration is the average time spent at an area of interest or point in space. It can be found by taking the fixation duration and divide it by the amount of fixations."));
+            suppoortItemsForMetrics.add(new SupportItem("Average fixation", "Average fixation duration is the average time spent at an area of interest or point in space. It can be found by taking the fixation duration and divide it by the amount of fixations."));
+            suppoortItemsForMetrics.add(new SupportItem("Feedback timeframes", "Feedback timeframes is fixation duration over time. The numbers stands for feedback per 10 seconds. 1 is 10 seconds, 2 is 20 seconds and so on. "));
             SupportCategory supportCategory = new SupportCategory(0, "Eyetracking metrics", "Introduction to eyetracking.", suppoortItemsForMetrics, 2);
 
             List<SupportItem> supportItemsForProfile = new ArrayList<>();
-            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
-            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
-            supportItemsForProfile.add(new SupportItem("Profile", "Information about your profile"));
+            supportItemsForProfile.add(new SupportItem("Profile name", "This name is unique and represents the user. This is the name used to login to the application."));
+            supportItemsForProfile.add(new SupportItem("Sessions done", "This is the number of sessions done in total."));
+            supportItemsForProfile.add(new SupportItem("Total Time In Sessions", "This is the total time used in sessions in total."));
+            supportItemsForProfile.add(new SupportItem("Session Type Done", "The session type depends on what type of session it is."));
             SupportCategory supportCategory1 = new SupportCategory(1, "Profile", "Information about your profile", supportItemsForProfile, 1);
 
             List<SupportItem> supportItemsForGraphs = new ArrayList<>();
-            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
-            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
-            supportItemsForGraphs.add(new SupportItem("Graph", "Graph explanation"));
+            supportItemsForGraphs.add(new SupportItem("Bar graph", "A bar graph is a chart that uses rectangular bars to represent and compare different categories or quantities."));
+            supportItemsForGraphs.add(new SupportItem("Pie graph", "A pie graph is a circular chart that illustrates the relative proportions or percentages of different categories or variables using slices of a pie."));
+            supportItemsForGraphs.add(new SupportItem("Donut graph", "A donut graph, also called a donut chart, is a circular chart with a center hole. It represents data proportions using ring-shaped slices."));
+            supportItemsForGraphs.add(new SupportItem("Polar graph", "A polar graph is a chart that represents data using radial and angular coordinates, typically used for plotting values in a circular format."));
+            supportItemsForGraphs.add(new SupportItem("Radar graph", "A radar graph, also known as a spider chart, displays multivariate data on multiple axes emanating from a central point, facilitating comparison between variables."));
+            supportItemsForGraphs.add(new SupportItem("Area graph", "An area graph is a chart that portrays quantitative data over time, using line segments and filled areas below the lines to represent values."));
             SupportCategory supportCategory2 = new SupportCategory(2, "Graph", "Example of bar graphs", supportItemsForGraphs, 3);
 
+            //!TODO what is this
             List<SupportItem> supportItemsForFilterCard = new ArrayList<>();
-            supportItemsForGraphs.add(new SupportItem("User", "Filter by users"));
+            //supportItemsForGraphs.add(new SupportItem("User", "Filter by users"));
             SupportCategory supportCategory3 = new SupportCategory(3, "Filter card", "How to filter sessions", supportItemsForFilterCard, 4);
 
             supportCategoryService.addSupportCategory(supportCategory);
