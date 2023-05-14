@@ -31,7 +31,9 @@ public class GazeData {
      * @param fixationDuration the fixation duration
      * @param referencePosition the reference position.
      */
-    public GazeData(@JsonProperty("fixations") int fixations, @JsonProperty("fixationDuration") float fixationDuration, @JsonProperty("referencePosition") ReferencePosition referencePosition) {
+    public GazeData(@JsonProperty("fixations") int fixations,
+                    @JsonProperty("fixationDuration") float fixationDuration,
+                    @JsonProperty("referencePosition") ReferencePosition referencePosition) {
         checkIfObjectIsNull(referencePosition, "reference position");
         checkFloat(fixationDuration, "fixation duration");
         checkFloat(fixations, "fixations");
