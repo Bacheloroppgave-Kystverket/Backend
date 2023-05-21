@@ -24,7 +24,12 @@ spring.mvc.pathmatch.matching-strategy=ant-path-matcher
 
 spring.jackson.serialization.fail-on-empty-beans=false
 
+spring.servlet.multipart.max-file-size=1024KB
+spring.servlet.multipart.max-request-size=1024KB
+
+jwt.secret=your-mom-is-so-huge-that-i-can-see-her-from-the-boom
+
 #Login information to the server.
-MYSQL_HOST=jdbc:mysql://localhost:3306/teaShopDB
+MYSQL_HOST=jdbc:mysql://localhost:3306/databaseName
 MYSQL_USER=username
 MYSQL_PASSWORD=password
